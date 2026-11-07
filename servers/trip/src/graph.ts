@@ -36,6 +36,7 @@ export function findAffected(
 
   const broken = new Set<string>();
   const delayed = new Set<string>();
+  const lockedConflicts = new Set<string>();
   const reasons: Record<string, string> = {};
 
   for (const l of legs) {
@@ -59,7 +60,8 @@ export function findAffected(
     if (gap < need) {
       if (locked.has(b.leg_key)) {
         // A locked leg is kept; report the conflict instead of marking it broken.
-        reasons[b.leg_key] = `connection from late ${a.leg_key} now ${gap} min (need ${need}); leg is locked`;
+        reasons[b.leg_key] = `connection from late ${a.leg_key} now ${gap} min (need ${need}); leg is locked, so kept - the replan must reach it or ask you`;
+        lockedConflicts.add(b.leg_key);
       } else {
         broken.add(b.leg_key);
         reasons[b.leg_key] = `missed connection: ${a.leg_key} is ${da} min late, gap now ${gap} min (need ${need})`;
@@ -73,8 +75,8 @@ export function findAffected(
 
   // Walk downstream of broken legs.
   const atRisk = new Set<string>();
-  const keptLocked = new Set<string>();
-  const queue = [...broken];
+  const keptLocked = new Set<string>(lockedConflicts);
+  const queue = [...broken, ...lockedConflicts];
   const seen = new Set(queue);
   while (queue.length) {
     const k = queue.shift() as string;

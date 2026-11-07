@@ -271,8 +271,8 @@ export class TripService {
   }
 
   async setBudget(ctx: Ctx, key: string, a: { trip_id: string; hard_ceiling_rupees?: string | number; target_rupees?: string | number }) {
-    requireUser(ctx, "change the budget");
     return this.write(ctx, "set_budget", key, a, async (tx) => {
+      requireUser(ctx, "change the budget");
       await this.trip(tx, ctx, a.trip_id);
       const obs = await this.observations(tx, a.trip_id);
       const ceiling = a.hard_ceiling_rupees !== undefined ? parseMoney(a.hard_ceiling_rupees, "hard_ceiling_rupees") : obs.budget.hard_ceiling_paise;
@@ -296,8 +296,8 @@ export class TripService {
   }
 
   async setAutoFix(ctx: Ctx, key: string, a: { trip_id: string; enabled: boolean }) {
-    requireUser(ctx, "let Adhvaga fix local legs by itself");
     return this.write(ctx, "set_auto_fix", key, a, async (tx) => {
+      requireUser(ctx, "let Adhvaga fix local legs by itself");
       await this.trip(tx, ctx, a.trip_id);
       await tx.query("UPDATE trips SET auto_fix_local=$2 WHERE id=$1", [a.trip_id, !!a.enabled]);
       await audit(tx, a.trip_id, "auto_fix_set", ctx, "fact", { enabled: !!a.enabled });
@@ -353,8 +353,8 @@ export class TripService {
 
   /** You pick the plan: the draft becomes the approved v1. Hard rules must pass. */
   async approvePlan(ctx: Ctx, key: string, a: { trip_id: string }) {
-    requireUser(ctx, "approve the plan");
     return this.write(ctx, "approve_plan", key, a, async (tx) => {
+      requireUser(ctx, "approve the plan");
       const t = await this.trip(tx, ctx, a.trip_id);
       const n = await this.draft(tx, ctx, a.trip_id);
       const v = await this.version(tx, a.trip_id, n);
@@ -375,8 +375,8 @@ export class TripService {
   }
 
   async lockLeg(ctx: Ctx, key: string, a: { trip_id: string; leg_key: string; locked: boolean }) {
-    requireUser(ctx, "lock or unlock a leg");
     return this.write(ctx, "lock_leg", key, a, async (tx) => {
+      requireUser(ctx, "lock or unlock a leg");
       await this.trip(tx, ctx, a.trip_id);
       if (a.locked) await tx.query("INSERT INTO leg_locks (trip_id, leg_key) VALUES ($1,$2) ON CONFLICT DO NOTHING", [a.trip_id, a.leg_key]);
       else await tx.query("DELETE FROM leg_locks WHERE trip_id=$1 AND leg_key=$2", [a.trip_id, a.leg_key]);
@@ -426,8 +426,8 @@ export class TripService {
   }
 
   async markRefundReceived(ctx: Ctx, key: string, a: { trip_id: string; refund_rupees: string | number }) {
-    requireUser(ctx, "mark a refund as received");
     return this.write(ctx, "mark_refund_received", key, a, async (tx) => {
+      requireUser(ctx, "mark a refund as received");
       await this.trip(tx, ctx, a.trip_id);
       const amt = parseMoney(a.refund_rupees, "refund_rupees") as number;
       const obs = await this.observations(tx, a.trip_id);
@@ -686,9 +686,9 @@ export class TripService {
 
   /** Only you can approve or reject. Rejecting leaves the approved plan untouched. */
   async decideApproval(ctx: Ctx, key: string, a: { trip_id: string; approval_id: string; decision: "approve" | "reject" }) {
-    requireUser(ctx, "approve or reject a change");
     need(a.decision === "approve" || a.decision === "reject", "BAD_INPUT", "decision must be approve or reject");
     return this.write(ctx, "decide_approval", key, a, async (tx) => {
+      requireUser(ctx, "approve or reject a change");
       await this.trip(tx, ctx, a.trip_id);
       if (a.decision === "reject") {
         const ap = await tx.query<{ proposed_version: number; status: string }>("SELECT proposed_version, status FROM approvals WHERE id=$1 AND trip_id=$2", [a.approval_id, a.trip_id]);
@@ -734,8 +734,8 @@ export class TripService {
 
   /** Make an old version current again, as a new version. History is never deleted. */
   async restoreVersion(ctx: Ctx, key: string, a: { trip_id: string; version: number }) {
-    requireUser(ctx, "restore an older version");
     return this.write(ctx, "restore_version", key, a, async (tx) => {
+      requireUser(ctx, "restore an older version");
       const t = await this.trip(tx, ctx, a.trip_id);
       need(t.current_version != null, "NOT_APPROVED", "No approved plan yet.");
       const old = await this.version(tx, a.trip_id, a.version);
@@ -829,8 +829,8 @@ export class TripService {
   }
 
   async deleteTrip(ctx: Ctx, key: string, a: { trip_id: string }) {
-    requireUser(ctx, "delete a trip");
     return this.write(ctx, "delete_trip", key, a, async (tx) => {
+      requireUser(ctx, "delete a trip");
       await this.trip(tx, ctx, a.trip_id);
       await tx.query("DELETE FROM audit_log WHERE trip_id=$1", [a.trip_id]);
       await tx.query("DELETE FROM trips WHERE id=$1", [a.trip_id]);

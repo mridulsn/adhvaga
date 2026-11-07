@@ -10,7 +10,7 @@ Plan: `Claude Vault/Projects/Adhvaga/Adhvaga - Plan.md` (v2.1). Phase 0 specs: `
 | Phase | State |
 |---|---|
 | 0. PRD, registers, 100 test specs | Done (`specs/`) |
-| 1. Trip server + database | Done locally: 27 MCP tools, 47 tests passing (PGlite stands in for Neon) |
+| 1. Trip server + database | Done locally: 27 MCP tools, 49 tests passing (PGlite stands in for Neon) |
 | 2. Golden journey with real Trains + Metro servers | Needs RailRadar key + Delhi Metro download |
 
 ## Trip server (`servers/trip`)
@@ -19,7 +19,7 @@ TypeScript run directly by Node 24 (no build step). Postgres via PGlite locally.
 
     cd servers/trip
     npm install
-    npm test            # 47 tests, named after the spec IDs (T01-12, T03-06, ...)
+    npm test            # 49 tests, named after the spec IDs (T01-12, T03-06, ...)
     npm run typecheck
 
 Run as an MCP server for Claude Code (stdio):
