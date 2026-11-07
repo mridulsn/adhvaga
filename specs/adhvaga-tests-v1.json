@@ -37,7 +37,7 @@
   "version_status": "A version has the given status (approved / proposed / rejected / superseded)",
   "approval_required": "An approval request exists and nothing was applied",
   "auto_applied": "Change applied automatically, logged, undo available",
-  "affected_legs": "find_affected_legs returns exactly the given broken/at-risk/kept sets",
+  "affected_legs": "find_affected_legs returns exactly the given sets (broken, delayed, at_risk, kept_locked, unaffected)",
   "locked_kept": "Locked legs are unchanged in the proposed version",
   "tool_called": "The agent called the given tool",
   "tool_not_called": "The agent did not call the given tool",
@@ -724,15 +724,23 @@
     "propose_version",
     "request_approval"
    ],
-   "acceptable_result": "Cost difference +Rs 150 shown with source",
+   "acceptable_result": "Fare difference +Rs 150 shown with source; cash difference +Rs 905 while the Rs 755 refund is pending",
    "checks": [
     {
      "check": "approval_required"
     },
     {
      "check": "money_equals",
-     "field": "diff",
+     "field": "fare_diff",
      "paise": 15000
+    },
+    {
+     "check": "money_equals",
+     "field": "cost_diff",
+     "paise": 90500
+    },
+    {
+     "check": "refund_not_cash"
     }
    ],
    "never": [
@@ -808,10 +816,12 @@
     {
      "check": "affected_legs",
      "broken": [
-      "L1",
+      "L1"
+     ],
+     "at_risk": [
       "L2"
      ],
-     "kept": [
+     "kept_locked": [
       "L3"
      ]
     }
@@ -908,14 +918,14 @@
     "get_train_status",
     "find_affected_legs"
    ],
-   "acceptable_result": "Onward leg flagged at risk; agent explains diversion",
+   "acceptable_result": "L2 broken; locked hotel kept; agent explains diversion",
    "checks": [
     {
      "check": "affected_legs",
      "broken": [
       "L2"
      ],
-     "at_risk": [
+     "kept_locked": [
       "L3"
      ]
     }
@@ -1593,7 +1603,7 @@
    "checks": [
     {
      "check": "money_equals",
-     "field": "diff",
+     "field": "cost_diff",
      "paise": 15000
     }
    ],
@@ -2608,7 +2618,10 @@
      "broken": [
       "L2"
      ],
-     "kept": [
+     "delayed": [
+      "L1"
+     ],
+     "kept_locked": [
       "L3"
      ]
     },
@@ -2653,7 +2666,7 @@
      "at_risk": [
       "L4"
      ],
-     "kept": [
+     "unaffected": [
       "L1",
       "L2"
      ]
@@ -2685,15 +2698,17 @@
    "expected_tools": [
     "find_affected_legs"
    ],
-   "acceptable_result": "L2 and L3 both found",
+   "acceptable_result": "L2 missed (broken), L3 at risk",
    "checks": [
     {
      "check": "affected_legs",
      "broken": [
+      "L2"
+     ],
+     "delayed": [
       "L1"
      ],
      "at_risk": [
-      "L2",
       "L3"
      ]
     }
@@ -2846,7 +2861,7 @@
    "checks": [
     {
      "check": "affected_legs",
-     "kept": [
+     "unaffected": [
       "D3L1"
      ]
     }

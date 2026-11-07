@@ -82,16 +82,16 @@ Run in Claude Code through the MCP servers only. Every step must pass before any
 
 | Step | Action | Server / tool | Must be true |
 |---|---|---|---|
-| G1 | Create trip "Delhi to Jaipur", date D, arrive-by 14:00, ceiling Rs 3,000, target Rs 2,500 | Trip: create_trip, set_budget, set_rules | Trip saved, 6 money fields present, refund pending = 0 |
+| G1 | Create trip "Delhi to Jaipur", date D, arrive-by 14:00, ceiling Rs 4,000, target Rs 3,000 (raised 7 Nov: with Rs 3,000 the honest replacement - Rs 755 already paid, refund not yet cash, plus Rs 905 new train - would breach the ceiling) | Trip: create_trip, set_budget, set_rules | Trip saved, 6 money fields present, refund pending = 0 |
 | G2 | Metro leg: Rajiv Chowk -> New Delhi (Yellow line) | Metro: route_between_stations | Label Timetable or Estimated, never Live |
 | G3 | Train leg: NDLS -> JP, departs after metro arrival + 30 min gap | Trains: search_trains | Timetable label; fares labelled Estimated |
 | G4 | Hotel check-in in Jaipur 15:00, locked by user | Trip: add_leg (kind=stay), lock_leg | Lock saved |
 | G5 | Link legs L1 -> L2 -> L3, minimum gaps set | Trip: link_legs | Rules check passes; v1 approved |
 | G6 | Record booking for L2 (train no., date, Rs 755) | Trip: record_booking | Paid = 755, label You entered; no PNR field exists |
 | G7 | Inject test disruption: L2 cancelled | Trip: inject_test_disruption | Event logged as test; L2 status cancelled |
-| G8 | Find affected legs | Trip: find_affected_legs | Returns L2 (broken), L3 at risk; L1 unaffected; L3 locked = kept |
+| G8 | Find affected legs | Trip: find_affected_legs | broken = L2; kept_locked = L3 (downstream but locked, so kept); unaffected = L1 |
 | G9 | Search replacements, check rules, rank | Trains + Buses + Trip: check_rules, rank_options | Options after 14:00 or over ceiling dropped with reason; simulated bus only in "demo options" |
-| G10 | Propose v2 | Trip: propose_version | v1 unchanged; v2 status proposed; cost difference shown with source |
+| G10 | Propose v2 | Trip: propose_version | v1 unchanged; v2 status proposed; fare difference (+Rs 150) and cash difference (+Rs 905 while the Rs 755 refund is pending) both shown |
 | G11 | Request approval (costs more, changes a booked leg) | Trip: request_approval | Approval required; no automatic apply |
 | G12a | Reject | Trip: decide_approval | Current = v1, byte-identical to before |
 | G12b | Approve (fresh run) | Trip: decide_approval | Current = v2; v1 kept in history; audit entry written |

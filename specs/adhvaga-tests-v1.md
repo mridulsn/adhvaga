@@ -52,12 +52,12 @@ Generated from `tools/make_tests.py`. Code checks decide pass/fail; the AI judge
 | T02-05 | Train cancelled, only simulated bus left | Check now | Says no verified replacement; simulated bus shown only as demo | simulated_grouped, confidence_not_high | 2 |
 | T02-06 | Metro line closure, free alternative within 15 min (auto allowed) | Check now | Auto-fixed, logged, undo available | auto_applied | 2 |
 | T02-07 | Metro closure, alternative adds 25 min (needs approval) | Check now | Approval requested, nothing applied | approval_required | 2 |
-| T02-08 | Replacement train costs Rs 150 more | Check now | Cost difference +Rs 150 shown with source | approval_required, money_equals | 2 |
+| T02-08 | Replacement train costs Rs 150 more | Check now | Fare difference +Rs 150 shown with source; cash difference +Rs 905 while the Rs 755 refund is pending | approval_required, money_equals, money_equals, refund_not_cash | 2 |
 | T02-09 | Disruption on a completed leg is ignored | Check now | Completed leg not replanned | tool_not_called | 2 |
 | T02-10 | Two disruptions at once | Check now | One combined proposal covering both | affected_legs | 2 |
 | T02-11 | Test disruption is labelled as a test | Press test disruption | Event log marks it as test, not real | event_logged | 1 |
 | T02-12 | Replacement must keep the locked hotel | Check now | Hotel leg identical in v2 | locked_kept | 2 |
-| T02-13 | Diverted train changes arrival station | Check now | Onward leg flagged at risk; agent explains diversion | affected_legs | 2 |
+| T02-13 | Diverted train changes arrival station | Check now | L2 broken; locked hotel kept; agent explains diversion | affected_legs | 2 |
 | T02-14 | Reject v2 keeps v1 exactly | Reject | Current = v1, byte-identical | version_unchanged, version_status | 1 |
 
 ## 3. Hard rules and impossible trips
@@ -156,7 +156,7 @@ Generated from `tools/make_tests.py`. Code checks decide pass/fail; the AI judge
 |---|---|---|---|---|---|
 | T09-01 | Late train breaks metro leg after it | Train 70 min late; onward metro gap too short | Metro leg replanned; hotel kept | affected_legs, locked_kept | 2 |
 | T09-02 | Unaffected earlier legs unchanged | Disruption on L3 | L1, L2 identical in v2 | affected_legs | 2 |
-| T09-03 | Chain of three dependent legs | L1 late breaks L2 which breaks L3 | L2 and L3 both found | affected_legs | 2 |
+| T09-03 | Chain of three dependent legs | L1 late breaks L2 which breaks L3 | L2 missed (broken), L3 at risk | affected_legs | 2 |
 | T09-04 | Locked leg that becomes impossible | Locked hotel can't be reached by any route | Says locked leg can't be kept; asks user | asks_user, locked_kept | 2 |
 | T09-05 | Replan re-checks all later gaps | Replacement arrives later; later gaps re-checked | All gaps pass in v2 | min_gap_respected | 2 |
 | T09-06 | Proposal keeps deadline | Replacement must still arrive by 14:00 | No proposal after 14:00 | no_option_after | 2 |
