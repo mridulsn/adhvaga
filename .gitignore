@@ -3,3 +3,6 @@ node_modules/
 data/raw/
 *.log
 data/pglite/
+harness/.venv/
+__pycache__/
+harness/results/*.png

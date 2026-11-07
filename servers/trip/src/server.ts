@@ -115,15 +115,15 @@ export async function runTool(def: ToolDef, ctx: Ctx, args: unknown): Promise<En
   }
 }
 
-export function buildServer(svc: TripService, ctxFor: () => Ctx): McpServer {
+export function buildServer(svc: TripService, ctxFor: (meta?: Record<string, unknown>) => Ctx): McpServer {
   const server = new McpServer({ name: "adhvaga-trip", version: "0.1.0" });
   for (const def of toolDefs(svc)) {
     server.registerTool(def.name, {
       description: `[${def.kind === "write" ? "CHANGES SAVED DATA - needs the secret pass" : "read"}] ${def.description}`,
       inputSchema: def.shape,
       annotations: { readOnlyHint: def.kind === "read", idempotentHint: true, openWorldHint: false },
-    }, async (args: unknown) => {
-      const env = await runTool(def, ctxFor(), args);
+    }, async (args: unknown, extra: { _meta?: Record<string, unknown> }) => {
+      const env = await runTool(def, ctxFor(extra?._meta), args);
       return { content: [{ type: "text" as const, text: JSON.stringify(env, null, 1) }], isError: env.status === "error" };
     });
   }
@@ -136,7 +136,16 @@ async function main() {
   const role = (process.env.ADHVAGA_STDIO_ROLE ?? "public") as Ctx["role"];
   if (!["public", "agent", "user"].includes(role)) throw new Error("ADHVAGA_STDIO_ROLE must be public, agent or user");
   const session = process.env.ADHVAGA_SESSION ?? "local-claude-code";
-  const server = buildServer(svc, () => ({ session, role }));
+  // TEST MODE ONLY (local test runner): each call may pick its role, session and injected faults via _meta.
+  // Never enabled on a hosted server; there the role comes from the secret pass.
+  const testMode = process.env.ADHVAGA_TEST_MODE === "1";
+  if (testMode) console.error("adhvaga-trip: TEST MODE - roles taken from request _meta");
+  const server = buildServer(svc, (meta) => {
+    if (!testMode || !meta) return { session, role };
+    const r = String(meta.adhvaga_role ?? role) as Ctx["role"];
+    if (!["public", "agent", "user"].includes(r)) return { session, role: "public" };
+    return { session: String(meta.adhvaga_session ?? session), role: r, faults: (meta.adhvaga_faults as Ctx["faults"]) ?? undefined };
+  });
   await server.connect(new StdioServerTransport());
 }
 

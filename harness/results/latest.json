@@ -1,0 +1,1606 @@
+{
+ "started": "2026-11-07T11:14:43.197042+00:00",
+ "app_version": "e87b60a",
+ "spec_version": "1.0",
+ "model": null,
+ "settings": {
+  "trip_server": "stdio test mode, in-memory database"
+ },
+ "totals": {
+  "cases": 100,
+  "pass": 37,
+  "partial": 18,
+  "fail": 0,
+  "error": 0,
+  "not_yet": 45
+ },
+ "groups": {
+  "1": {
+   "total": 12,
+   "pass": 1,
+   "partial": 0,
+   "fail": 0,
+   "error": 0,
+   "not_yet": 11
+  },
+  "2": {
+   "total": 14,
+   "pass": 5,
+   "partial": 6,
+   "fail": 0,
+   "error": 0,
+   "not_yet": 3
+  },
+  "3": {
+   "total": 10,
+   "pass": 7,
+   "partial": 0,
+   "fail": 0,
+   "error": 0,
+   "not_yet": 3
+  },
+  "4": {
+   "total": 8,
+   "pass": 2,
+   "partial": 2,
+   "fail": 0,
+   "error": 0,
+   "not_yet": 4
+  },
+  "5": {
+   "total": 10,
+   "pass": 9,
+   "partial": 0,
+   "fail": 0,
+   "error": 0,
+   "not_yet": 1
+  },
+  "6": {
+   "total": 12,
+   "pass": 0,
+   "partial": 0,
+   "fail": 0,
+   "error": 0,
+   "not_yet": 12
+  },
+  "7": {
+   "total": 10,
+   "pass": 1,
+   "partial": 2,
+   "fail": 0,
+   "error": 0,
+   "not_yet": 7
+  },
+  "8": {
+   "total": 10,
+   "pass": 10,
+   "partial": 0,
+   "fail": 0,
+   "error": 0,
+   "not_yet": 0
+  },
+  "9": {
+   "total": 8,
+   "pass": 1,
+   "partial": 7,
+   "fail": 0,
+   "error": 0,
+   "not_yet": 0
+  },
+  "10": {
+   "total": 6,
+   "pass": 1,
+   "partial": 1,
+   "fail": 0,
+   "error": 0,
+   "not_yet": 4
+  }
+ },
+ "blockers": [],
+ "groups_worse_than_last_run": [],
+ "gate": "NOT READY",
+ "gate_rule": "0 blockers, >= 90 full passes, no group worse than last run",
+ "previous": {
+  "app_version": "e87b60a",
+  "started": "2026-11-07T11:14:26.560410+00:00",
+  "groups": {
+   "1": {
+    "total": 12,
+    "pass": 1,
+    "partial": 0,
+    "fail": 0,
+    "error": 0,
+    "not_yet": 11
+   },
+   "2": {
+    "total": 14,
+    "pass": 5,
+    "partial": 6,
+    "fail": 0,
+    "error": 0,
+    "not_yet": 3
+   },
+   "3": {
+    "total": 10,
+    "pass": 7,
+    "partial": 0,
+    "fail": 0,
+    "error": 0,
+    "not_yet": 3
+   },
+   "4": {
+    "total": 8,
+    "pass": 2,
+    "partial": 2,
+    "fail": 0,
+    "error": 0,
+    "not_yet": 4
+   },
+   "5": {
+    "total": 10,
+    "pass": 7,
+    "partial": 0,
+    "fail": 2,
+    "error": 0,
+    "not_yet": 1
+   },
+   "6": {
+    "total": 12,
+    "pass": 0,
+    "partial": 0,
+    "fail": 0,
+    "error": 0,
+    "not_yet": 12
+   },
+   "7": {
+    "total": 10,
+    "pass": 1,
+    "partial": 2,
+    "fail": 0,
+    "error": 0,
+    "not_yet": 7
+   },
+   "8": {
+    "total": 10,
+    "pass": 10,
+    "partial": 0,
+    "fail": 0,
+    "error": 0,
+    "not_yet": 0
+   },
+   "9": {
+    "total": 8,
+    "pass": 1,
+    "partial": 7,
+    "fail": 0,
+    "error": 0,
+    "not_yet": 0
+   },
+   "10": {
+    "total": 6,
+    "pass": 1,
+    "partial": 1,
+    "fail": 0,
+    "error": 0,
+    "not_yet": 4
+   }
+  }
+ },
+ "results": [
+  {
+   "id": "T01-01",
+   "group": 1,
+   "title": "Golden journey plan: Delhi to Jaipur by metro + train",
+   "phase": 2,
+   "result": "not_yet",
+   "waits_for": "Trains + Metro servers (Phase 2)",
+   "checks": []
+  },
+  {
+   "id": "T01-02",
+   "group": 1,
+   "title": "Delhi to Agra by train + metro",
+   "phase": 2,
+   "result": "not_yet",
+   "waits_for": "Trains + Metro servers (Phase 2)",
+   "checks": []
+  },
+  {
+   "id": "T01-03",
+   "group": 1,
+   "title": "Mumbai to Pune, train only",
+   "phase": 3,
+   "result": "not_yet",
+   "waits_for": "Flights, Buses, more metro cities (Phase 3)",
+   "checks": []
+  },
+  {
+   "id": "T01-04",
+   "group": 1,
+   "title": "Bengaluru to Chennai, cheapest",
+   "phase": 3,
+   "result": "not_yet",
+   "waits_for": "Flights, Buses, more metro cities (Phase 3)",
+   "checks": []
+  },
+  {
+   "id": "T01-05",
+   "group": 1,
+   "title": "Delhi to Goa by flight",
+   "phase": 3,
+   "result": "not_yet",
+   "waits_for": "Flights, Buses, more metro cities (Phase 3)",
+   "checks": []
+  },
+  {
+   "id": "T01-06",
+   "group": 1,
+   "title": "Kochi airport to Aluva by metro + walk",
+   "phase": 3,
+   "result": "not_yet",
+   "waits_for": "Flights, Buses, more metro cities (Phase 3)",
+   "checks": []
+  },
+  {
+   "id": "T01-07",
+   "group": 1,
+   "title": "Hyderabad to Vijayawada train",
+   "phase": 3,
+   "result": "not_yet",
+   "waits_for": "Flights, Buses, more metro cities (Phase 3)",
+   "checks": []
+  },
+  {
+   "id": "T01-08",
+   "group": 1,
+   "title": "Multi-city: Delhi - Jaipur - Udaipur",
+   "phase": 3,
+   "result": "not_yet",
+   "waits_for": "Flights, Buses, more metro cities (Phase 3)",
+   "checks": []
+  },
+  {
+   "id": "T01-09",
+   "group": 1,
+   "title": "User adds own bus booking",
+   "phase": 3,
+   "result": "not_yet",
+   "waits_for": "Flights, Buses, more metro cities (Phase 3)",
+   "checks": []
+  },
+  {
+   "id": "T01-10",
+   "group": 1,
+   "title": "Plan respects no late-night arrival",
+   "phase": 3,
+   "result": "not_yet",
+   "waits_for": "Flights, Buses, more metro cities (Phase 3)",
+   "checks": []
+  },
+  {
+   "id": "T01-11",
+   "group": 1,
+   "title": "Unknown station name triggers one question",
+   "phase": 2,
+   "result": "not_yet",
+   "waits_for": "the AI agent (Phase 5b)",
+   "checks": []
+  },
+  {
+   "id": "T01-12",
+   "group": 1,
+   "title": "Plan saved as approved v1",
+   "phase": 1,
+   "result": "pass",
+   "scope": "full",
+   "checks": [
+    {
+     "check": "version_status",
+     "result": "pass",
+     "detail": "v1 approved"
+    }
+   ],
+   "blockers": [],
+   "ms": 80
+  },
+  {
+   "id": "T02-01",
+   "group": 2,
+   "title": "Train cancelled -> proposed v2",
+   "phase": 2,
+   "result": "partial",
+   "scope": "trip_part",
+   "checks": [
+    {
+     "check": "version_unchanged",
+     "result": "pass",
+     "detail": "approved version byte-identical"
+    },
+    {
+     "check": "version_status",
+     "result": "pass",
+     "detail": "v2 proposed"
+    }
+   ],
+   "blockers": [],
+   "ms": 91
+  },
+  {
+   "id": "T02-02",
+   "group": 2,
+   "title": "Flight 4 h late, hotel check-in still fine",
+   "phase": 3,
+   "result": "not_yet",
+   "waits_for": "Flights, Buses, more metro cities (Phase 3)",
+   "checks": []
+  },
+  {
+   "id": "T02-03",
+   "group": 2,
+   "title": "Flight 4 h late breaks onward train",
+   "phase": 3,
+   "result": "not_yet",
+   "waits_for": "Flights, Buses, more metro cities (Phase 3)",
+   "checks": []
+  },
+  {
+   "id": "T02-04",
+   "group": 2,
+   "title": "Train 40 min late, gap still passes",
+   "phase": 2,
+   "result": "partial",
+   "scope": "trip_part",
+   "checks": [
+    {
+     "check": "event_logged",
+     "result": "pass",
+     "detail": "'rule_checked' in event log"
+    },
+    {
+     "check": "tool_not_called",
+     "result": "skip",
+     "detail": "needs agent"
+    }
+   ],
+   "blockers": [],
+   "ms": 74
+  },
+  {
+   "id": "T02-05",
+   "group": 2,
+   "title": "Train cancelled, only simulated bus left",
+   "phase": 2,
+   "result": "partial",
+   "scope": "trip_part",
+   "checks": [
+    {
+     "check": "simulated_grouped",
+     "result": "pass",
+     "detail": "1 demo options kept apart"
+    },
+    {
+     "check": "confidence_not_high",
+     "result": "pass",
+     "detail": "confidence ['low']"
+    }
+   ],
+   "blockers": [],
+   "ms": 54
+  },
+  {
+   "id": "T02-06",
+   "group": 2,
+   "title": "Metro line closure, free alternative within 15 min (auto allowed)",
+   "phase": 2,
+   "result": "pass",
+   "scope": "full",
+   "checks": [
+    {
+     "check": "auto_applied",
+     "result": "pass",
+     "detail": "applied, logged, undo = restore v1"
+    }
+   ],
+   "blockers": [],
+   "ms": 69
+  },
+  {
+   "id": "T02-07",
+   "group": 2,
+   "title": "Metro closure, alternative adds 25 min (needs approval)",
+   "phase": 2,
+   "result": "pass",
+   "scope": "full",
+   "checks": [
+    {
+     "check": "approval_required",
+     "result": "pass",
+     "detail": "needs approval: ARRIVAL_SHIFT_OVER_15_MIN"
+    }
+   ],
+   "blockers": [],
+   "ms": 53
+  },
+  {
+   "id": "T02-08",
+   "group": 2,
+   "title": "Replacement train costs Rs 150 more",
+   "phase": 2,
+   "result": "pass",
+   "scope": "full",
+   "checks": [
+    {
+     "check": "approval_required",
+     "result": "pass",
+     "detail": "needs approval: AUTO_FIX_OFF, NOT_LOCAL_LEG, CHANGES_BOOKED_LEG, COSTS_MORE, ABOVE_TARGET, ARRIVAL_SHIFT_OVER_15_MIN"
+    },
+    {
+     "check": "money_equals",
+     "result": "pass",
+     "detail": "fare_diff_paise = 15000"
+    },
+    {
+     "check": "money_equals",
+     "result": "pass",
+     "detail": "cost_diff_paise = 90500"
+    },
+    {
+     "check": "refund_not_cash",
+     "result": "pass",
+     "detail": "refund pending 75500 kept out of cash"
+    }
+   ],
+   "blockers": [],
+   "ms": 65
+  },
+  {
+   "id": "T02-09",
+   "group": 2,
+   "title": "Disruption on a completed leg is ignored",
+   "phase": 2,
+   "result": "not_yet",
+   "waits_for": "Trains + Metro servers (Phase 2)",
+   "checks": []
+  },
+  {
+   "id": "T02-10",
+   "group": 2,
+   "title": "Two disruptions at once",
+   "phase": 2,
+   "result": "partial",
+   "scope": "trip_part",
+   "checks": [
+    {
+     "check": "affected_legs",
+     "result": "pass",
+     "detail": "sets match"
+    }
+   ],
+   "blockers": [],
+   "ms": 52
+  },
+  {
+   "id": "T02-11",
+   "group": 2,
+   "title": "Test disruption is labelled as a test",
+   "phase": 1,
+   "result": "pass",
+   "scope": "full",
+   "checks": [
+    {
+     "check": "event_logged",
+     "result": "pass",
+     "detail": "'test_disruption' in event log"
+    }
+   ],
+   "blockers": [],
+   "ms": 46
+  },
+  {
+   "id": "T02-12",
+   "group": 2,
+   "title": "Replacement must keep the locked hotel",
+   "phase": 2,
+   "result": "partial",
+   "scope": "trip_part",
+   "checks": [
+    {
+     "check": "locked_kept",
+     "result": "pass",
+     "detail": "locked ['L3'] kept"
+    }
+   ],
+   "blockers": [],
+   "ms": 62
+  },
+  {
+   "id": "T02-13",
+   "group": 2,
+   "title": "Diverted train changes arrival station",
+   "phase": 2,
+   "result": "partial",
+   "scope": "trip_part",
+   "checks": [
+    {
+     "check": "affected_legs",
+     "result": "pass",
+     "detail": "sets match"
+    }
+   ],
+   "blockers": [],
+   "ms": 44
+  },
+  {
+   "id": "T02-14",
+   "group": 2,
+   "title": "Reject v2 keeps v1 exactly",
+   "phase": 1,
+   "result": "pass",
+   "scope": "full",
+   "checks": [
+    {
+     "check": "version_unchanged",
+     "result": "pass",
+     "detail": "approved version byte-identical"
+    },
+    {
+     "check": "version_status",
+     "result": "pass",
+     "detail": "v2 rejected"
+    }
+   ],
+   "blockers": [],
+   "ms": 67
+  },
+  {
+   "id": "T03-01",
+   "group": 3,
+   "title": "Arrive in 1 h, 500 km away",
+   "phase": 2,
+   "result": "not_yet",
+   "waits_for": "Trains + Metro servers (Phase 2)",
+   "checks": []
+  },
+  {
+   "id": "T03-02",
+   "group": 3,
+   "title": "Ceiling lower than any option",
+   "phase": 3,
+   "result": "not_yet",
+   "waits_for": "Flights, Buses, more metro cities (Phase 3)",
+   "checks": []
+  },
+  {
+   "id": "T03-03",
+   "group": 3,
+   "title": "Gap below minimum is rejected",
+   "phase": 1,
+   "result": "pass",
+   "scope": "full",
+   "checks": [
+    {
+     "check": "min_gap_respected",
+     "result": "pass",
+     "detail": "nothing approved, so no saved plan breaks a gap"
+    },
+    {
+     "check": "dropped_with_reason",
+     "result": "pass",
+     "detail": "GAP_TOO_SHORT recorded"
+    }
+   ],
+   "blockers": [],
+   "ms": 31
+  },
+  {
+   "id": "T03-04",
+   "group": 3,
+   "title": "Arrive-by deadline enforced in ranking",
+   "phase": 1,
+   "result": "pass",
+   "scope": "full",
+   "checks": [
+    {
+     "check": "no_option_after",
+     "result": "pass",
+     "detail": "1 kept options arrive by 14:00"
+    },
+    {
+     "check": "dropped_with_reason",
+     "result": "pass",
+     "detail": "ARRIVES_LATE recorded"
+    }
+   ],
+   "blockers": [],
+   "ms": 44
+  },
+  {
+   "id": "T03-05",
+   "group": 3,
+   "title": "Late-night arrival rule",
+   "phase": 1,
+   "result": "pass",
+   "scope": "full",
+   "checks": [
+    {
+     "check": "dropped_with_reason",
+     "result": "pass",
+     "detail": "LATE_NIGHT recorded"
+    }
+   ],
+   "blockers": [],
+   "ms": 16
+  },
+  {
+   "id": "T03-06",
+   "group": 3,
+   "title": "AI tries to approve above ceiling",
+   "phase": 1,
+   "result": "pass",
+   "scope": "full",
+   "checks": [
+    {
+     "check": "write_rejected",
+     "result": "pass",
+     "detail": "rejected OVER_CEILING"
+    }
+   ],
+   "blockers": [],
+   "ms": 40
+  },
+  {
+   "id": "T03-07",
+   "group": 3,
+   "title": "Ceiling cannot be raised by the agent",
+   "phase": 1,
+   "result": "pass",
+   "scope": "full",
+   "checks": [
+    {
+     "check": "write_rejected",
+     "result": "pass",
+     "detail": "rejected USER_ONLY"
+    }
+   ],
+   "blockers": [],
+   "ms": 38
+  },
+  {
+   "id": "T03-08",
+   "group": 3,
+   "title": "Circular leg links refused",
+   "phase": 1,
+   "result": "pass",
+   "scope": "full",
+   "checks": [
+    {
+     "check": "write_rejected",
+     "result": "pass",
+     "detail": "rejected CYCLE"
+    }
+   ],
+   "blockers": [],
+   "ms": 31
+  },
+  {
+   "id": "T03-09",
+   "group": 3,
+   "title": "Leg ends before it starts",
+   "phase": 1,
+   "result": "pass",
+   "scope": "full",
+   "checks": [
+    {
+     "check": "write_rejected",
+     "result": "pass",
+     "detail": "rejected BAD_INPUT"
+    }
+   ],
+   "blockers": [],
+   "ms": 16
+  },
+  {
+   "id": "T03-10",
+   "group": 3,
+   "title": "Same from and to station",
+   "phase": 2,
+   "result": "not_yet",
+   "waits_for": "Trains + Metro servers (Phase 2)",
+   "checks": []
+  },
+  {
+   "id": "T04-01",
+   "group": 4,
+   "title": "Cheapest vs fastest",
+   "phase": 3,
+   "result": "partial",
+   "scope": "trip_part",
+   "checks": [
+    {
+     "check": "envelope_valid",
+     "result": "pass",
+     "detail": "13 answers checked"
+    }
+   ],
+   "blockers": [],
+   "ms": 49
+  },
+  {
+   "id": "T04-02",
+   "group": 4,
+   "title": "Prefers trains over flights",
+   "phase": 3,
+   "result": "not_yet",
+   "waits_for": "the AI agent (Phase 5b)",
+   "checks": []
+  },
+  {
+   "id": "T04-03",
+   "group": 4,
+   "title": "Avoids night travel unless asked",
+   "phase": 3,
+   "result": "partial",
+   "scope": "trip_part",
+   "checks": [
+    {
+     "check": "dropped_with_reason",
+     "result": "pass",
+     "detail": "PREFERENCE recorded"
+    }
+   ],
+   "blockers": [],
+   "ms": 24
+  },
+  {
+   "id": "T04-04",
+   "group": 4,
+   "title": "Relaxing a preference needs approval",
+   "phase": 3,
+   "result": "pass",
+   "scope": "full",
+   "checks": [
+    {
+     "check": "approval_required",
+     "result": "pass",
+     "detail": "needs approval: RELAXES_PREFERENCE"
+    }
+   ],
+   "blockers": [],
+   "ms": 70
+  },
+  {
+   "id": "T04-05",
+   "group": 4,
+   "title": "Comfort vs price explained",
+   "phase": 3,
+   "result": "not_yet",
+   "waits_for": "the AI agent (Phase 5b)",
+   "checks": []
+  },
+  {
+   "id": "T04-06",
+   "group": 4,
+   "title": "Fewest changes",
+   "phase": 3,
+   "result": "not_yet",
+   "waits_for": "the AI agent (Phase 5b)",
+   "checks": []
+  },
+  {
+   "id": "T04-07",
+   "group": 4,
+   "title": "Target exceeded but under ceiling",
+   "phase": 3,
+   "result": "pass",
+   "scope": "full",
+   "checks": [
+    {
+     "check": "approval_required",
+     "result": "pass",
+     "detail": "needs approval: AUTO_FIX_OFF, NOT_LOCAL_LEG, COSTS_MORE, ABOVE_TARGET, ARRIVAL_SHIFT_OVER_15_MIN"
+    }
+   ],
+   "blockers": [],
+   "ms": 62
+  },
+  {
+   "id": "T04-08",
+   "group": 4,
+   "title": "Preference conflict asks user",
+   "phase": 3,
+   "result": "not_yet",
+   "waits_for": "the AI agent (Phase 5b)",
+   "checks": []
+  },
+  {
+   "id": "T05-01",
+   "group": 5,
+   "title": "Six budget fields present",
+   "phase": 1,
+   "result": "pass",
+   "scope": "full",
+   "checks": [
+    {
+     "check": "money_equals",
+     "result": "pass",
+     "detail": "hard_ceiling_paise = 300000"
+    },
+    {
+     "check": "money_equals",
+     "result": "pass",
+     "detail": "target_paise = 250000"
+    },
+    {
+     "check": "money_equals",
+     "result": "pass",
+     "detail": "refund_pending_paise = 0"
+    }
+   ],
+   "blockers": [],
+   "ms": 40
+  },
+  {
+   "id": "T05-02",
+   "group": 5,
+   "title": "Refund pending not counted as cash",
+   "phase": 1,
+   "result": "pass",
+   "scope": "full",
+   "checks": [
+    {
+     "check": "refund_not_cash",
+     "result": "pass",
+     "detail": "refund pending 75500 kept out of cash"
+    }
+   ],
+   "blockers": [],
+   "ms": 54
+  },
+  {
+   "id": "T05-03",
+   "group": 5,
+   "title": "Refund marked received",
+   "phase": 1,
+   "result": "pass",
+   "scope": "full",
+   "checks": [
+    {
+     "check": "money_equals",
+     "result": "pass",
+     "detail": "refund_pending_paise = 0"
+    }
+   ],
+   "blockers": [],
+   "ms": 54
+  },
+  {
+   "id": "T05-04",
+   "group": 5,
+   "title": "Fees and baggage counted",
+   "phase": 1,
+   "result": "pass",
+   "scope": "full",
+   "checks": [
+    {
+     "check": "money_equals",
+     "result": "pass",
+     "detail": "paid_paise = 515000"
+    }
+   ],
+   "blockers": [],
+   "ms": 41
+  },
+  {
+   "id": "T05-05",
+   "group": 5,
+   "title": "Paise maths has no rounding drift",
+   "phase": 1,
+   "result": "pass",
+   "scope": "full",
+   "checks": [
+    {
+     "check": "money_equals",
+     "result": "pass",
+     "detail": "paid_paise = 99999"
+    }
+   ],
+   "blockers": [],
+   "ms": 47
+  },
+  {
+   "id": "T05-06",
+   "group": 5,
+   "title": "Cost diff of a proposal",
+   "phase": 1,
+   "result": "pass",
+   "scope": "full",
+   "checks": [
+    {
+     "check": "money_equals",
+     "result": "pass",
+     "detail": "cost_diff_paise = 15000"
+    }
+   ],
+   "blockers": [],
+   "ms": 43
+  },
+  {
+   "id": "T05-07",
+   "group": 5,
+   "title": "Negative amount rejected",
+   "phase": 1,
+   "result": "pass",
+   "scope": "full",
+   "checks": [
+    {
+     "check": "write_rejected",
+     "result": "pass",
+     "detail": "rejected BAD_INPUT"
+    }
+   ],
+   "blockers": [],
+   "ms": 42
+  },
+  {
+   "id": "T05-08",
+   "group": 5,
+   "title": "Quoted price keeps source and time",
+   "phase": 2,
+   "result": "not_yet",
+   "waits_for": "Trains + Metro servers (Phase 2)",
+   "checks": []
+  },
+  {
+   "id": "T05-09",
+   "group": 5,
+   "title": "Estimated vs paid kept separate",
+   "phase": 1,
+   "result": "pass",
+   "scope": "full",
+   "checks": [
+    {
+     "check": "money_equals",
+     "result": "pass",
+     "detail": "paid_paise = 75500"
+    },
+    {
+     "check": "money_equals",
+     "result": "pass",
+     "detail": "estimated_paise = 80000"
+    }
+   ],
+   "blockers": [],
+   "ms": 25
+  },
+  {
+   "id": "T05-10",
+   "group": 5,
+   "title": "Duplicate booking write ignored",
+   "phase": 1,
+   "result": "pass",
+   "scope": "full",
+   "checks": [
+    {
+     "check": "money_equals",
+     "result": "pass",
+     "detail": "paid_paise = 75500"
+    }
+   ],
+   "blockers": [],
+   "ms": 44
+  },
+  {
+   "id": "T06-01",
+   "group": 6,
+   "title": "Cancelled train refund with unknown ticket type",
+   "phase": 4,
+   "result": "not_yet",
+   "waits_for": "Knowledge server / rule library (Phase 4)",
+   "checks": []
+  },
+  {
+   "id": "T06-02",
+   "group": 6,
+   "title": "E-ticket vs counter ticket",
+   "phase": 4,
+   "result": "not_yet",
+   "waits_for": "Knowledge server / rule library (Phase 4)",
+   "checks": []
+  },
+  {
+   "id": "T06-03",
+   "group": 6,
+   "title": "TDR deadline question",
+   "phase": 4,
+   "result": "not_yet",
+   "waits_for": "Knowledge server / rule library (Phase 4)",
+   "checks": []
+  },
+  {
+   "id": "T06-04",
+   "group": 6,
+   "title": "Flight cancelled by airline",
+   "phase": 4,
+   "result": "not_yet",
+   "waits_for": "Knowledge server / rule library (Phase 4)",
+   "checks": []
+  },
+  {
+   "id": "T06-05",
+   "group": 6,
+   "title": "Flight delay facilities",
+   "phase": 4,
+   "result": "not_yet",
+   "waits_for": "Knowledge server / rule library (Phase 4)",
+   "checks": []
+  },
+  {
+   "id": "T06-06",
+   "group": 6,
+   "title": "Rule not in library",
+   "phase": 4,
+   "result": "not_yet",
+   "waits_for": "Knowledge server / rule library (Phase 4)",
+   "checks": []
+  },
+  {
+   "id": "T06-07",
+   "group": 6,
+   "title": "Superseded rule not used",
+   "phase": 4,
+   "result": "not_yet",
+   "waits_for": "Knowledge server / rule library (Phase 4)",
+   "checks": []
+  },
+  {
+   "id": "T06-08",
+   "group": 6,
+   "title": "Rule says vs fits your booking kept apart",
+   "phase": 4,
+   "result": "not_yet",
+   "waits_for": "Knowledge server / rule library (Phase 4)",
+   "checks": []
+  },
+  {
+   "id": "T06-09",
+   "group": 6,
+   "title": "Metro card refund",
+   "phase": 4,
+   "result": "not_yet",
+   "waits_for": "Knowledge server / rule library (Phase 4)",
+   "checks": []
+  },
+  {
+   "id": "T06-10",
+   "group": 6,
+   "title": "Airline change fee",
+   "phase": 4,
+   "result": "not_yet",
+   "waits_for": "Knowledge server / rule library (Phase 4)",
+   "checks": []
+  },
+  {
+   "id": "T06-11",
+   "group": 6,
+   "title": "No legal advice claim",
+   "phase": 4,
+   "result": "not_yet",
+   "waits_for": "the AI agent (Phase 5b)",
+   "checks": []
+  },
+  {
+   "id": "T06-12",
+   "group": 6,
+   "title": "Quote must support claim",
+   "phase": 4,
+   "result": "not_yet",
+   "waits_for": "Knowledge server / rule library (Phase 4)",
+   "checks": []
+  },
+  {
+   "id": "T07-01",
+   "group": 7,
+   "title": "RailRadar timeout -> unavailable, not none",
+   "phase": 2,
+   "result": "not_yet",
+   "waits_for": "Trains + Metro servers (Phase 2)",
+   "checks": []
+  },
+  {
+   "id": "T07-02",
+   "group": 7,
+   "title": "RailRadar quota used up",
+   "phase": 2,
+   "result": "not_yet",
+   "waits_for": "Trains + Metro servers (Phase 2)",
+   "checks": []
+  },
+  {
+   "id": "T07-03",
+   "group": 7,
+   "title": "Source answered with zero trains",
+   "phase": 2,
+   "result": "not_yet",
+   "waits_for": "Trains + Metro servers (Phase 2)",
+   "checks": []
+  },
+  {
+   "id": "T07-04",
+   "group": 7,
+   "title": "Invalid key",
+   "phase": 2,
+   "result": "not_yet",
+   "waits_for": "Trains + Metro servers (Phase 2)",
+   "checks": []
+  },
+  {
+   "id": "T07-05",
+   "group": 7,
+   "title": "Stale live status",
+   "phase": 2,
+   "result": "partial",
+   "scope": "trip_part",
+   "checks": [
+    {
+     "check": "stale_marked",
+     "result": "pass",
+     "detail": "old live status marked stale"
+    }
+   ],
+   "blockers": [],
+   "ms": 40
+  },
+  {
+   "id": "T07-06",
+   "group": 7,
+   "title": "Read retries max twice",
+   "phase": 2,
+   "result": "not_yet",
+   "waits_for": "Trains + Metro servers (Phase 2)",
+   "checks": []
+  },
+  {
+   "id": "T07-07",
+   "group": 7,
+   "title": "Write never retried without key",
+   "phase": 2,
+   "result": "partial",
+   "scope": "trip_part",
+   "checks": [
+    {
+     "check": "money_equals",
+     "result": "pass",
+     "detail": "paid_paise = 75500"
+    }
+   ],
+   "blockers": [],
+   "ms": 41
+  },
+  {
+   "id": "T07-08",
+   "group": 7,
+   "title": "Malformed provider answer",
+   "phase": 2,
+   "result": "not_yet",
+   "waits_for": "Trains + Metro servers (Phase 2)",
+   "checks": []
+  },
+  {
+   "id": "T07-09",
+   "group": 7,
+   "title": "Groq down",
+   "phase": "5b",
+   "result": "not_yet",
+   "waits_for": "website agent loop (Phase 5b)",
+   "checks": []
+  },
+  {
+   "id": "T07-10",
+   "group": 7,
+   "title": "Database write fails mid-save",
+   "phase": 1,
+   "result": "pass",
+   "scope": "full",
+   "checks": [
+    {
+     "check": "version_unchanged",
+     "result": "pass",
+     "detail": "approved version byte-identical"
+    }
+   ],
+   "blockers": [],
+   "ms": 54
+  },
+  {
+   "id": "T08-01",
+   "group": 8,
+   "title": "Paid change needs approval",
+   "phase": 1,
+   "result": "pass",
+   "scope": "full",
+   "checks": [
+    {
+     "check": "approval_required",
+     "result": "pass",
+     "detail": "needs approval: COSTS_MORE"
+    }
+   ],
+   "blockers": [],
+   "ms": 49
+  },
+  {
+   "id": "T08-02",
+   "group": 8,
+   "title": "Auto fix only when box ticked",
+   "phase": 1,
+   "result": "pass",
+   "scope": "full",
+   "checks": [
+    {
+     "check": "approval_required",
+     "result": "pass",
+     "detail": "needs approval: AUTO_FIX_OFF"
+    }
+   ],
+   "blockers": [],
+   "ms": 44
+  },
+  {
+   "id": "T08-03",
+   "group": 8,
+   "title": "Auto fix blocked on booked leg",
+   "phase": 1,
+   "result": "pass",
+   "scope": "full",
+   "checks": [
+    {
+     "check": "approval_required",
+     "result": "pass",
+     "detail": "needs approval: CHANGES_BOOKED_LEG"
+    }
+   ],
+   "blockers": [],
+   "ms": 54
+  },
+  {
+   "id": "T08-04",
+   "group": 8,
+   "title": "Auto fix blocked on locked leg",
+   "phase": 1,
+   "result": "pass",
+   "scope": "full",
+   "checks": [
+    {
+     "check": "approval_required",
+     "result": "pass",
+     "detail": "needs approval: CHANGES_LOCKED_LEG"
+    }
+   ],
+   "blockers": [],
+   "ms": 54
+  },
+  {
+   "id": "T08-05",
+   "group": 8,
+   "title": "Auto fix blocked on estimated data",
+   "phase": 1,
+   "result": "pass",
+   "scope": "full",
+   "checks": [
+    {
+     "check": "approval_required",
+     "result": "pass",
+     "detail": "needs approval: RELIES_ON_ESTIMATED_OR_WEAK_DATA"
+    }
+   ],
+   "blockers": [],
+   "ms": 48
+  },
+  {
+   "id": "T08-06",
+   "group": 8,
+   "title": "No booking tool exists",
+   "phase": 1,
+   "result": "pass",
+   "scope": "full",
+   "checks": [
+    {
+     "check": "no_tool_exists",
+     "result": "pass",
+     "detail": "no 'book' tool among 27"
+    }
+   ],
+   "blockers": [],
+   "ms": 0
+  },
+  {
+   "id": "T08-07",
+   "group": 8,
+   "title": "No payment tool exists",
+   "phase": 1,
+   "result": "pass",
+   "scope": "full",
+   "checks": [
+    {
+     "check": "no_tool_exists",
+     "result": "pass",
+     "detail": "no 'pay' tool among 27"
+    }
+   ],
+   "blockers": [],
+   "ms": 0
+  },
+  {
+   "id": "T08-08",
+   "group": 8,
+   "title": "No cancel-real-booking tool",
+   "phase": 1,
+   "result": "pass",
+   "scope": "full",
+   "checks": [
+    {
+     "check": "no_tool_exists",
+     "result": "pass",
+     "detail": "no 'cancel_real_booking' tool among 27"
+    }
+   ],
+   "blockers": [],
+   "ms": 0
+  },
+  {
+   "id": "T08-09",
+   "group": 8,
+   "title": "Write without secret pass rejected",
+   "phase": 1,
+   "result": "pass",
+   "scope": "full",
+   "checks": [
+    {
+     "check": "write_rejected",
+     "result": "pass",
+     "detail": "rejected UNAUTHORISED"
+    }
+   ],
+   "blockers": [],
+   "ms": 36
+  },
+  {
+   "id": "T08-10",
+   "group": 8,
+   "title": "Approval decision audited",
+   "phase": 1,
+   "result": "pass",
+   "scope": "full",
+   "checks": [
+    {
+     "check": "event_logged",
+     "result": "pass",
+     "detail": "'approval_decided' in event log"
+    }
+   ],
+   "blockers": [],
+   "ms": 67
+  },
+  {
+   "id": "T09-01",
+   "group": 9,
+   "title": "Late train breaks metro leg after it",
+   "phase": 2,
+   "result": "partial",
+   "scope": "trip_part",
+   "checks": [
+    {
+     "check": "affected_legs",
+     "result": "pass",
+     "detail": "sets match"
+    },
+    {
+     "check": "locked_kept",
+     "result": "pass",
+     "detail": "locked ['L3'] kept"
+    }
+   ],
+   "blockers": [],
+   "ms": 48
+  },
+  {
+   "id": "T09-02",
+   "group": 9,
+   "title": "Unaffected earlier legs unchanged",
+   "phase": 2,
+   "result": "partial",
+   "scope": "trip_part",
+   "checks": [
+    {
+     "check": "affected_legs",
+     "result": "pass",
+     "detail": "sets match"
+    }
+   ],
+   "blockers": [],
+   "ms": 48
+  },
+  {
+   "id": "T09-03",
+   "group": 9,
+   "title": "Chain of three dependent legs",
+   "phase": 2,
+   "result": "partial",
+   "scope": "trip_part",
+   "checks": [
+    {
+     "check": "affected_legs",
+     "result": "pass",
+     "detail": "sets match"
+    }
+   ],
+   "blockers": [],
+   "ms": 40
+  },
+  {
+   "id": "T09-04",
+   "group": 9,
+   "title": "Locked leg that becomes impossible",
+   "phase": 2,
+   "result": "partial",
+   "scope": "trip_part",
+   "checks": [
+    {
+     "check": "asks_user",
+     "result": "skip",
+     "detail": "needs agent"
+    },
+    {
+     "check": "locked_kept",
+     "result": "pass",
+     "detail": "locked ['L3'] kept"
+    }
+   ],
+   "blockers": [],
+   "ms": 64
+  },
+  {
+   "id": "T09-05",
+   "group": 9,
+   "title": "Replan re-checks all later gaps",
+   "phase": 2,
+   "result": "partial",
+   "scope": "trip_part",
+   "checks": [
+    {
+     "check": "min_gap_respected",
+     "result": "pass",
+     "detail": "proposal breaking a gap was refused; saved plan passes"
+    }
+   ],
+   "blockers": [],
+   "ms": 46
+  },
+  {
+   "id": "T09-06",
+   "group": 9,
+   "title": "Proposal keeps deadline",
+   "phase": 2,
+   "result": "partial",
+   "scope": "trip_part",
+   "checks": [
+    {
+     "check": "no_option_after",
+     "result": "pass",
+     "detail": "1 kept options arrive by 14:00"
+    }
+   ],
+   "blockers": [],
+   "ms": 41
+  },
+  {
+   "id": "T09-07",
+   "group": 9,
+   "title": "Version history restorable",
+   "phase": 1,
+   "result": "pass",
+   "scope": "full",
+   "checks": [
+    {
+     "check": "version_status",
+     "result": "pass",
+     "detail": "v2 superseded"
+    }
+   ],
+   "blockers": [],
+   "ms": 71
+  },
+  {
+   "id": "T09-08",
+   "group": 9,
+   "title": "Parallel legs not linked are untouched",
+   "phase": 2,
+   "result": "partial",
+   "scope": "trip_part",
+   "checks": [
+    {
+     "check": "affected_legs",
+     "result": "pass",
+     "detail": "sets match"
+    }
+   ],
+   "blockers": [],
+   "ms": 39
+  },
+  {
+   "id": "T10-01",
+   "group": 10,
+   "title": "Timetable never labelled Live",
+   "phase": 2,
+   "result": "not_yet",
+   "waits_for": "Trains + Metro servers (Phase 2)",
+   "checks": []
+  },
+  {
+   "id": "T10-02",
+   "group": 10,
+   "title": "Live status carries fetch time",
+   "phase": 2,
+   "result": "partial",
+   "scope": "trip_part",
+   "checks": [
+    {
+     "check": "envelope_valid",
+     "result": "pass",
+     "detail": "13 answers checked"
+    },
+    {
+     "check": "label_in",
+     "result": "pass",
+     "detail": "labels ['live']"
+    }
+   ],
+   "blockers": [],
+   "ms": 40
+  },
+  {
+   "id": "T10-03",
+   "group": 10,
+   "title": "Simulated never high confidence",
+   "phase": 3,
+   "result": "not_yet",
+   "waits_for": "Flights, Buses, more metro cities (Phase 3)",
+   "checks": []
+  },
+  {
+   "id": "T10-04",
+   "group": 10,
+   "title": "Unsupported city says so",
+   "phase": 3,
+   "result": "not_yet",
+   "waits_for": "Flights, Buses, more metro cities (Phase 3)",
+   "checks": []
+  },
+  {
+   "id": "T10-05",
+   "group": 10,
+   "title": "Metro never Live",
+   "phase": 2,
+   "result": "not_yet",
+   "waits_for": "Trains + Metro servers (Phase 2)",
+   "checks": []
+  },
+  {
+   "id": "T10-06",
+   "group": 10,
+   "title": "No PII stored",
+   "phase": 1,
+   "result": "pass",
+   "scope": "full",
+   "checks": [
+    {
+     "check": "no_pii_stored",
+     "result": "pass",
+     "detail": "3 PII values refused; no PII fields"
+    }
+   ],
+   "blockers": [],
+   "ms": 41
+  }
+ ]
+}
