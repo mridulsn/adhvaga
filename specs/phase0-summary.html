@@ -1,0 +1,86 @@
+<!doctype html>
+<html><head><meta charset="utf-8"><title>Adhvaga - Phase 0 summary</title>
+<style>
+body{font-family:Segoe UI,Arial,sans-serif;color:#1d2433;margin:32px 40px;line-height:1.5;font-size:13.5px}
+h1{font-size:26px;margin:0 0 4px;color:#123a6b}
+.sub{color:#5a6475;margin-bottom:18px}
+h2{font-size:17px;color:#123a6b;border-bottom:2px solid #dbe4f0;padding-bottom:4px;margin-top:26px}
+.box{background:#eef4fb;border-left:5px solid #2f6db5;padding:12px 16px;border-radius:6px;margin:12px 0}
+.warn{background:#fff6e6;border-left-color:#d98a00}
+table{border-collapse:collapse;width:100%;margin:8px 0}
+th,td{border:1px solid #d5dce6;padding:6px 8px;text-align:left;vertical-align:top}
+th{background:#f1f5fa}
+.ok{color:#1b7a3a;font-weight:600}.no{color:#b3261e;font-weight:600}.mid{color:#a86400;font-weight:600}
+.stats{display:flex;gap:12px;margin:14px 0}
+.stat{flex:1;background:#f6f8fb;border:1px solid #dbe4f0;border-radius:8px;padding:10px;text-align:center}
+.stat b{display:block;font-size:24px;color:#123a6b}
+</style></head><body>
+<h1>Adhvaga - Phase 0 done</h1>
+<div class="sub">7 Nov 2026 &middot; plan v2.1 &middot; nothing signed up, paid for or published</div>
+
+<div class="box"><b>In one line:</b> the brief (PRD), the source checks and all 100 test cases are written.
+Two free data sources (trains and flights) allow only 100 requests a month, so Adhvaga will save and reuse answers.
+Next: build the trip "brain" (Phase 1) on the laptop. Your keys are only needed from Phase 2.</div>
+
+<div class="stats">
+<div class="stat"><b>1</b>PRD</div>
+<div class="stat"><b>3</b>user journeys</div>
+<div class="stat"><b>13</b>golden journey steps</div>
+<div class="stat"><b>100</b>test cases</div>
+</div>
+
+<h2>1. What was made</h2>
+<table>
+<tr><th>File</th><th>What is in it</th></tr>
+<tr><td>01 PRD</td><td>Problem, goal, 3 journeys, golden journey script (Delhi to Jaipur), who does what, permission matrix, 6-field budget, quota protection, success measures</td></tr>
+<tr><td>02 Registers</td><td>Every data source checked live today; rule documents list; cost and free limits</td></tr>
+<tr><td>03 Test cases (100)</td><td>10 groups, each case with input, expected tools, code checks and release blockers. Also saved as a data file the test runner will load</td></tr>
+</table>
+<p>All in <b>Claude Vault &gt; Projects &gt; Adhvaga &gt; Phase 0</b>.</p>
+
+<h2>2. Data sources, checked today</h2>
+<table>
+<tr><th>Source</th><th>For</th><th>Free limit</th><th>Verdict</th></tr>
+<tr><td>RailRadar</td><td>Trains, live status, cancellations</td><td>100 requests / month</td><td class="mid">Usable with saving</td></tr>
+<tr><td>AviationStack</td><td>Flight status</td><td>100 requests / month</td><td class="mid">Usable with saving</td></tr>
+<tr><td>Neon Postgres</td><td>The one database</td><td>1 GB, no card, no overage bill</td><td class="ok">OK</td></tr>
+<tr><td>Groq</td><td>The AI</td><td>~1,000 requests / day (big model)</td><td class="ok">OK</td></tr>
+<tr><td>Delhi Metro open data</td><td>Metro timetable</td><td>Free; last updated Aug 2023</td><td class="mid">Needs your download</td></tr>
+<tr><td>Kochi Metro open data</td><td>Metro timetable</td><td>Free, official</td><td class="ok">OK</td></tr>
+<tr><td>Bengaluru Metro</td><td>Metro timetable</td><td>Unofficial copy only</td><td class="mid">Label "unofficial"</td></tr>
+<tr><td>Intercity buses</td><td>Buses</td><td>No free API in India</td><td class="no">Simulated + you enter</td></tr>
+</table>
+
+<div class="box warn"><b>What changed because of this:</b> every provider answer is saved with its time.
+Timetables are reused for 24 hours, live status for 15 minutes. When a monthly allowance runs out, Adhvaga says
+"Unavailable (QUOTA)" and still shows the saved timetable. Tests never use real requests.</div>
+
+<h2>3. The 100 tests</h2>
+<table>
+<tr><th>Group</th><th>Cases</th><th>Group</th><th>Cases</th></tr>
+<tr><td>Normal planning</td><td>12</td><td>Rule library answers</td><td>12</td></tr>
+<tr><td>Disruptions</td><td>14</td><td>Failures and stale data</td><td>10</td></tr>
+<tr><td>Hard rules</td><td>10</td><td>Approvals and permissions</td><td>10</td></tr>
+<tr><td>Preferences</td><td>8</td><td>Knock-on replans</td><td>8</td></tr>
+<tr><td>Budget maths</td><td>10</td><td>Labels and freshness</td><td>6</td></tr>
+</table>
+<p>A release is blocked by any one of: a hard rule broken, a permission broken, a money error, an outage shown as
+"none", a simulated option shown as real, or a quote that does not support its claim.</p>
+
+<h2>4. Needs your hands (when you are back)</h2>
+<table>
+<tr><th>#</th><th>What</th><th>Needed by</th></tr>
+<tr><td>1</td><td>Read the PRD and say OK (or change it)</td><td>Before Phase 2</td></tr>
+<tr><td>2</td><td>RailRadar free key</td><td>Phase 2</td></tr>
+<tr><td>3</td><td>Delhi Metro data download (asks your email + their terms)</td><td>Phase 2</td></tr>
+<tr><td>4</td><td>Groq free key, Neon free project</td><td>Phase 2</td></tr>
+<tr><td>5</td><td>AviationStack free key</td><td>Phase 3</td></tr>
+<tr><td>6</td><td>Vercel, Emergent go</td><td>Phase 5</td></tr>
+</table>
+<p>I will walk you through each one step at a time. Never screenshot a secret key.</p>
+
+<h2>5. Next</h2>
+<p><b>Phase 1, on the laptop only:</b> the Trip server - database tables, rules engine, permissions, money maths in
+paise, versions and leg links, the answer envelope - with its tests. A small built-in Postgres (PGlite) stands in
+for Neon until you sign up.</p>
+</body></html>
