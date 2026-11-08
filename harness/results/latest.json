@@ -1,19 +1,19 @@
 {
- "started": "2026-11-08T07:05:09.157399+00:00",
- "app_version": "03e3ce2",
+ "started": "2026-11-08T08:16:44.638486+00:00",
+ "app_version": "58e4cb5",
  "spec_version": "1.0",
  "model": null,
  "settings": {
   "trip_server": "stdio test mode, in-memory database",
-  "metro_server": "stdio, bundled timetables (Kochi)"
+  "metro_server": "stdio, bundled timetables (Kochi, Hyderabad)"
  },
  "totals": {
   "cases": 100,
   "pass": 38,
-  "partial": 19,
+  "partial": 21,
   "fail": 0,
   "error": 0,
-  "not_yet": 43
+  "not_yet": 41
  },
  "groups": {
   "1": {
@@ -35,10 +35,10 @@
   "3": {
    "total": 10,
    "pass": 7,
-   "partial": 0,
+   "partial": 1,
    "fail": 0,
    "error": 0,
-   "not_yet": 3
+   "not_yet": 2
   },
   "4": {
    "total": 8,
@@ -91,10 +91,10 @@
   "10": {
    "total": 6,
    "pass": 2,
-   "partial": 1,
+   "partial": 2,
    "fail": 0,
    "error": 0,
-   "not_yet": 3
+   "not_yet": 2
   }
  },
  "blockers": [],
@@ -102,8 +102,8 @@
  "gate": "NOT READY",
  "gate_rule": "0 blockers, >= 90 full passes, no group worse than last run",
  "previous": {
-  "app_version": "970ab7f",
-  "started": "2026-11-08T07:04:53.457432+00:00",
+  "app_version": "03e3ce2",
+  "started": "2026-11-08T07:05:09.157399+00:00",
   "groups": {
    "1": {
     "total": 12,
@@ -248,7 +248,7 @@
     }
    ],
    "blockers": [],
-   "ms": 75
+   "ms": 77
   },
   {
    "id": "T01-07",
@@ -310,7 +310,7 @@
     }
    ],
    "blockers": [],
-   "ms": 63
+   "ms": 62
   },
   {
    "id": "T02-01",
@@ -332,7 +332,7 @@
     }
    ],
    "blockers": [],
-   "ms": 83
+   "ms": 82
   },
   {
    "id": "T02-02",
@@ -372,7 +372,7 @@
     }
    ],
    "blockers": [],
-   "ms": 55
+   "ms": 56
   },
   {
    "id": "T02-05",
@@ -394,7 +394,7 @@
     }
    ],
    "blockers": [],
-   "ms": 53
+   "ms": 51
   },
   {
    "id": "T02-06",
@@ -411,7 +411,7 @@
     }
    ],
    "blockers": [],
-   "ms": 62
+   "ms": 61
   },
   {
    "id": "T02-07",
@@ -460,7 +460,7 @@
     }
    ],
    "blockers": [],
-   "ms": 64
+   "ms": 65
   },
   {
    "id": "T02-09",
@@ -486,7 +486,7 @@
     }
    ],
    "blockers": [],
-   "ms": 55
+   "ms": 52
   },
   {
    "id": "T02-11",
@@ -520,7 +520,7 @@
     }
    ],
    "blockers": [],
-   "ms": 66
+   "ms": 63
   },
   {
    "id": "T02-13",
@@ -537,7 +537,7 @@
     }
    ],
    "blockers": [],
-   "ms": 50
+   "ms": 46
   },
   {
    "id": "T02-14",
@@ -559,7 +559,7 @@
     }
    ],
    "blockers": [],
-   "ms": 72
+   "ms": 74
   },
   {
    "id": "T03-01",
@@ -599,7 +599,7 @@
     }
    ],
    "blockers": [],
-   "ms": 31
+   "ms": 33
   },
   {
    "id": "T03-04",
@@ -621,7 +621,7 @@
     }
    ],
    "blockers": [],
-   "ms": 51
+   "ms": 48
   },
   {
    "id": "T03-05",
@@ -638,7 +638,7 @@
     }
    ],
    "blockers": [],
-   "ms": 19
+   "ms": 21
   },
   {
    "id": "T03-06",
@@ -655,7 +655,7 @@
     }
    ],
    "blockers": [],
-   "ms": 41
+   "ms": 42
   },
   {
    "id": "T03-07",
@@ -672,7 +672,7 @@
     }
    ],
    "blockers": [],
-   "ms": 37
+   "ms": 38
   },
   {
    "id": "T03-08",
@@ -689,7 +689,7 @@
     }
    ],
    "blockers": [],
-   "ms": 34
+   "ms": 35
   },
   {
    "id": "T03-09",
@@ -706,16 +706,24 @@
     }
    ],
    "blockers": [],
-   "ms": 17
+   "ms": 18
   },
   {
    "id": "T03-10",
    "group": 3,
    "title": "Same from and to station",
    "phase": 2,
-   "result": "not_yet",
-   "waits_for": "Trains + Metro servers (Phase 2)",
-   "checks": []
+   "result": "partial",
+   "scope": "metro_part",
+   "checks": [
+    {
+     "check": "status_is",
+     "result": "pass",
+     "detail": "status error"
+    }
+   ],
+   "blockers": [],
+   "ms": 3
   },
   {
    "id": "T04-01",
@@ -758,7 +766,7 @@
     }
    ],
    "blockers": [],
-   "ms": 16
+   "ms": 17
   },
   {
    "id": "T04-04",
@@ -810,7 +818,7 @@
     }
    ],
    "blockers": [],
-   "ms": 49
+   "ms": 46
   },
   {
    "id": "T04-08",
@@ -846,7 +854,7 @@
     }
    ],
    "blockers": [],
-   "ms": 39
+   "ms": 36
   },
   {
    "id": "T05-02",
@@ -863,7 +871,7 @@
     }
    ],
    "blockers": [],
-   "ms": 52
+   "ms": 53
   },
   {
    "id": "T05-03",
@@ -880,7 +888,7 @@
     }
    ],
    "blockers": [],
-   "ms": 57
+   "ms": 55
   },
   {
    "id": "T05-04",
@@ -897,7 +905,7 @@
     }
    ],
    "blockers": [],
-   "ms": 43
+   "ms": 42
   },
   {
    "id": "T05-05",
@@ -914,7 +922,7 @@
     }
    ],
    "blockers": [],
-   "ms": 45
+   "ms": 46
   },
   {
    "id": "T05-06",
@@ -979,7 +987,7 @@
     }
    ],
    "blockers": [],
-   "ms": 24
+   "ms": 23
   },
   {
    "id": "T05-10",
@@ -996,7 +1004,7 @@
     }
    ],
    "blockers": [],
-   "ms": 41
+   "ms": 45
   },
   {
    "id": "T06-01",
@@ -1183,7 +1191,7 @@
     }
    ],
    "blockers": [],
-   "ms": 38
+   "ms": 39
   },
   {
    "id": "T07-08",
@@ -1218,7 +1226,7 @@
     }
    ],
    "blockers": [],
-   "ms": 48
+   "ms": 49
   },
   {
    "id": "T08-01",
@@ -1235,7 +1243,7 @@
     }
    ],
    "blockers": [],
-   "ms": 44
+   "ms": 49
   },
   {
    "id": "T08-02",
@@ -1269,7 +1277,7 @@
     }
    ],
    "blockers": [],
-   "ms": 50
+   "ms": 53
   },
   {
    "id": "T08-04",
@@ -1286,7 +1294,7 @@
     }
    ],
    "blockers": [],
-   "ms": 50
+   "ms": 49
   },
   {
    "id": "T08-05",
@@ -1371,7 +1379,7 @@
     }
    ],
    "blockers": [],
-   "ms": 34
+   "ms": 35
   },
   {
    "id": "T08-10",
@@ -1388,7 +1396,7 @@
     }
    ],
    "blockers": [],
-   "ms": 63
+   "ms": 65
   },
   {
    "id": "T09-01",
@@ -1410,7 +1418,7 @@
     }
    ],
    "blockers": [],
-   "ms": 45
+   "ms": 42
   },
   {
    "id": "T09-02",
@@ -1427,7 +1435,7 @@
     }
    ],
    "blockers": [],
-   "ms": 43
+   "ms": 46
   },
   {
    "id": "T09-03",
@@ -1444,7 +1452,7 @@
     }
    ],
    "blockers": [],
-   "ms": 42
+   "ms": 40
   },
   {
    "id": "T09-04",
@@ -1466,7 +1474,7 @@
     }
    ],
    "blockers": [],
-   "ms": 56
+   "ms": 57
   },
   {
    "id": "T09-05",
@@ -1483,7 +1491,7 @@
     }
    ],
    "blockers": [],
-   "ms": 45
+   "ms": 43
   },
   {
    "id": "T09-06",
@@ -1500,7 +1508,7 @@
     }
    ],
    "blockers": [],
-   "ms": 39
+   "ms": 38
   },
   {
    "id": "T09-07",
@@ -1517,7 +1525,7 @@
     }
    ],
    "blockers": [],
-   "ms": 68
+   "ms": 72
   },
   {
    "id": "T09-08",
@@ -1534,7 +1542,7 @@
     }
    ],
    "blockers": [],
-   "ms": 39
+   "ms": 40
   },
   {
    "id": "T10-01",
@@ -1565,7 +1573,7 @@
     }
    ],
    "blockers": [],
-   "ms": 39
+   "ms": 42
   },
   {
    "id": "T10-03",
@@ -1591,16 +1599,24 @@
     }
    ],
    "blockers": [],
-   "ms": 2
+   "ms": 1
   },
   {
    "id": "T10-05",
    "group": 10,
    "title": "Metro never Live",
    "phase": 2,
-   "result": "not_yet",
-   "waits_for": "Trains + Metro servers (Phase 2)",
-   "checks": []
+   "result": "partial",
+   "scope": "metro_part",
+   "checks": [
+    {
+     "check": "label_not",
+     "result": "pass",
+     "detail": "label never used"
+    }
+   ],
+   "blockers": [],
+   "ms": 29
   },
   {
    "id": "T10-06",
@@ -1617,7 +1633,7 @@
     }
    ],
    "blockers": [],
-   "ms": 40
+   "ms": 41
   }
  ]
 }
