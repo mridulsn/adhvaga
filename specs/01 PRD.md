@@ -134,6 +134,8 @@ legs + fees + local transfers. Cost differences are shown with where each number
 
 Six labels: **Live** (with fetch time), **Timetable** (not proof it runs today), **Estimated** (method shown),
 **Simulated** (never bookable), **You entered**, **Unavailable** (source failed - different from "none found").
+"None found" is an answer, not a failure: `status` success, `data.found` false and a code (e.g. NO_VERIFIED_DATA,
+STATION_NOT_FOUND, NO_SERVICE). A failure is `status` unavailable or error. (Added 8 Nov 2026, Metro server.)
 
 Every tool returns: `status` (success / partial / unavailable / error), `source`, `label`, `retrieved_at`,
 `data_as_of`, `confidence` {level, reasons}, `data`, `error`. Live status older than 15 min is marked stale.

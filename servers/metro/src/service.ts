@@ -141,7 +141,7 @@ export class MetroService {
     const c = this.findCity(a.city);
     if ("missing" in c) return c.missing;
     const r = this.resolve(c, a.query);
-    if ("found" in r) return absent(r.code, r.message, { city: c.cfg.name, did_you_mean: r.candidates }, c.cfg.source);
+    if ("found" in r) return absent(r.code, r.message, { city: c.cfg.name, did_you_mean: r.candidates, attribution: c.cfg.attribution }, c.cfg.source);
     return envelope({ found: true, city: c.cfg.name, station: { id: r.stop.id, name: r.stop.name, lat: r.stop.lat, lon: r.stop.lon }, attribution: c.cfg.attribution }, "timetable",
       { level: "medium", reasons: ["official station list"] }, c.cfg.source, isoDate(c.feed.valid_from));
   }
@@ -171,9 +171,9 @@ export class MetroService {
     const count = Math.min(Math.max(a.count ?? 3, 1), 6);
 
     const from = this.resolve(c, a.from);
-    if ("found" in from) return absent(from.code, from.message, { city: c.cfg.name, which: "from", did_you_mean: from.candidates }, c.cfg.source);
+    if ("found" in from) return absent(from.code, from.message, { city: c.cfg.name, which: "from", did_you_mean: from.candidates, attribution: c.cfg.attribution }, c.cfg.source);
     const to = this.resolve(c, a.to);
-    if ("found" in to) return absent(to.code, to.message, { city: c.cfg.name, which: "to", did_you_mean: to.candidates }, c.cfg.source);
+    if ("found" in to) return absent(to.code, to.message, { city: c.cfg.name, which: "to", did_you_mean: to.candidates, attribution: c.cfg.attribution }, c.cfg.source);
     if (from.stop.id === to.stop.id) throw new BadInput("From and to are the same station.");
 
     const origins = stationGroup(c.feed, from.stop.id);

@@ -469,6 +469,9 @@ async def t01_06(tr):
     env = await tr.metro("route_between_stations", {"city": "Kochi", "from": "Aluva", "to": "MG Road", "date": tr.obs["date"], "depart_after": "08:00"})
     if env["status"] != "success" or not env["data"].get("found"):
         raise StepFailed(f"no Kochi metro route: {env.get('error') or env.get('data')}")
+    # The metro answer's trip_leg must go straight into the Trip server (cross-server seam).
+    metro_leg = {"leg_key": "L1", **env["data"]["options"][0]["trip_leg"]}
+    await tr.build([metro_leg], [], title="Kochi metro leg")
 
 
 @scenario("T10-04")
