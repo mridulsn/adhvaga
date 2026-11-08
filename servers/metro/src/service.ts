@@ -64,7 +64,7 @@ export class MetroService {
   constructor(opts: { clock?: Clock; cities?: LoadedCity[]; root?: string } = {}) {
     this.clock = opts.clock ?? (() => new Date());
     for (const cfg of opts.cities ?? LOADED) {
-      const feed = loadFeed(join(opts.root ?? ROOT, cfg.feed_dir));
+      const feed = loadFeed(join(opts.root ?? ROOT, cfg.feed_dir), cfg.feed_fixes ?? {});
       if (feed.agency.timezone !== "Asia/Kolkata") throw new Error(`${cfg.name}: only India time (Asia/Kolkata) is supported`);
       this.cities.set(cfg.key, { cfg, feed });
     }
@@ -114,7 +114,12 @@ export class MetroService {
       attribution: c.cfg.attribution,
       timetable_valid: { from: isoDate(c.feed.valid_from), to: isoDate(c.feed.valid_to) },
       feed_version: c.feed.feed_info.version,
+      ...(c.cfg.feed_fixes ? { corrections_to_feed: c.cfg.feed_fixes.reasons } : {}),
     };
+  }
+
+  private asOf(c: City): string {
+    return c.cfg.published ?? isoDate(c.feed.valid_from);
   }
 
   // ---------------- tools ----------------
@@ -134,7 +139,7 @@ export class MetroService {
     if ("missing" in c) return c.missing;
     const stations = this.stopsOf(c).map((s) => ({ id: s.id, name: s.name, lat: s.lat, lon: s.lon }));
     return envelope({ found: true, city: c.cfg.name, stations, ...this.feedFacts(c) }, "timetable",
-      { level: "medium", reasons: ["official station list", "list may miss stations opened after the feed date"] }, c.cfg.source, isoDate(c.feed.valid_from));
+      { level: "medium", reasons: ["official station list", "list may miss stations opened after the feed date"] }, c.cfg.source, this.asOf(c));
   }
 
   findStation(a: { city: string; query: string }): Envelope {
@@ -143,7 +148,7 @@ export class MetroService {
     const r = this.resolve(c, a.query);
     if ("found" in r) return absent(r.code, r.message, { city: c.cfg.name, did_you_mean: r.candidates, attribution: c.cfg.attribution }, c.cfg.source);
     return envelope({ found: true, city: c.cfg.name, station: { id: r.stop.id, name: r.stop.name, lat: r.stop.lat, lon: r.stop.lon }, attribution: c.cfg.attribution }, "timetable",
-      { level: "medium", reasons: ["official station list"] }, c.cfg.source, isoDate(c.feed.valid_from));
+      { level: "medium", reasons: ["official station list"] }, c.cfg.source, this.asOf(c));
   }
 
   routeBetweenStations(a: { city: string; from: string; to: string; date?: string; depart_after?: string; count?: number }): Envelope {
@@ -197,21 +202,50 @@ export class MetroService {
     if (oldPattern) {
       conf = { level: "low", reasons: [...conf.reasons, `old timetable valid to ${facts.timetable_valid.to}; weekday pattern carried forward to ${date}`] };
     }
+    if (c.cfg.feed_fixes) conf.reasons.push(...c.cfg.feed_fixes.reasons);
     conf.reasons.push("holidays and special timings are not in the timetable");
+    const cap = c.cfg.confidence_cap;
+    if (cap && (conf.level === "high" || (cap === "low" && conf.level === "medium"))) conf = { ...conf, level: cap };
     const note = oldPattern
       ? `${c.cfg.operator_short}'s published timetable ends ${facts.timetable_valid.to}. Times for ${date} use that timetable's ${weekdayName(compact)} pattern and are Estimated. Check at the station.`
       : `Published ${c.cfg.operator_short} timetable. Not proof the train runs today.`;
     return envelope({ found: true, city: c.cfg.name, from: from.stop.name, to: to.stop.name, date, depart_after: hhmm(after), options, note, ...facts },
-      label, conf, c.cfg.source, isoDate(c.feed.valid_from));
+      label, conf, c.cfg.source, this.asOf(c));
+  }
+
+  /** Fare for one journey: the city's newer distance chart if it has one, else the feed's own fare table. */
+  private fare(c: City, rides: RideLeg[]): { paise: number; method: string; could_be_rupees?: string } | null {
+    const chart = c.cfg.fare_chart;
+    if (chart && rides.every((r) => r.dist_m !== null)) {
+      const km = rides.reduce((t, r) => t + (r.dist_m as number), 0) / 1000;
+      const idx = chart.slabs.findIndex((x) => x.up_to_km === null || km <= x.up_to_km);
+      const rupees = chart.slabs[idx].rupees;
+      const lo = idx > 0 ? chart.slabs[idx - 1] : null;
+      const hi = chart.slabs[idx];
+      let alt: number | null = null;
+      if (lo && lo.up_to_km !== null && km - lo.up_to_km <= chart.edge_km) alt = lo.rupees;
+      else if (hi.up_to_km !== null && hi.up_to_km - km <= chart.edge_km && chart.slabs[idx + 1]) alt = chart.slabs[idx + 1].rupees;
+      const kmText = km.toFixed(1);
+      return {
+        paise: rupees * 100,
+        method: `${chart.name}, in force from ${chart.in_force_from}, by distance: about ${kmText} km of track (from the timetable). Single-journey ticket.` +
+          (alt === null ? "" : ` ${kmText} km is close to a fare-zone edge, so it could be Rs ${alt}.`),
+        ...(alt === null ? {} : { could_be_rupees: String(alt) }),
+      };
+    }
+    const fz = c.feed.stops.get(rides[0].from_stop)?.zone;
+    const tz = c.feed.stops.get(rides[rides.length - 1].to_stop)?.zone;
+    const p = fz && tz ? c.feed.fares.get(`${fz}|${tz}`) : undefined;
+    if (p === undefined) return null;
+    return { paise: p, method: `${c.cfg.operator_short} fare chart in the timetable feed (valid ${isoDate(c.feed.valid_from)}); single-journey ticket` };
   }
 
   private option(c: City, date: string, j: Journey, n: number, from: Stop, to: Stop) {
     const name = (id: string) => c.feed.stops.get(id)?.name ?? id;
     const rides = j.legs.filter((l): l is RideLeg => l.kind === "ride");
     const label: Label = j.any_old_pattern ? "estimated" : "timetable";
-    const fz = c.feed.stops.get(rides[0].from_stop)?.zone;
-    const tz = c.feed.stops.get(rides[rides.length - 1].to_stop)?.zone;
-    const farePaise = fz && tz ? c.feed.fares.get(`${fz}|${tz}`) ?? null : null;
+    const fare = this.fare(c, rides);
+    const farePaise = fare?.paise ?? null;
     const line = (rid: string) => c.cfg.line_names[rid] ?? c.feed.routes.get(rid)?.long_name ?? rid;
     const lines = [...new Set(rides.map((r) => line(r.route_id)))];
     return {
@@ -223,10 +257,12 @@ export class MetroService {
       label,
       legs: j.legs.map((l) => l.kind === "ride"
         ? { kind: "ride", line: line(l.route_id), board: name(l.from_stop), alight: name(l.to_stop), towards: l.towards, depart_at: istIso(date, l.dep), arrive_at: istIso(date, l.arr), stops: l.stops_travelled, label: l.from_old_pattern ? "estimated" : "timetable" }
-        : { kind: "change", at: name(l.at_stop), to_platform_of: name(l.to_stop), allow_min: Math.round(l.min_sec / 60) }),
-      fare: farePaise === null
+        : l.walk
+          ? { kind: "walk", from: name(l.at_stop), to: name(l.to_stop), allow_min: Math.round(l.min_sec / 60), note: "one interchange, separate stations in the timetable" }
+          : { kind: "change", at: name(l.at_stop), to_platform_of: name(l.to_stop), allow_min: Math.round(l.min_sec / 60) }),
+      fare: fare === null
         ? { paise: null, rupees: null, label: "unavailable", method: "no fare for this pair in the timetable" }
-        : { paise: farePaise, rupees: paiseToRupees(farePaise), label: "estimated", method: `${c.cfg.operator_short} fare chart in the timetable feed (valid ${isoDate(c.feed.valid_from)}); single-journey ticket` },
+        : { paise: fare.paise, rupees: paiseToRupees(fare.paise), label: "estimated", method: fare.method, ...(fare.could_be_rupees ? { could_be_rupees: fare.could_be_rupees } : {}) },
       // Ready to pass to the Trip server's add_leg (give it a leg_key).
       trip_leg: {
         kind: "metro",

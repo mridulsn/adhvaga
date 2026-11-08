@@ -1,0 +1,11 @@
+fare_id,price,currency_type,payment_method,transfers,agency_id
+F_10,10,INR,1,,HMRL
+F_15,15,INR,1,,HMRL
+F_25,25,INR,1,,HMRL
+F_30,30,INR,1,,HMRL
+F_35,35,INR,1,,HMRL
+F_40,40,INR,1,,HMRL
+F_45,45,INR,1,,HMRL
+F_50,50,INR,1,,HMRL
+F_55,55,INR,1,,HMRL
+F_60,60,INR,1,,HMRL

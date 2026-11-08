@@ -11,8 +11,8 @@ Plan: `Claude Vault/Projects/Adhvaga/Adhvaga - Plan.md` (v2.1). Phase 0 specs: `
 |---|---|
 | 0. PRD, registers, 100 test specs | Done (`specs/`) |
 | 1. Trip server + database | Done locally: 27 MCP tools, 49 tests passing (PGlite stands in for Neon) |
-| Metro server (Kochi) | Done locally: 4 read-only MCP tools, real KMRL timetable, 19 tests passing |
-| Test runner (Python) | Done: runs the 100 spec cases over MCP (Trip + Metro). Latest: 38 pass, 19 partial, 0 fail, 43 not built yet, 0 blockers |
+| Metro server (Kochi, Hyderabad) | Done locally: 4 read-only MCP tools, real KMRL and HMRL timetables, 29 tests passing |
+| Test runner (Python) | Done: runs the 100 spec cases over MCP (Trip + Metro). Latest: 38 pass, 21 partial, 0 fail, 41 not built yet, 0 blockers |
 | 2. Golden journey with real Trains + Metro servers | Needs RailRadar key + Delhi Metro download |
 
 ## Trip server (`servers/trip`)
@@ -41,12 +41,13 @@ Key design points:
 
 ## Metro server (`servers/metro`)
 
-Read-only. A generic GTFS loader plus one folder per city under `feeds/`. Loaded: **Kochi** (KMRL, 25 stations).
-Contains data provided by Kochi Metro Rail Limited (see `feeds/kochi/SOURCE.md` for where the copy came from).
+Read-only. A generic GTFS loader plus one folder per city under `feeds/`. Loaded: **Kochi** (KMRL, 25 stations, 1 line)
+and **Hyderabad** (HMRL, 57 stations, 3 lines). Contains data provided by Kochi Metro Rail Limited. Contains data
+provided by Hyderabad Metro Rail Ltd. (Each `feeds/<city>/SOURCE.md` says where the copy came from.)
 
     cd servers/metro
     npm install
-    npm test            # 19 tests
+    npm test            # 29 tests
     node src/server.ts  # stdio MCP server
 
 Tools: `list_cities`, `list_stations`, `find_station`, `route_between_stations` (returns a `trip_leg` ready for the
@@ -56,7 +57,12 @@ Label rule (all cities): **Timetable** only for dates inside the feed's own cale
 weekday pattern and is **Estimated** with low confidence and the reason. Kochi's timetable ends 31 Dec 2025, so every
 2026 answer is Estimated. Fares are always Estimated. Never Live. A city or station with no verified data is an
 answer (`status success`, `found false`, code `NO_VERIFIED_DATA` / `STATION_NOT_FOUND` / `NO_SERVICE`), never a
-failure. Changes between lines need at least 5 minutes (tested on a small two-line feed in `test/feeds`).
+failure. Changes between lines need at least 5 minutes.
+
+Feed mistakes are corrected in memory only, never in the files, and each answer lists the correction
+(`feed_fixes` in `src/cities.ts`). Hyderabad has two: the weekday timetable is marked as running every day
+(taken as Monday to Friday), and the Parade Ground interchange is two unlinked stations (linked, 6 min walk).
+Hyderabad fares use HMRL's May 2025 chart by track distance; near a zone edge the other possible fare is given too.
 
 ## Test runner (`harness/`)
 

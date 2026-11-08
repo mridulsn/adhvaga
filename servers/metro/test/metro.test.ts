@@ -147,6 +147,105 @@ describe("absence is never shown as failure", () => {
   });
 });
 
+describe("Hyderabad (real HMRL timetable, three lines)", () => {
+  // Expected times were read separately from stop_times.txt with a short Python script (8 Nov 2026).
+  const hyd = (a: Record<string, unknown>) => any(svc.routeBetweenStations({ city: "Hyderabad", ...a } as any));
+  const firstRide = (e: any) => e.data.options[0];
+
+  test("57 stations (entrances and platforms are not stations), attribution, published Apr 2025", () => {
+    const e = any(svc.listStations({ city: "Hyderabad" }));
+    assert.equal(e.data.stations.length, 57);
+    assert.equal(e.data.attribution, "Contains data provided by Hyderabad Metro Rail Ltd.");
+    assert.equal(e.data_as_of, "2025-04-08");
+    assert.equal(e.data.corrections_to_feed.length, 2);
+  });
+
+  test("weekday, Saturday and Sunday each use their own timetable (feed calendar overlap corrected)", () => {
+    const mon = firstRide(hyd({ from: "Miyapur", to: "LB Nagar", date: "2026-11-09", depart_after: "04:00", count: 1 }));
+    const sat = firstRide(hyd({ from: "Miyapur", to: "LB Nagar", date: "2026-11-14", depart_after: "04:00", count: 1 }));
+    const sun = firstRide(hyd({ from: "Miyapur", to: "LB Nagar", date: "2026-11-15", depart_after: "04:00", count: 1 }));
+    assert.deepEqual([mon.depart_at, mon.arrive_at], ["2026-11-09T04:39:10+05:30", "2026-11-09T05:26:33+05:30"]);
+    assert.equal(sat.depart_at, "2026-11-14T06:00:00+05:30");
+    assert.equal(sun.depart_at, "2026-11-15T07:00:00+05:30");
+  });
+
+  test("inside the feed's dates (to 2030): Timetable, but confidence capped at medium with the reasons", () => {
+    const e = hyd({ from: "Miyapur", to: "LB Nagar", date: "2026-11-09", depart_after: "09:00" });
+    assert.equal(e.label, "timetable");
+    assert.equal(e.confidence.level, "medium");
+    assert.ok(e.confidence.reasons.some((r: string) => r.includes("weekday timetable also runs at weekends")));
+    assert.ok(e.confidence.reasons.some((r: string) => r.includes("published Apr 2025")));
+  });
+
+  test("Red to Blue: change at Ameerpet, at least 5 minutes", () => {
+    const o = firstRide(hyd({ from: "Miyapur", to: "Raidurg", date: "2026-11-09", depart_after: "09:00", count: 1 }));
+    assert.deepEqual(o.legs.map((l: any) => l.kind), ["ride", "change", "ride"]);
+    assert.equal(o.legs[1].at, "Ameerpet");
+    assert.deepEqual([o.depart_at, o.arrive_at], ["2026-11-09T09:04:16+05:30", "2026-11-09T09:51:00+05:30"]);
+  });
+
+  test("Blue to Green: walk between Parade Ground and JBS Parade Ground (one interchange), not via Ameerpet", () => {
+    const o = firstRide(hyd({ from: "Nagole", to: "MGBS", date: "2026-11-09", depart_after: "09:00", count: 1 }));
+    assert.deepEqual(o.legs.map((l: any) => l.kind), ["ride", "walk", "ride"]);
+    assert.deepEqual([o.legs[1].from, o.legs[1].to], ["Parade Ground", "JBS Parade Ground"]);
+    // 09:01 and 09:03 Blue trains both make the 09:28:43 Green train; the later one is offered.
+    assert.deepEqual([o.depart_at, o.arrive_at], ["2026-11-09T09:03:03+05:30", "2026-11-09T09:43:34+05:30"]);
+  });
+
+  test("starting at a linked station: the walk comes first and is counted in the journey", () => {
+    const o = firstRide(hyd({ from: "Parade Ground", to: "MGBS", date: "2026-11-09", depart_after: "09:00", count: 1 }));
+    assert.deepEqual(o.legs.map((l: any) => l.kind), ["walk", "ride"]);
+    assert.equal(o.legs[1].depart_at, "2026-11-09T09:16:43+05:30");
+    assert.equal(o.depart_at, "2026-11-09T09:10:43+05:30");
+  });
+
+  test("fare: May 2025 HMRL chart by distance, Estimated, with the other possible fare near a zone edge", () => {
+    const end = firstRide(hyd({ from: "Miyapur", to: "LB Nagar", date: "2026-11-09", depart_after: "09:00", count: 1 }));
+    assert.deepEqual([end.fare.rupees, end.fare.label], ["69", "estimated"]);
+    assert.match(end.fare.method, /23 May 2025/);
+    const edge = firstRide(hyd({ from: "Miyapur", to: "Raidurg", date: "2026-11-09", depart_after: "09:00", count: 1 }));
+    assert.deepEqual([edge.fare.rupees, edge.fare.could_be_rupees], ["65", "61"]);
+    assert.equal(edge.trip_leg.estimated_rupees, "65");
+  });
+
+  test("the distance method reproduces the feed's own (Apr 2025) fares when given the old chart", () => {
+    // Old HMRL chart, read off the feed itself: fare_rules match these km edges on 98% of all pairs, and every
+    // mismatch is within 0.4 km of an edge. Here: pairs well away from an edge must match exactly.
+    const OLD: NonNullable<LoadedCity["fare_chart"]> = {
+      name: "old", in_force_from: "2017-11-29", edge_km: 0.4,
+      slabs: [[2, 10], [4, 15], [6, 25], [8, 30], [10, 35], [14, 40], [18, 45], [22, 50], [26, 55], [null, 60]].map(([k, r]) => ({ up_to_km: k as number | null, rupees: r as number })),
+    };
+    const hydCfg = (svc as any).cities.get("hyderabad").cfg as LoadedCity;
+    const old = new MetroService({ cities: [{ ...hydCfg, fare_chart: OLD }] });
+    const pairs = [["Miyapur", "Ameerpet"], ["Nagole", "Raidurg"], ["Uppal", "MGBS"], ["LB Nagar", "Parade Ground"], ["KPHB Colony", "Paradise"], ["Tarnaka", "Khairatabad"]];
+    let checked = 0;
+    for (const [from, to] of pairs) {
+      const o = any(old.routeBetweenStations({ city: "Hyderabad", from, to, date: "2026-11-09", depart_after: "10:00", count: 1 })).data.options[0];
+      if (o.fare.could_be_rupees) continue;
+      const plain = new MetroService({ cities: [{ ...hydCfg, fare_chart: undefined }] });
+      const f = any(plain.routeBetweenStations({ city: "Hyderabad", from, to, date: "2026-11-09", depart_after: "10:00", count: 1 })).data.options[0].fare;
+      assert.equal(o.fare.rupees, f.rupees, `${from} to ${to}`);
+      checked++;
+    }
+    assert.ok(checked >= 4);
+  });
+
+  test("names people use: HITEC City spellings, MGBS, and Secunderabad (two stations) is ambiguous", () => {
+    assert.equal(any(svc.findStation({ city: "Hyderabad", query: "hitech city" })).data.station.name, "HITEC City");
+    assert.equal(any(svc.findStation({ city: "Hyderabad", query: "MGBS" })).data.station.name, "Mahatma Gandhi Bus Station");
+    const s = any(svc.findStation({ city: "Hyderabad", query: "Secunderabad" }));
+    assert.equal(s.data.code, "STATION_AMBIGUOUS");
+    assert.deepEqual(s.data.did_you_mean.sort(), ["Secunderabad East", "Secunderabad West"]);
+    assert.equal(any(svc.listStations({ city: "Secunderabad" })).data.city, "Hyderabad");
+  });
+
+  test("after the last train: NO_SERVICE with tomorrow's first train", () => {
+    const e = hyd({ from: "HITEC City", to: "Ameerpet", date: "2026-11-09", depart_after: "23:50" });
+    assert.equal(e.data.code, "NO_SERVICE");
+    assert.equal(e.data.first_train_next_day, "2026-11-10T05:43:18+05:30");
+  });
+});
+
 describe("changes between lines (two-line test feed)", () => {
   test("a change needs at least 5 minutes: the 08:12 connection is too tight, so the 08:16 is used", () => {
     const e = any(two.routeBetweenStations({ city: "Testcity", from: "Alpha One", to: "Beta Two", date: "2026-03-02", depart_after: "07:50", count: 1 }));

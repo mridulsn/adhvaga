@@ -18,8 +18,10 @@ export interface RideLeg {
   stops_travelled: number;
   towards: string; // last stop name of that train
   from_old_pattern: boolean; // its service day is outside the feed's calendar
+  dist_m: number | null; // track distance travelled, when the feed gives shape_dist_traveled
 }
-export interface ChangeLeg { kind: "change"; at_stop: string; to_stop: string; min_sec: number }
+/** Same station: change platforms. walk = true: walk to a linked station (feed_fixes.station_links). */
+export interface ChangeLeg { kind: "change"; at_stop: string; to_stop: string; min_sec: number; walk: boolean }
 export interface Journey { legs: (RideLeg | ChangeLeg)[]; dep: number; arr: number; changes: number; any_old_pattern: boolean; all_old_pattern: boolean }
 
 /** Stop ids that belong to the same station: the stop, its parent and the parent's other children. */
@@ -28,6 +30,24 @@ export function stationGroup(feed: Feed, stopId: string): Set<string> {
   const root = s?.parent ?? stopId;
   const out = new Set<string>([stopId, root]);
   for (const x of feed.stops.values()) if (x.parent === root) out.add(x.id);
+  return out;
+}
+
+const changeCache = new WeakMap<Feed, Map<string, Map<string, { sec: number; walk: boolean }>>>();
+
+/** Where you can go on foot after getting off at a stop, and how long it takes: own station and linked stations. */
+export function changeOptions(feed: Feed, stopId: string): Map<string, { sec: number; walk: boolean }> {
+  let cache = changeCache.get(feed);
+  if (!cache) { cache = new Map(); changeCache.set(feed, cache); }
+  const hit = cache.get(stopId);
+  if (hit) return hit;
+  const out = new Map<string, { sec: number; walk: boolean }>();
+  for (const sib of stationGroup(feed, stopId)) if (sib !== stopId) out.set(sib, { sec: MIN_CHANGE_SEC, walk: false });
+  const root = feed.stops.get(stopId)?.parent ?? stopId;
+  for (const l of feed.links.get(root) ?? []) {
+    for (const sib of stationGroup(feed, l.to)) out.set(sib, { sec: Math.max(MIN_CHANGE_SEC, l.walk_sec), walk: true });
+  }
+  cache.set(stopId, out);
   return out;
 }
 
@@ -51,7 +71,7 @@ function connectionsFor(feed: Feed, date: string): Conn[] {
   return out;
 }
 
-type Ptr = { kind: "ride"; enter: Conn; exit: Conn } | { kind: "change"; from: string };
+type Ptr = { kind: "ride"; enter: Conn; exit: Conn } | { kind: "change"; from: string; sec: number; walk: boolean };
 
 function scan(feed: Feed, conns: Conn[], origins: Set<string>, targets: Set<string>, t0: number): Journey | null {
   const arrival = new Map<string, number>(); // when you are standing at the stop
@@ -59,6 +79,15 @@ function scan(feed: Feed, conns: Conn[], origins: Set<string>, targets: Set<stri
   const ptr = new Map<string, Ptr>();
   const tripEnter = new Map<string, Conn>();
   for (const o of origins) { arrival.set(o, t0); board.set(o, t0); }
+  // Linked stations next to the origin (walk first, then board there).
+  for (const o of origins) {
+    for (const [sib, ch] of changeOptions(feed, o)) {
+      if (!ch.walk || origins.has(sib) || (arrival.get(sib) ?? Infinity) <= t0 + ch.sec) continue;
+      arrival.set(sib, t0 + ch.sec);
+      board.set(sib, t0 + ch.sec);
+      ptr.set(sib, { kind: "change", from: o, sec: ch.sec, walk: true });
+    }
+  }
   const best = () => Math.min(...[...targets].map((t) => arrival.get(t) ?? Infinity));
 
   for (const c of conns) {
@@ -73,14 +102,15 @@ function scan(feed: Feed, conns: Conn[], origins: Set<string>, targets: Set<stri
     if (c.arr < (arrival.get(c.to) ?? Infinity)) {
       arrival.set(c.to, c.arr);
       ptr.set(c.to, { kind: "ride", enter, exit: c });
-      const canBoard = c.arr + MIN_CHANGE_SEC;
-      for (const sib of stationGroup(feed, c.to)) {
-        if (sib !== c.to && canBoard < (arrival.get(sib) ?? Infinity) && !origins.has(sib)) {
+      for (const [sib, ch] of changeOptions(feed, c.to)) {
+        const canBoard = c.arr + ch.sec;
+        if (canBoard < (arrival.get(sib) ?? Infinity) && !origins.has(sib)) {
           arrival.set(sib, canBoard);
-          ptr.set(sib, { kind: "change", from: c.to });
+          ptr.set(sib, { kind: "change", from: c.to, sec: ch.sec, walk: ch.walk });
         }
         if (canBoard < (board.get(sib) ?? Infinity)) board.set(sib, canBoard);
       }
+      if (c.arr + MIN_CHANGE_SEC < (board.get(c.to) ?? Infinity)) board.set(c.to, c.arr + MIN_CHANGE_SEC);
     }
   }
   const end = [...targets].filter((t) => arrival.has(t)).sort((a, b) => arrival.get(a)! - arrival.get(b)!)[0];
@@ -93,17 +123,20 @@ function scan(feed: Feed, conns: Conn[], origins: Set<string>, targets: Set<stri
     const p = ptr.get(at);
     if (!p) break;
     if (p.kind === "change") {
-      legs.unshift({ kind: "change", at_stop: p.from, to_stop: at, min_sec: MIN_CHANGE_SEC });
+      legs.unshift({ kind: "change", at_stop: p.from, to_stop: at, min_sec: p.sec, walk: p.walk });
       at = p.from;
       continue;
     }
     const trip = feed.trips.get(p.enter.trip)!;
     const sts = feed.stopTimes.get(trip.id)!;
+    const d0 = sts[p.enter.fromIdx].dist_m;
+    const d1 = sts[p.exit.fromIdx + 1].dist_m;
     legs.unshift({
       kind: "ride", trip_id: trip.id, route_id: trip.route_id, from_stop: p.enter.from, to_stop: p.exit.to,
       dep: p.enter.dep, arr: p.exit.arr, stops_travelled: p.exit.fromIdx - p.enter.fromIdx + 1,
       towards: trip.headsign ?? feed.stops.get(sts[sts.length - 1].stop_id)?.name ?? sts[sts.length - 1].stop_id,
       from_old_pattern: p.enter.estimated,
+      dist_m: d0 === null || d1 === null ? null : Math.abs(d1 - d0),
     });
     at = p.enter.from;
     if (origins.has(at)) break;
@@ -112,8 +145,13 @@ function scan(feed: Feed, conns: Conn[], origins: Set<string>, targets: Set<stri
   // same-platform change and still needs the minimum change time, which the scan already enforced.
   const rides = legs.filter((l): l is RideLeg => l.kind === "ride");
   if (!rides.length) return null;
+  // A walk to or from a linked station at either end is part of the journey time.
+  const first = legs[0];
+  const last = legs[legs.length - 1];
+  const dep = rides[0].dep - (first.kind === "change" ? first.min_sec : 0);
+  const arr = rides[rides.length - 1].arr + (last.kind === "change" ? last.min_sec : 0);
   return {
-    legs, dep: rides[0].dep, arr: rides[rides.length - 1].arr, changes: rides.length - 1,
+    legs, dep, arr, changes: rides.length - 1,
     any_old_pattern: rides.some((r) => r.from_old_pattern), all_old_pattern: rides.every((r) => r.from_old_pattern),
   };
 }
@@ -123,10 +161,14 @@ export function route(feed: Feed, date: string, origins: Set<string>, targets: S
   const conns = connectionsFor(feed, date);
   const out: Journey[] = [];
   let t0 = afterSec;
-  while (out.length < count) {
+  for (let guard = 0; guard < 500; guard++) {
     const j = scan(feed, conns, origins, targets, t0);
     if (!j) break;
-    if (!out.some((x) => x.dep === j.dep && x.arr === j.arr)) out.push(j);
+    const last = out[out.length - 1];
+    // Same arrival but leaving later is the better journey (less waiting): it replaces the earlier one.
+    if (last && last.arr === j.arr) out[out.length - 1] = j;
+    else if (out.length >= count) break;
+    else out.push(j);
     t0 = j.dep + 1;
   }
   return out;

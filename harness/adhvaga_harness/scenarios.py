@@ -458,7 +458,7 @@ async def t10_06(tr):
     tr.obs["pii_refusals"] = refusals
 
 
-# ---------------- metro server (Kochi loaded 8 Nov 2026) ----------------
+# ---------------- metro server (Kochi and Hyderabad loaded 8 Nov 2026) ----------------
 @scenario("T01-06", "metro_part")
 async def t01_06(tr):
     # The airport is not on the metro: the server must say so, not guess. The airport -> Aluva road leg is
@@ -477,3 +477,31 @@ async def t01_06(tr):
 @scenario("T10-04")
 async def t10_04(tr):
     await tr.metro("route_between_stations", {"city": "Shillong", "from": "Police Bazar", "to": "Laitumkhrah"})
+
+
+@scenario("T10-05", "metro_part")
+async def t10_05(tr):
+    # The case names Delhi, whose feed is not loaded yet (needs the DMRC form). The rule is the same for every
+    # city, so it is checked on both loaded cities, inside and outside their timetable dates, plus Delhi's answer.
+    asks = [
+        {"city": "Kochi", "from": "Aluva", "to": "MG Road", "date": "2025-03-10", "depart_after": "08:00"},
+        {"city": "Kochi", "from": "Aluva", "to": "MG Road", "date": tr.obs["date"], "depart_after": "08:00"},
+        {"city": "Hyderabad", "from": "Miyapur", "to": "Raidurg", "date": tr.obs["date"], "depart_after": "08:00"},
+        {"city": "Hyderabad", "from": "Nagole", "to": "MGBS", "date": "2026-11-14", "depart_after": "08:00"},
+    ]
+    for a in asks:
+        env = await tr.metro("route_between_stations", a)
+        if env["status"] != "success" or not env["data"].get("found"):
+            raise StepFailed(f"no metro route for {a['city']}: {env.get('error') or env.get('data')}")
+        tr.obs["labels"].append(env["label"])
+    delhi = await tr.metro("route_between_stations", {"city": "Delhi", "from": "Rajiv Chowk", "to": "New Delhi"})
+    if (delhi.get("data") or {}).get("code") != "NO_VERIFIED_DATA":
+        raise StepFailed("Delhi metro answered without a loaded feed")
+    tr.obs["labels"].append(delhi["label"])
+
+
+@scenario("T03-10", "metro_part")
+async def t03_10(tr):
+    # Same from and to station must be refused as BAD_INPUT before any timetable is searched. The case is about
+    # trains (NDLS to NDLS); trains come in Phase 2, so the same rule is checked on the Metro server.
+    await tr.metro("route_between_stations", {"city": "Hyderabad", "from": "Ameerpet", "to": "Ameerpet"})

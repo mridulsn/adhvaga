@@ -50,7 +50,7 @@ export function rupeesToPaise(s: string): number {
 export interface Stop { id: string; name: string; lat: number; lon: number; parent: string | null; zone: string | null }
 export interface Route { id: string; short_name: string; long_name: string; type: number }
 export interface Trip { id: string; route_id: string; service_id: string; direction_id: string; headsign: string | null }
-export interface StopTime { trip_id: string; seq: number; stop_id: string; arr: number; dep: number }
+export interface StopTime { trip_id: string; seq: number; stop_id: string; arr: number; dep: number; dist_m: number | null }
 export interface Calendar { service_id: string; days: boolean[]; start: string; end: string } // days[0] = Monday
 export interface CalendarDate { service_id: string; date: string; type: 1 | 2 } // 1 added, 2 removed
 
@@ -65,6 +65,8 @@ export interface Feed {
   calendars: Calendar[];
   calendarDates: CalendarDate[];
   fares: Map<string, number>; // "originZone|destZone" -> paise
+  /** Station id -> other station ids that are the same interchange (from the city's feed_fixes), with walk time. */
+  links: Map<string, { to: string; walk_sec: number }[]>;
   /** First and last date any calendar or calendar_dates entry covers (YYYYMMDD). */
   valid_from: string;
   valid_to: string;
@@ -79,7 +81,13 @@ function read(dir: string, name: string, required: boolean): Row[] {
   return parseCsv(readFileSync(p, "utf8"));
 }
 
-export function loadFeed(dir: string): Feed {
+export interface FeedFixes {
+  service_days?: Record<string, boolean[]>;
+  station_links?: { a: string; b: string; walk_min: number }[];
+}
+
+/** Read a feed folder. `fixes` corrects known feed mistakes in memory only; the files are never changed. */
+export function loadFeed(dir: string, fixes: FeedFixes = {}): Feed {
   const agencyRows = read(dir, "agency.txt", true);
   if (!agencyRows.length) throw new Error(`GTFS feed ${dir}: agency.txt is empty`);
   const a = agencyRows[0];
@@ -107,6 +115,7 @@ export function loadFeed(dir: string): Feed {
     const st: StopTime = {
       trip_id: r.trip_id, seq: Number(r.stop_sequence), stop_id: r.stop_id,
       arr: parseGtfsTime(r.arrival_time || r.departure_time), dep: parseGtfsTime(r.departure_time || r.arrival_time),
+      dist_m: r.shape_dist_traveled ? Number(r.shape_dist_traveled) : null,
     };
     const list = stopTimes.get(st.trip_id);
     if (list) list.push(st); else stopTimes.set(st.trip_id, [st]);
@@ -117,6 +126,11 @@ export function loadFeed(dir: string): Feed {
   const calendars: Calendar[] = read(dir, "calendar.txt", false).map((r) => ({
     service_id: r.service_id, days: dayCols.map((d) => r[d] === "1"), start: r.start_date, end: r.end_date,
   }));
+  for (const [sid, days] of Object.entries(fixes.service_days ?? {})) {
+    const cal = calendars.find((c) => c.service_id === sid);
+    if (!cal || days.length !== 7) throw new Error(`GTFS feed ${dir}: fix for service ${sid} does not match calendar.txt`);
+    cal.days = [...days];
+  }
   const calendarDates: CalendarDate[] = read(dir, "calendar_dates.txt", false).map((r) => ({
     service_id: r.service_id, date: r.date, type: r.exception_type === "2" ? 2 : 1,
   }));
@@ -133,12 +147,22 @@ export function loadFeed(dir: string): Feed {
     if (p !== undefined && r.origin_id && r.destination_id) fares.set(`${r.origin_id}|${r.destination_id}`, p);
   }
 
+  const links = new Map<string, { to: string; walk_sec: number }[]>();
+  for (const l of fixes.station_links ?? []) {
+    if (!stops.has(l.a) || !stops.has(l.b)) throw new Error(`GTFS feed ${dir}: station link ${l.a}-${l.b} names a missing stop`);
+    for (const [x, y] of [[l.a, l.b], [l.b, l.a]]) {
+      const list = links.get(x) ?? [];
+      list.push({ to: y, walk_sec: l.walk_min * 60 });
+      links.set(x, list);
+    }
+  }
+
   const dates = [...calendars.flatMap((c) => [c.start, c.end]), ...calendarDates.filter((d) => d.type === 1).map((d) => d.date)].sort();
   return {
     dir,
     agency: { name: a.agency_name, url: a.agency_url, timezone: a.agency_timezone, fare_url: a.agency_fare_url || null },
     feed_info: { version: fi?.feed_version || null, start: fi?.feed_start_date || null, end: fi?.feed_end_date || null },
-    stops, routes, trips, stopTimes, calendars, calendarDates, fares,
+    stops, routes, trips, stopTimes, calendars, calendarDates, fares, links,
     valid_from: dates[0], valid_to: dates[dates.length - 1],
   };
 }
