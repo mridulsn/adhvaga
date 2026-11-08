@@ -1,0 +1,5 @@
+route_id,service_id,trip_id,direction_id
+RA,S,A_0800,0
+RA,S,A_2350,0
+RB,S,B_0755,0
+RB,S,B_0759,0

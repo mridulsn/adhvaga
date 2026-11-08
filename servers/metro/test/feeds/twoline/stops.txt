@@ -1,0 +1,8 @@
+stop_id,stop_name,stop_lat,stop_lon,location_type,parent_station,zone_id
+A1,Alpha One,10,76,0,,A1
+A2,Alpha Two,10,76,0,,A2
+B1,Beta One,10,76,0,,B1
+B2,Beta Two,10,76,0,,B2
+XS,Cross,10,76,1,,
+XA,Cross (A platform),10,76,0,XS,XS
+XB,Cross (B platform),10,76,0,XS,XS

@@ -9,7 +9,7 @@ from __future__ import annotations
 
 from typing import Awaitable, Callable
 
-from .fixtures import GOLDEN_RULES, L1, L2, L2B, L3, Trial, leg, metro_alt, shift, t
+from .fixtures import GOLDEN_RULES, L1, L2, L2B, L3, StepFailed, Trial, leg, metro_alt, shift, t
 
 SCENARIOS: dict[str, tuple[str, Callable[[Trial], Awaitable[None]]]] = {}
 
@@ -456,3 +456,21 @@ async def t10_06(tr):
             args["service_no"] = no
         refusals.append(await tr.call("record_booking", args, role="agent"))
     tr.obs["pii_refusals"] = refusals
+
+
+# ---------------- metro server (Kochi loaded 8 Nov 2026) ----------------
+@scenario("T01-06", "metro_part")
+async def t01_06(tr):
+    # The airport is not on the metro: the server must say so, not guess. The airport -> Aluva road leg is
+    # outside the Metro server, so only the metro part is judged here (reported as partial).
+    air = await tr.metro("find_station", {"city": "Kochi", "query": "Kochi airport"})
+    if (air.get("data") or {}).get("found") is not False:
+        raise StepFailed("Kochi airport was matched to a metro station")
+    env = await tr.metro("route_between_stations", {"city": "Kochi", "from": "Aluva", "to": "MG Road", "date": tr.obs["date"], "depart_after": "08:00"})
+    if env["status"] != "success" or not env["data"].get("found"):
+        raise StepFailed(f"no Kochi metro route: {env.get('error') or env.get('data')}")
+
+
+@scenario("T10-04")
+async def t10_04(tr):
+    await tr.metro("route_between_stations", {"city": "Shillong", "from": "Police Bazar", "to": "Laitumkhrah"})

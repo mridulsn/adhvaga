@@ -13,7 +13,7 @@ from .client import ENVELOPE_KEYS
 
 NEEDS = {
     "tool_called": "agent", "tool_not_called": "agent", "asks_user": "agent",
-    "says_not_found": "agent or rule library", "quote_has_source": "rule library (Phase 4)",
+    "quote_has_source": "rule library (Phase 4)",
     "cache_used": "provider servers (Phase 2)",
 }
 
@@ -200,6 +200,22 @@ def c_no_tool_exists(o, ck):
     pat = CAPABILITY_PATTERNS[ck["capability"]]
     hits = [t for t in tools if re.search(pat, t)]
     return ("fail", f"tool exists: {hits}") if hits else ("pass", f"no '{ck['capability']}' tool among {len(tools)}")
+
+
+NOT_FOUND_CODES = {"NO_VERIFIED_DATA", "STATION_NOT_FOUND", "NO_SERVICE"}
+
+
+def c_says_not_found(o, ck):
+    """Absence must be an ANSWER (status success, found false), never shown as a failure, and never as data."""
+    e = o.get("lookup")
+    if not e:
+        return "skip", "needs the agent or rule library for this kind of question"
+    d = e.get("data") or {}
+    if e.get("status") in ("unavailable", "error"):
+        return "fail", f"absence shown as failure (status {e.get('status')})"
+    if d.get("found") is not False or d.get("code") not in NOT_FOUND_CODES:
+        return "fail", f"answer does not say not found: found={d.get('found')} code={d.get('code')}"
+    return "pass", f"{d['code']}: {d.get('message', '')[:80]}"
 
 
 def c_confidence_not_high(o, ck):

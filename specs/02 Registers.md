@@ -16,6 +16,9 @@ open data but was last updated in Aug 2023 and its download form needs his email
 "Test call" column: a real call with his key is still pending for every provider (no keys yet). A source goes
 live in Adhvaga only after its row is complete **and** its test call passes.
 
+**Old timetable rule (8 Nov 2026, applies to every city).** A published timetable is labelled **Timetable** only for dates inside the feed's own calendar. For a date outside it (Kochi ends 31 Dec 2025; Delhi's feed is from Aug 2023), Adhvaga uses the same weekday pattern, labels it **Estimated**, says "old timetable valid to <date>, pattern carried forward", and confidence is low. Metro fares from a feed are always **Estimated** (method: operator fare chart, with its date).
+
+
 ---
 
 ## 1. Source register
@@ -28,10 +31,11 @@ live in Adhvaga only after its row is complete **and** its test call passes.
 | Flight fare table | Flight fares | Adhvaga's own table (route distance bands) | Estimated | n/a | none | Not real prices | Label Estimated with method | Write in Phase 3 |
 | **Delhi Metro (DMRC) GTFS** | Metro routes, timetable | `https://otd.delhi.gov.in/data/staticDMRC/` (POST form) | Timetable | Free | Form: usage type, purpose, **email**, accept OTD terms | 262 stations, 36 routes, **last updated 10 Aug 2023** - newer stations missing | "No verified data for this station yet" | Needs his download |
 | Delhi Metro (backup copy) | Same | Codeberg `eternaltyro/india-transit-data` (third-party) | Timetable | Free | none | Unofficial copy; licence to check | same | Not started |
-| **Kochi Metro (KMRL) GTFS** | Kochi metro | `kochimetro.org/open-data` (KMRLOpenData.zip) | Timetable | Free | none | Attribution required: "Contains data provided by Kochi Metro Rail Limited." Direct zip URL did not answer on 7 Nov - recheck | same | Recheck |
+| **Kochi Metro (KMRL) GTFS** | Kochi metro | Official zip `kochimetro.org/opendata/KMRLOpenData.zip` (via tinyurl.com/kmrlopendata) did NOT answer on 7 or 8 Nov. Copy used: Mobility Database mirror `files.mobilitydatabase.org/tld-1031/latest.zip` (mirror Last-Modified 3 Apr 2025, sha256 `26347766...b158`; KMRL-authored files dated 9 Aug 2024) | Timetable inside its dates, Estimated outside | Free | none | 25 stations Aluva - Tripunithura, 1 line, 450 trips. **Calendar valid 12 Aug 2024 - 31 Dec 2025 only, so every 2026 date is Estimated (old pattern).** No live data. Terms (KMRL ToU PDF, 2024 copy via Wayback): free, commercial OK, redistribution OK; must show "Contains data provided by Kochi Metro Rail Limited"; must not suggest KMRL endorsement; must not alter data to mislead | "No verified data for this station yet"; old-pattern times say so | **Loaded 8 Nov** (Metro server) |
 | Bengaluru Metro (BMRCL) | Bengaluru metro | Unofficial GTFS on GitHub `Vonter/bmrcl-gtfs` (built from OSM + BMRCL timetable images) | Timetable (unofficial) | Free | none | No official feed found | labelled "unofficial timetable" | Phase 3 |
 | Delhi buses (DTC GTFS) | City bus | `otd.delhi.gov.in` static + realtime | Timetable (+ Live via realtime key) | Free | Static: form; realtime: key | - | same | Phase 3 |
-| Other metros (Hyderabad, Mumbai, Chennai, Kolkata, Pune, Ahmedabad, Lucknow, Jaipur, Nagpur, Kanpur, Agra, Bhopal, Indore, Navi Mumbai, Meerut) | Metro | Each checked one by one in Phase 3 | Timetable if open data, else station list + Estimated gaps | - | - | Never Live | "No verified data yet" until checked | Phase 3 |
+| Hyderabad Metro (HMRL) GTFS | Hyderabad metro | Official, listed active in Mobility Database (`mdb-2457`, Google Drive link from hmrl.co.in/open-data.html); no form | Timetable | Free | none | Licence at hmrl.co.in/open-data.html - to read | same | **Next city to load** (not started) |
+| Other metros (Mumbai, Chennai, Kolkata, Pune, Ahmedabad, Lucknow, Jaipur, Nagpur, Kanpur, Agra, Bhopal, Indore, Navi Mumbai, Meerut) | Metro | Each checked one by one in Phase 3 | Timetable if open data, else station list + Estimated gaps | - | - | Never Live | "No verified data yet" until checked | Phase 3 |
 | Intercity buses | Buses | None (no free API in India) | **Simulated** + You entered | n/a | none | Not bookable, never ranked above verified | Shown only in "demo options" | n/a |
 | **Groq** | AI agent + wording judge | `https://api.groq.com/openai/v1` | n/a | About 1,000 requests/day and 100K tokens/day on Llama 3.3 70B; 14,400/day on Llama 3.1 8B (third-party copies of Groq's table, Aug-Sep 2026; confirm on his limits page) | Sign-up | Limits are per organisation, not per key | "AI busy, try in a minute"; rules still work | Pending key |
 | **Neon Postgres** | The one database (+ pgvector) | Neon free project | n/a | 1 GB storage / project, 100 CU-hours / month, 5 GB transfer, scale-to-zero after 5 min, **no overage billing**, no card (official FAQ updated 1 Oct 2026) | Sign-up | Cold start after idle | Writes refused with clear message when full; reads continue | Pending sign-up |
@@ -79,5 +83,7 @@ Rs 0 is the target, not a promise. No card and no paid plan without his OK.
 - Groq limits (third-party copies; confirm on console): https://localaimaster.com/blog/groq-api-free-guide , https://openrouter.ai/blog/tutorials/free-llm-apis-compared/
 - Delhi OTD portal: https://otd.delhi.gov.in/data/staticDMRC/ , https://otd.delhi.gov.in/documentation
 - Kochi Metro open data: https://kochimetro.org/open-data
+- Mobility Database catalogue (mirrors of official feeds): https://files.mobilitydatabase.org/feeds_v2.csv
+- KMRL terms of use (2024 copy): http://web.archive.org/web/20240703051333/https://kochimetro.org/opendata/TermsOfUse.pdf
 - Bengaluru unofficial GTFS: https://groups.google.com/g/datameet/c/h5uI8DMlgi4
 - OSM list of GTFS feeds: https://wiki.openstreetmap.org/wiki/List_of_GTFS_feeds

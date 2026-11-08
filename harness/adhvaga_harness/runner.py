@@ -10,7 +10,7 @@ from datetime import datetime, timezone
 from pathlib import Path
 
 from .checks import BLOCKER_OF, evaluate
-from .client import ROOT, trip_server
+from .client import ROOT, all_servers
 from .fixtures import StepFailed, Trial
 from .scenarios import SCENARIOS
 
@@ -55,7 +55,7 @@ async def run_case(client, case: dict) -> dict:
         result = "fail"
     elif skipped and len(skipped) == len(checks):
         result = "not_yet"
-    elif skipped or scope == "trip_part":
+    elif skipped or scope != "full":
         result = "partial"
     else:
         result = "pass"
@@ -70,7 +70,7 @@ async def run_all(only: list[str] | None = None) -> dict:
     cases = [c for c in spec["cases"] if not only or c["id"] in only]
     started = datetime.now(timezone.utc).isoformat()
     results = []
-    async with trip_server() as client:
+    async with all_servers() as client:
         for c in cases:
             results.append(await run_case(client, c))
     return summarise(spec, results, started)
@@ -109,7 +109,7 @@ def summarise(spec: dict, results: list[dict], started: str) -> dict:
         gate = "NOT READY"
     return {
         "started": started, "app_version": _git_version(), "spec_version": spec["version"], "model": None,
-        "settings": {"trip_server": "stdio test mode, in-memory database"},
+        "settings": {"trip_server": "stdio test mode, in-memory database", "metro_server": "stdio, bundled timetables (Kochi)"},
         "totals": {"cases": len(results), "pass": full, "partial": count("partial"), "fail": count("fail"),
                    "error": count("error"), "not_yet": count("not_yet")},
         "groups": groups, "blockers": blockers, "groups_worse_than_last_run": worse,

@@ -122,6 +122,18 @@ class Trial:
             self.obs["proposal"] = env["data"]
         return env
 
+    # ---- metro server ----
+    async def metro(self, tool: str, args: dict) -> dict:
+        """Call a Metro tool; record its labels, confidence and (for absent answers) the lookup result."""
+        env = await self.call(tool, args, role="public")
+        d = env.get("data") or {}
+        self.obs["lookup"] = env
+        self.obs["final"] = env
+        for o in d.get("options", []):
+            self.obs["labels"].append(o["label"])
+            self.obs["confidences"].append(env["confidence"]["level"])
+        return env
+
     # ---- observations ----
     async def snapshot(self, version: int = 1) -> str:
         d = await self.ok("get_trip", {"trip_id": self.trip, "version": version}, role="public")

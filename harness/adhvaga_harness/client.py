@@ -1,4 +1,4 @@
-"""MCP client for the Adhvaga test runner.
+"""MCP client for the Adhvaga test runner (Trip + Metro servers).
 
 Starts the Trip server over stdio in TEST MODE (in-memory database), so each call can choose its
 role (public / agent / user), its browser session and injected faults through the request _meta.
@@ -17,6 +17,7 @@ from mcp.client.stdio import StdioServerParameters, stdio_client
 
 ROOT = Path(__file__).resolve().parents[2]
 TRIP_SERVER = ROOT / "servers" / "trip" / "src" / "server.ts"
+METRO_SERVER = ROOT / "servers" / "metro" / "src" / "server.ts"
 ENVELOPE_KEYS = {"status", "source", "label", "retrieved_at", "data_as_of", "confidence", "data", "error"}
 
 
@@ -58,3 +59,37 @@ async def trip_server():
             await session.initialize()
             tools = (await session.list_tools()).tools
             yield TripClient(session, tools)
+
+class MultiClient:
+    """Sends each tool call to the server that owns that tool (Trip or Metro)."""
+
+    def __init__(self, clients: list[TripClient]):
+        self.owner: dict[str, TripClient] = {}
+        for c in clients:
+            for n in c.tool_names:
+                if n in self.owner:
+                    raise RuntimeError(f"tool {n} exists on two servers")
+                self.owner[n] = c
+        self.tool_names = list(self.owner)
+        self.write_tools = set().union(*(c.write_tools for c in clients))
+
+    async def call(self, tool: str, args: dict[str, Any], *, role: str, session: str, faults: dict | None = None) -> dict:
+        if tool not in self.owner:
+            raise KeyError(f"no server has tool {tool}")
+        return await self.owner[tool].call(tool, args, role=role, session=session, faults=faults)
+
+
+@asynccontextmanager
+async def metro_server():
+    params = StdioServerParameters(command="node", args=[str(METRO_SERVER)], env={**os.environ}, cwd=str(METRO_SERVER.parent.parent))
+    async with stdio_client(params) as (read, write):
+        async with ClientSession(read, write) as session:
+            await session.initialize()
+            tools = (await session.list_tools()).tools
+            yield TripClient(session, tools)
+
+
+@asynccontextmanager
+async def all_servers():
+    async with trip_server() as trip, metro_server() as metro:
+        yield MultiClient([trip, metro])
