@@ -1,0 +1,17 @@
+{
+  "name": "adhvaga-mcp",
+  "private": true,
+  "type": "module",
+  "description": "Adhvaga MCP servers over Streamable HTTP for Vercel (bundled from ../servers)",
+  "scripts": {
+    "bundle": "node scripts/bundle.mjs",
+    "local": "node scripts/local.mjs"
+  },
+  "devDependencies": {
+    "esbuild": "^0.25.0"
+  },
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.32.2",
+    "zod": "^4.6.7"
+  }
+}

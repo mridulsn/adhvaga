@@ -1,0 +1,13 @@
+{
+  "$schema": "https://openapi.vercel.sh/vercel.json",
+  "framework": null,
+  "outputDirectory": "public",
+  "installCommand": "echo prebuilt-no-install",
+  "buildCommand": "echo prebuilt-by-scripts/bundle.mjs",
+  "functions": {
+    "api/*.js": {
+      "includeFiles": "api/_data/**",
+      "maxDuration": 30
+    }
+  }
+}

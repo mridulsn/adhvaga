@@ -6,3 +6,7 @@ data/pglite/
 harness/.venv/
 __pycache__/
 harness/results/*.png
+deploy/api/
+deploy/local.log
+deploy/.vercel/
+deploy/public/
