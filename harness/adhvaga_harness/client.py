@@ -1,4 +1,4 @@
-"""MCP client for the Adhvaga test runner (Trip + Metro servers).
+"""MCP client for the Adhvaga test runner (Trip, Metro and Buses servers).
 
 Starts the Trip server over stdio in TEST MODE (in-memory database), so each call can choose its
 role (public / agent / user), its browser session and injected faults through the request _meta.
@@ -18,6 +18,7 @@ from mcp.client.stdio import StdioServerParameters, stdio_client
 ROOT = Path(__file__).resolve().parents[2]
 TRIP_SERVER = ROOT / "servers" / "trip" / "src" / "server.ts"
 METRO_SERVER = ROOT / "servers" / "metro" / "src" / "server.ts"
+BUSES_SERVER = ROOT / "servers" / "buses" / "src" / "server.ts"
 ENVELOPE_KEYS = {"status", "source", "label", "retrieved_at", "data_as_of", "confidence", "data", "error"}
 
 
@@ -80,8 +81,8 @@ class MultiClient:
 
 
 @asynccontextmanager
-async def metro_server():
-    params = StdioServerParameters(command="node", args=[str(METRO_SERVER)], env={**os.environ}, cwd=str(METRO_SERVER.parent.parent))
+async def read_only_server(path: Path):
+    params = StdioServerParameters(command="node", args=[str(path)], env={**os.environ}, cwd=str(path.parent.parent))
     async with stdio_client(params) as (read, write):
         async with ClientSession(read, write) as session:
             await session.initialize()
@@ -91,5 +92,5 @@ async def metro_server():
 
 @asynccontextmanager
 async def all_servers():
-    async with trip_server() as trip, metro_server() as metro:
-        yield MultiClient([trip, metro])
+    async with trip_server() as trip, read_only_server(METRO_SERVER) as metro, read_only_server(BUSES_SERVER) as buses:
+        yield MultiClient([trip, metro, buses])

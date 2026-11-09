@@ -134,6 +134,18 @@ class Trial:
             self.obs["confidences"].append(env["confidence"]["level"])
         return env
 
+    # ---- buses server ----
+    async def buses(self, tool: str, args: dict) -> dict:
+        """Call a Buses tool; record the label and confidence of every demo bus it returns."""
+        env = await self.call(tool, args, role="public")
+        d = env.get("data") or {}
+        self.obs["lookup"] = env
+        self.obs["final"] = env
+        for o in d.get("demo_options", []):
+            self.obs["labels"].append(o["trip_leg"]["label"])
+            self.obs["confidences"].append(env["confidence"]["level"])
+        return env
+
     # ---- observations ----
     async def snapshot(self, version: int = 1) -> str:
         d = await self.ok("get_trip", {"trip_id": self.trip, "version": version}, role="public")

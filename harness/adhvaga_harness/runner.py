@@ -109,7 +109,7 @@ def summarise(spec: dict, results: list[dict], started: str) -> dict:
         gate = "NOT READY"
     return {
         "started": started, "app_version": _git_version(), "spec_version": spec["version"], "model": None,
-        "settings": {"trip_server": "stdio test mode, in-memory database", "metro_server": "stdio, bundled timetables (Kochi, Hyderabad)"},
+        "settings": {"trip_server": "stdio test mode, in-memory database", "metro_server": "stdio, bundled timetables (Kochi, Hyderabad)", "buses_server": "stdio, simulated demo buses"},
         "totals": {"cases": len(results), "pass": full, "partial": count("partial"), "fail": count("fail"),
                    "error": count("error"), "not_yet": count("not_yet")},
         "groups": groups, "blockers": blockers, "groups_worse_than_last_run": worse,

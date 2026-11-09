@@ -69,8 +69,12 @@ async def t02_04(tr):
 async def t02_05(tr):
     await tr.golden()
     await tr.disrupt("L2", "cancelled")
-    bus = leg("B1", "bus", "Delhi ISBT", "Jaipur Sindhi Camp", t("06:30"), t("12:00"), "600", label="simulated", source="simulated", gap=60)
-    await _rank(tr, [{"option_id": "sim-bus", "legs": [bus]}], replaces=["L2"])
+    env = await tr.buses("search_buses", {"from": "Delhi", "to": "Jaipur", "date": "2026-11-20"})
+    opts = env["data"]["demo_options"]
+    if not opts:
+        raise StepFailed("buses server returned no demo bus")
+    options = [{"option_id": o["option_id"], "legs": [{**o["trip_leg"], "leg_key": f"B{i + 1}", "min_gap_after_min": 60}]} for i, o in enumerate(opts)]
+    await _rank(tr, options, replaces=["L2"])
 
 
 @scenario("T02-06")
@@ -505,3 +509,21 @@ async def t03_10(tr):
     # Same from and to station must be refused as BAD_INPUT before any timetable is searched. The case is about
     # trains (NDLS to NDLS); trains come in Phase 2, so the same rule is checked on the Metro server.
     await tr.metro("route_between_stations", {"city": "Hyderabad", "from": "Ameerpet", "to": "Ameerpet"})
+
+
+# ---------------- buses server ----------------
+@scenario("T10-03")
+async def t10_03(tr):
+    await tr.buses("search_buses", {"from": "Jaipur", "to": "Ajmer", "date": "2026-11-21"})
+
+
+@scenario("T01-09")
+async def t01_09(tr):
+    env = await tr.buses("add_user_bus", {"from": "Jaipur", "to": "Ajmer", "depart_at": "2026-11-21T07:00:00+05:30",
+                                          "arrive_at": "2026-11-21T10:00:00+05:30", "operator": "RSRTC", "price_rupees": "450"})
+    if env["status"] != "success":
+        raise StepFailed(f"add_user_bus failed: {env.get('error')}")
+    d = env["data"]
+    tr.obs["labels"].append(d["trip_leg"]["label"])
+    await tr.build([{**d["trip_leg"], "leg_key": "B1"}], [], title="Jaipur to Ajmer by bus")
+    await tr.ok("record_booking", {"trip_id": tr.trip, "leg_key": "B1", **{k: v for k, v in d["record_booking"].items() if v is not None}}, role="agent")
