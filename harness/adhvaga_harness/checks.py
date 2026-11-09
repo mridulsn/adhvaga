@@ -13,7 +13,6 @@ from .client import ENVELOPE_KEYS
 
 NEEDS = {
     "tool_called": "agent", "tool_not_called": "agent", "asks_user": "agent",
-    "quote_has_source": "rule library (Phase 4)",
     "cache_used": "provider servers (Phase 2)",
 }
 
@@ -202,7 +201,46 @@ def c_no_tool_exists(o, ck):
     return ("fail", f"tool exists: {hits}") if hits else ("pass", f"no '{ck['capability']}' tool among {len(tools)}")
 
 
-NOT_FOUND_CODES = {"NO_VERIFIED_DATA", "STATION_NOT_FOUND", "NO_SERVICE"}
+NOT_FOUND_CODES = {"NO_VERIFIED_DATA", "STATION_NOT_FOUND", "NO_SERVICE", "NO_MATCHING_RULE", "OUT_OF_SCOPE"}
+
+# Which official documents may answer each library fixture named in the spec.
+FIXTURE_DOCS = {
+    "policy_rail_refund": {"ir-refund-rules-2015", "irctc-eticket-cancel"},
+    "policy_rail_refund_old_and_new": {"ir-refund-rules-2015"},
+    "policy_tdr": {"irctc-eticket-cancel", "ir-refund-rules-2015"},
+    "policy_dgca_car": {"dgca-car-s3-m-iv"},
+}
+
+
+def c_quote_has_source(o, ck):
+    """Every quoted passage carries document, authority, section, version/date, link and fetch date; it is the
+    current rule (a replaced passage only with its warning); and it comes from a document that fits the question."""
+    e = o.get("rule")
+    if not e:
+        return "skip", "no rule-library answer in this scenario"
+    d = e.get("data") or {}
+    if e.get("status") != "success" or not d.get("found"):
+        return "fail", f"no passage quoted (status {e.get('status')}, code {d.get('code')})"
+    items = [p["what_the_rule_says"] for p in d.get("passages", [])] if "passages" in d else [d]
+    if not items:
+        return "fail", "found=true but no passage"
+    for w in items:
+        doc = w.get("document") or {}
+        missing = [k for k in ("title", "authority", "link", "fetched", "version") if not doc.get(k)]
+        if not w.get("quote") or not w.get("section") or missing:
+            return "fail", f"{w.get('passage_id')}: missing {missing or 'quote/section'}"
+        if w.get("status") != "current" and not w.get("warning") and "replaced_by" not in w:
+            return "fail", f"{w.get('passage_id')}: replaced passage shown as current"
+    if items[0].get("status") != "current":
+        return "fail", "top passage is a replaced rule"
+    want = set()
+    for f in o.get("fixtures", []):
+        want |= FIXTURE_DOCS.get(f, set())
+    top_doc = items[0]["document"]["doc_id"]
+    if want and top_doc not in want:
+        return "fail", f"top passage from {top_doc}, expected one of {sorted(want)}"
+    return "pass", f"{items[0].get('passage_id')} ({items[0].get('section')}, {items[0]['document']['version']})"
+
 
 
 def c_says_not_found(o, ck):

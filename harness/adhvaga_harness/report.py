@@ -27,7 +27,7 @@ def _note(x: dict) -> str:
     other = "; ".join(c["check"] + ": " + c["detail"] for c in x["checks"] if c["result"] != "pass")
     if x["result"] == "partial":
         rest = WAITS_FOR.get(x["phase"], "later phases")
-        part = {"trip_part": "trip server part", "metro_part": "metro server part"}.get(x.get("scope", ""), "built part")
+        part = {"trip_part": "trip server part", "metro_part": "metro server part", "library_part": "rule library part"}.get(x.get("scope", ""), "built part")
         return part + " passes; the rest needs " + rest + (" (" + other + ")" if other else "")
     return other or "all code checks pass"
 

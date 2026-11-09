@@ -527,3 +527,38 @@ async def t01_09(tr):
     tr.obs["labels"].append(d["trip_leg"]["label"])
     await tr.build([{**d["trip_leg"], "leg_key": "B1"}], [], title="Jaipur to Ajmer by bus")
     await tr.ok("record_booking", {"trip_id": tr.trip, "leg_key": "B1", **{k: v for k, v in d["record_booking"].items() if v is not None}}, role="agent")
+
+
+# ---------------- knowledge server (rule library) ----------------
+RULE_QUESTIONS = {
+    "T06-01": ("My train was cancelled, do I get a full refund?", None),
+    "T06-02": ("Counter ticket, train cancelled", {"ticket_channel": "counter", "who_cancelled": "railway"}),
+    "T06-03": ("When must I file TDR?", None),
+    "T06-04": ("IndiGo cancelled my flight, what am I owed?", None),
+    "T06-05": ("Flight 3 h late, do I get food?", None),
+    "T06-06": ("Refund rules for Vande Bharat sleeper upgrade", None),
+    "T06-07": ("clerkage on RAC ticket cancellation", None),
+    "T06-08": ("Will I get a refund for waitlisted ticket?", None),
+    "T06-11": ("Can I sue the railway?", None),
+}
+
+
+def _rule_scenario(case_id: str, question: str, booking: dict | None):
+    async def run(tr):
+        args = {"question": question}
+        if booking:
+            args["booking"] = booking
+        await tr.rules("search_rules", args)
+    # T06-01 also needs the agent to ASK the traveller (the library supplies the questions) -> partial until Phase 5b
+    scenario(case_id, "full" if case_id != "T06-01" else "library_part")(run)
+
+
+for _cid, (_q, _b) in RULE_QUESTIONS.items():
+    _rule_scenario(_cid, _q, _b)
+
+
+@scenario("T06-12")
+async def t06_12(tr):
+    env = await tr.rules("search_rules", {"question": "Will I get a refund for waitlisted ticket?"})
+    pid = env["data"]["passages"][0]["what_the_rule_says"]["passage_id"]
+    await tr.rules("get_passage", {"passage_id": pid})

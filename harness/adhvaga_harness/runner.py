@@ -19,6 +19,8 @@ RESULTS = ROOT / "harness" / "results"
 
 WAITS_FOR = {2: "Trains + Metro servers (Phase 2)", 3: "Flights, Buses, more metro cities (Phase 3)",
              4: "Knowledge server / rule library (Phase 4)", "5b": "website agent loop (Phase 5b)"}
+NOT_IN_LIBRARY = {"T06-09": "Delhi Metro passenger rules document (not in the rule library yet)",
+                  "T06-10": "Air India conditions of carriage (not in the rule library yet)"}
 AGENT_ONLY = {"T01-11", "T04-02", "T04-05", "T04-06", "T04-08", "T06-11"}
 
 
@@ -32,7 +34,7 @@ def _git_version() -> str:
 async def run_case(client, case: dict) -> dict:
     base = {"id": case["id"], "group": case["group"], "title": case["title"], "phase": case["phase"]}
     if case["id"] not in SCENARIOS:
-        why = "the AI agent (Phase 5b)" if case["id"] in AGENT_ONLY else WAITS_FOR.get(case["phase"], f"phase {case['phase']}")
+        why = NOT_IN_LIBRARY.get(case["id"]) or ("the AI agent (Phase 5b)" if case["id"] in AGENT_ONLY else WAITS_FOR.get(case["phase"], f"phase {case['phase']}"))
         return {**base, "result": "not_yet", "waits_for": why, "checks": []}
     scope, fn = SCENARIOS[case["id"]]
     tr = Trial(client, case)
@@ -109,7 +111,7 @@ def summarise(spec: dict, results: list[dict], started: str) -> dict:
         gate = "NOT READY"
     return {
         "started": started, "app_version": _git_version(), "spec_version": spec["version"], "model": None,
-        "settings": {"trip_server": "stdio test mode, in-memory database", "metro_server": "stdio, bundled timetables (Kochi, Hyderabad)", "buses_server": "stdio, simulated demo buses"},
+        "settings": {"trip_server": "stdio test mode, in-memory database", "metro_server": "stdio, bundled timetables (Kochi, Hyderabad)", "buses_server": "stdio, simulated demo buses", "knowledge_server": "stdio, 3 official documents, word search"},
         "totals": {"cases": len(results), "pass": full, "partial": count("partial"), "fail": count("fail"),
                    "error": count("error"), "not_yet": count("not_yet")},
         "groups": groups, "blockers": blockers, "groups_worse_than_last_run": worse,

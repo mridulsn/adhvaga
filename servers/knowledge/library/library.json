@@ -1,0 +1,850 @@
+{
+ "built": "2026-11-09",
+ "documents": [
+  {
+   "doc_id": "dgca-car-s3-m-iv",
+   "title": "CAR Section 3, Series M, Part IV - Facilities to be provided to passengers by airlines due to denied boarding, cancellation of flights and delays in flights",
+   "authority": "Directorate General of Civil Aviation (DGCA), Government of India",
+   "link": "https://www.dgca.gov.in/digigov-portal/Upload?flag=iframeAttachView&attachId=we1PSlOuQhYdHcwKKrm7ew%3D%3D",
+   "version": "Rev. 4, dated 25 Jan 2023",
+   "effective": "2023-02-15",
+   "published": "2023-01-25",
+   "fetched": "2026-11-09",
+   "sha256": "3b4b50844edc6a46099cce3b94626d29b03f90ccc61318aa1aa2db6d0fa3ff4a",
+   "status": "current",
+   "replaced_by": null,
+   "caveat": "Applies to flights operated by airlines in India (scheduled and non-scheduled). Refunds themselves follow CAR Section 3, Series M, Part II."
+  },
+  {
+   "doc_id": "ir-refund-rules-2015",
+   "title": "Revised Refund Rules w.e.f. 12.11.2015 (Railway Passengers (Cancellation of Ticket and Refund of Fare) Rules, 2015 - summary of changes)",
+   "authority": "Indian Railways (Ministry of Railways), indianrail.gov.in",
+   "link": "https://www.indianrail.gov.in/refund_Rules.html",
+   "version": "Rules effective 12 Nov 2015",
+   "effective": "2015-11-12",
+   "published": null,
+   "fetched": "2026-11-09",
+   "sha256": "c70f4b584b3d7eebf662ec49439f979bd15db49a83298d833f5efe8473f74b76",
+   "status": "current",
+   "replaced_by": null,
+   "caveat": "This official page summarises the 2015 rules. Later amendments (for example GST on cancellation charges) are not in Adhvaga's library; check the IRCTC or Indian Railways site before relying on an amount."
+  },
+  {
+   "doc_id": "irctc-eticket-cancel",
+   "title": "Procedure for Cancellation of E-Tickets (IRCTC)",
+   "authority": "IRCTC (Indian Railway Catering and Tourism Corporation)",
+   "link": "https://contents.irctc.co.in/en/eticketCancel.html",
+   "version": "Page is undated",
+   "effective": null,
+   "published": null,
+   "fetched": "2026-11-09",
+   "sha256": "b3310961b85087319607ca8b239b1b892851a77ad61bfcf25550e1a1e04ec27e",
+   "status": "current",
+   "replaced_by": null,
+   "caveat": "The page carries no date. Amounts match the 2015 rules; check irctc.co.in before relying on them."
+  }
+ ],
+ "passages": [
+  {
+   "passage_id": "dgca-1.4",
+   "doc_id": "dgca-car-s3-m-iv",
+   "section": "Para 1.4",
+   "heading": "No compensation for force majeure",
+   "text": "1.4 The operating airline would not have the obligation to pay compensation in cases where the cancellations and delays have been caused by an event(s) of force majeure i.e. extraordinary circumstance(s) beyond the control of the airline, the impact of which lead to the cancellation/delay of flight(s), and which could not have been avoided even if all reasonable measures had been taken by the airline. Such extraordinary circumstances may in particular, occur due to political instability, natural disaster, civil war, insurrection or riot, flood, explosion, government regulation or order affecting the aircraft, strikes and labour disputes causing cessation, slowdown or interruption of work or any other factors that are beyond the control of the airline.",
+   "topics": [
+    "compensation",
+    "force majeure",
+    "extraordinary",
+    "strike",
+    "flood",
+    "weather"
+   ],
+   "conditions": [
+    {
+     "fact": "cause",
+     "fits": [
+      "extraordinary"
+     ],
+     "ask": "Was the cancellation or delay caused by something outside the airline's control (weather, ATC, strike, security)?"
+    }
+   ],
+   "status": "current",
+   "replaced_by": null
+  },
+  {
+   "passage_id": "dgca-1.5",
+   "doc_id": "dgca-car-s3-m-iv",
+   "section": "Para 1.5",
+   "heading": "No compensation for ATC, weather, security",
+   "text": "1.5 Additionally, airlines would also not be liable to pay any compensation in respect of cancellations and delays clearly attributable to Air Traffic Control (ATC), meteorological conditions, security risks, or any other causes that are beyond the control of the airline but which affect their ability to operate flights on schedule. Extraordinary circumstances should be deemed to exist where the impact of an air traffic management decision in relation to a particular aircraft or several aircraft on a particular day, gives rise to a long delay or delays, an overnight delay, or the cancellation of one or more flights by that aircraft, and which could not be avoided even though the airline concerned had taken all reasonable measures to avoid or overcome of the impact of the relevant factor and, therefore, the delays or cancellations.",
+   "topics": [
+    "compensation",
+    "atc",
+    "air traffic control",
+    "weather",
+    "meteorological",
+    "security"
+   ],
+   "conditions": [
+    {
+     "fact": "cause",
+     "fits": [
+      "extraordinary"
+     ],
+     "ask": "Was the cancellation or delay caused by ATC, weather or security?"
+    }
+   ],
+   "status": "current",
+   "replaced_by": null
+  },
+  {
+   "passage_id": "dgca-3.2.2",
+   "doc_id": "dgca-car-s3-m-iv",
+   "section": "Para 3.2.2",
+   "heading": "Denied boarding compensation",
+   "text": "3.2.2 If the boarding is denied due to condition stated at Para 3.2.1 to passengers against their will, the airline shall not be liable for any compensation in case alternate flight is arranged that is scheduled to depart within one hour of the original schedule departure time of the initial reservation. Failing to do so, the airline shall compensate the passengers as per the following provisions: a) An amount equal to 200% of booked one-way basic fare plus airline fuel charge, subject to maximum of INR 10,000, in case airline arranges alternate flight that is scheduled to depart within the 24 hours of the booked scheduled departure. b) An amount equal to 400% of booked one-way basic fare plus airline fuel charge, subject to maximum of INR 20,000, in case airline arranges alternate flight that is scheduled to depart more than 24 hours of the booked scheduled departure. c) In case passenger does not opt for alternate flight, refund of full value of ticket and compensation equal to 400% of booked one-way basic fare plus airline fuel charge, subject to maximum of INR 20,000.",
+   "topics": [
+    "denied boarding",
+    "overbooked",
+    "offloaded",
+    "compensation",
+    "boarding"
+   ],
+   "conditions": [
+    {
+     "fact": "event",
+     "fits": [
+      "denied_boarding"
+     ],
+     "ask": "Were you refused boarding on a confirmed ticket after reporting on time?"
+    }
+   ],
+   "status": "current",
+   "replaced_by": null
+  },
+  {
+   "passage_id": "dgca-3.3.1",
+   "doc_id": "dgca-car-s3-m-iv",
+   "section": "Para 3.3.1",
+   "heading": "Cancellation: notice and alternate flight or refund",
+   "text": "3.3.1 In order to reduce inconvenience caused to the passengers as a result of the cancellations of the flights on which they are booked to travel, airline shall inform the passenger of the cancellation at least two weeks before the scheduled time of departure and arrange alternate flight/refund as acceptable to the passenger. In case the passengers are informed of the cancellation less than two weeks before and up to 24 hours of the scheduled time of departure, the airline shall offer an alternate flight or refund the ticket, as acceptable to the passenger.",
+   "topics": [
+    "cancel",
+    "cancelled",
+    "cancellation",
+    "flight",
+    "refund",
+    "alternate flight",
+    "notice"
+   ],
+   "conditions": [
+    {
+     "fact": "event",
+     "fits": [
+      "flight_cancelled"
+     ],
+     "ask": "Did the airline cancel the flight?"
+    },
+    {
+     "fact": "notice",
+     "fits": [
+      "2_weeks_or_more",
+      "24h_to_2_weeks"
+     ],
+     "ask": "How early did the airline tell you about the cancellation (2 weeks or more, between 24 hours and 2 weeks, or less than 24 hours)?"
+    }
+   ],
+   "status": "current",
+   "replaced_by": null
+  },
+  {
+   "passage_id": "dgca-3.3.2",
+   "doc_id": "dgca-car-s3-m-iv",
+   "section": "Para 3.3.2",
+   "heading": "Cancellation: compensation when not informed in time",
+   "text": "3.3.2 Passengers who have not been informed as per the provisions contained in Para 3.3.1, or missed the connecting flight booked on the same ticket number of an airline, the airlines shall either provide alternate flight as acceptable to the passenger or provide compensation in addition to the full refund of air ticket in accordance with the following provisions: a) INR 5,000 or booked one-way basic fare plus airline fuel charge, whichever is less for flights having a block time of up to and including 01 hour b) INR 7,500 or booked one-way basic fare plus airline fuel charge, whichever is less for flights having block time of more than 01 hour and up to and including 02 hours. c) INR 10,000 or booked one-way basic fare plus airline fuel charge, whichever is less for flights having a block time of more than 02 hours. Additionally, the airline shall provide them facilities at the airport in accordance with Para 3.8.1 (a) in the event they have already reported for their original flight and whilst they are waiting for the alternate flight.",
+   "topics": [
+    "cancel",
+    "cancelled",
+    "cancellation",
+    "flight",
+    "compensation",
+    "owed",
+    "refund",
+    "block time"
+   ],
+   "conditions": [
+    {
+     "fact": "event",
+     "fits": [
+      "flight_cancelled"
+     ],
+     "ask": "Did the airline cancel the flight?"
+    },
+    {
+     "fact": "notice",
+     "fits": [
+      "under_24h"
+     ],
+     "ask": "How early did the airline tell you about the cancellation (2 weeks or more, between 24 hours and 2 weeks, or less than 24 hours)?"
+    },
+    {
+     "fact": "cause",
+     "fits": [
+      "airline"
+     ],
+     "ask": "Was the cause within the airline's control? (Weather, ATC, strikes and security are not.)"
+    }
+   ],
+   "status": "current",
+   "replaced_by": null
+  },
+  {
+   "passage_id": "dgca-3.3.3",
+   "doc_id": "dgca-car-s3-m-iv",
+   "section": "Para 3.3.3",
+   "heading": "No compensation without contact details",
+   "text": "3.3.3 No financial compensation shall be payable to passengers who have not provided adequate contact information (email id or a phone number) at the time of making booking or when the ticket for firm travel on the selected flight is issued. Airlines shall require travel agents to provide that information to the airline for operational purposes only. In respect of such passengers the airlines will either refund the ticket prices or make reasonable endeavour to make alternate travel arrangements as per the choice of the passengers. Additionally, in respect of such passengers who elect to travel to their destination on an alternate flight, the airline shall provide them with reasonable facilities during the period that they are required to wait at the airport for the alternate flights in accordance with Para 3.8.1 (a).",
+   "topics": [
+    "contact",
+    "email",
+    "phone",
+    "travel agent",
+    "compensation"
+   ],
+   "conditions": [
+    {
+     "fact": "gave_contact_details",
+     "fits": [
+      "no"
+     ],
+     "ask": "Did you give the airline (or your agent) your email or phone number when booking?"
+    }
+   ],
+   "status": "current",
+   "replaced_by": null
+  },
+  {
+   "passage_id": "dgca-3.3.4",
+   "doc_id": "dgca-car-s3-m-iv",
+   "section": "Para 3.3.4",
+   "heading": "Cancellation: extraordinary circumstances",
+   "text": "3.3.4 No such compensation shall be payable to any of the affected passengers in case the cancellations occur due to extraordinary circumstances beyond the control of the airline (as described in Para 1.4 and Para 1.5) even if all reasonable measures had been taken by the airline.",
+   "topics": [
+    "cancel",
+    "cancellation",
+    "extraordinary",
+    "compensation"
+   ],
+   "conditions": [
+    {
+     "fact": "cause",
+     "fits": [
+      "extraordinary"
+     ],
+     "ask": "Was the cancellation caused by something outside the airline's control?"
+    }
+   ],
+   "status": "current",
+   "replaced_by": null
+  },
+  {
+   "passage_id": "dgca-3.4.1",
+   "doc_id": "dgca-car-s3-m-iv",
+   "section": "Para 3.4.1",
+   "heading": "Delay: meals and refreshments",
+   "text": "3.4.1 The airlines shall provide facilities in accordance with Para 3.8.1 (a) if the passenger has checked in on time, and if the airline expects a delay beyond its original announced scheduled time of departure or a revised time of departure. of: a) 2 hours or more in case of flights having a block time of up to 2 1/2 hrs; or b) 3 hours or more in case of flights having a block time of more than 2 1/2 hrs and up to 5 hours; or c) 4 hours or more in case of flights not falling under sub-para (a) and (b) of Para 3.4.1.",
+   "topics": [
+    "delay",
+    "delayed",
+    "late",
+    "food",
+    "meal",
+    "meals",
+    "refreshments",
+    "snacks",
+    "water"
+   ],
+   "conditions": [
+    {
+     "fact": "event",
+     "fits": [
+      "flight_delayed"
+     ],
+     "ask": "Is the flight delayed?"
+    },
+    {
+     "fact": "checked_in_on_time",
+     "fits": [
+      "yes"
+     ],
+     "ask": "Did you check in on time?"
+    }
+   ],
+   "status": "current",
+   "replaced_by": null
+  },
+  {
+   "passage_id": "dgca-3.4.2",
+   "doc_id": "dgca-car-s3-m-iv",
+   "section": "Para 3.4.2",
+   "heading": "Delay over 6 hours: alternate flight or full refund",
+   "text": "3.4.2 When domestic flight is expected to be delayed for more than 6 hrs from the published scheduled time of departure or previously revised departure time (communicated more than 24 hours prior to original scheduled departure time), airlines shall offer an option of either an alternate flight within a period of 6 hours or full refund of ticket to the passenger.",
+   "topics": [
+    "delay",
+    "delayed",
+    "late",
+    "6 hours",
+    "refund",
+    "alternate flight",
+    "domestic"
+   ],
+   "conditions": [
+    {
+     "fact": "event",
+     "fits": [
+      "flight_delayed"
+     ],
+     "ask": "Is the flight delayed?"
+    },
+    {
+     "fact": "domestic",
+     "fits": [
+      "yes"
+     ],
+     "ask": "Is it a domestic flight?"
+    }
+   ],
+   "status": "current",
+   "replaced_by": null
+  },
+  {
+   "passage_id": "dgca-3.4.3",
+   "doc_id": "dgca-car-s3-m-iv",
+   "section": "Para 3.4.3",
+   "heading": "Long delay: hotel",
+   "text": "3.4.3 When total delay is more than 24 hrs from the published scheduled time of departure or more than 6 hrs for flights scheduled to depart between 2000 and 0300 hrs, passenger shall be offered facility in accordance with the provisions of Para 3.8.1 (b) of this CAR.",
+   "topics": [
+    "delay",
+    "delayed",
+    "hotel",
+    "overnight",
+    "accommodation",
+    "24 hours",
+    "night"
+   ],
+   "conditions": [
+    {
+     "fact": "event",
+     "fits": [
+      "flight_delayed"
+     ],
+     "ask": "Is the flight delayed?"
+    }
+   ],
+   "status": "current",
+   "replaced_by": null
+  },
+  {
+   "passage_id": "dgca-3.4.4",
+   "doc_id": "dgca-car-s3-m-iv",
+   "section": "Para 3.4.4",
+   "heading": "Delay: extraordinary circumstances",
+   "text": "3.4.4 An operating airline shall not be obliged to adhere to Para 3.8 if the delay is caused due to extra ordinary circumstances as defined in Para 1.4 and Para 1.5 which could not have been avoided even if all reasonable measures had been taken.",
+   "topics": [
+    "delay",
+    "extraordinary",
+    "facilities"
+   ],
+   "conditions": [
+    {
+     "fact": "cause",
+     "fits": [
+      "extraordinary"
+     ],
+     "ask": "Was the delay caused by something outside the airline's control?"
+    }
+   ],
+   "status": "current",
+   "replaced_by": null
+  },
+  {
+   "passage_id": "dgca-3.5.1",
+   "doc_id": "dgca-car-s3-m-iv",
+   "section": "Para 3.5.1",
+   "heading": "Involuntary downgrade refund",
+   "text": "3.5.1 In case the passenger is downgraded involuntarily and is carried in a class lower than that for which the ticket is purchased, the airline shall reimburse the passenger as follows :- a) For domestic sector:-75% of the cost of ticket including taxes. b) For international sector:- 30% of the cost of ticket including taxes for flights of 1500 km or less. - 50% of the cost of ticket including taxes for flights between 1500 km to 3500 km. - 75% of the cost of ticket including taxes for flights more than 3500 km.",
+   "topics": [
+    "downgrade",
+    "downgraded",
+    "lower class",
+    "class"
+   ],
+   "conditions": [
+    {
+     "fact": "event",
+     "fits": [
+      "downgraded"
+     ],
+     "ask": "Were you moved to a lower class against your will?"
+    }
+   ],
+   "status": "current",
+   "replaced_by": null
+  },
+  {
+   "passage_id": "dgca-3.7.1",
+   "doc_id": "dgca-car-s3-m-iv",
+   "section": "Para 3.7.1",
+   "heading": "How compensation is paid",
+   "text": "3.7.1 The compensation referred to in Para 3.2.2 and 3.3.2 shall be paid in cash, by bank transfer or with the signed agreement of the passenger in the form of travel vouchers.",
+   "topics": [
+    "compensation",
+    "cash",
+    "voucher",
+    "bank transfer",
+    "paid"
+   ],
+   "conditions": [],
+   "status": "current",
+   "replaced_by": null
+  },
+  {
+   "passage_id": "dgca-3.8.1",
+   "doc_id": "dgca-car-s3-m-iv",
+   "section": "Para 3.8.1",
+   "heading": "Facilities: meals and hotel",
+   "text": "3.8.1 Passengers shall be offered free of charge the following: a) Meals and refreshments in relation to waiting time. b) Hotel Accommodation when necessary (including transfers).",
+   "topics": [
+    "meals",
+    "food",
+    "refreshments",
+    "hotel",
+    "accommodation",
+    "facilities",
+    "free"
+   ],
+   "conditions": [],
+   "status": "current",
+   "replaced_by": null
+  },
+  {
+   "passage_id": "dgca-3.9.1",
+   "doc_id": "dgca-car-s3-m-iv",
+   "section": "Para 3.9.1",
+   "heading": "Complaints: airline first",
+   "text": "3.9.1 When affected by denied boarding, a cancellation or a long delay, the passenger may complain directly to the airline in the event the airline has not provided the compensation and/or reasonable facilities as specified in this CAR.",
+   "topics": [
+    "complain",
+    "complaint",
+    "grievance",
+    "redressal"
+   ],
+   "conditions": [],
+   "status": "current",
+   "replaced_by": null
+  },
+  {
+   "passage_id": "dgca-3.9.2",
+   "doc_id": "dgca-car-s3-m-iv",
+   "section": "Para 3.9.2",
+   "heading": "Complaints: Air Sewa",
+   "text": "3.9.2 The passenger may file the grievance on Air Sewa App or Portal.",
+   "topics": [
+    "complain",
+    "complaint",
+    "grievance",
+    "air sewa"
+   ],
+   "conditions": [],
+   "status": "current",
+   "replaced_by": null
+  },
+  {
+   "passage_id": "dgca-3.9.3",
+   "doc_id": "dgca-car-s3-m-iv",
+   "section": "Para 3.9.3",
+   "heading": "Complaints: statutory body or court",
+   "text": "3.9.3 If the passenger is not satisfied with the resolution of grievance by airline and/or Air Sewa, the passenger has liberty to complain to any statutory body/court set up under relevant applicable laws.",
+   "topics": [
+    "complain",
+    "complaint",
+    "court",
+    "consumer",
+    "legal"
+   ],
+   "conditions": [],
+   "status": "current",
+   "replaced_by": null
+  },
+  {
+   "passage_id": "ir-2015-obj-iv",
+   "doc_id": "ir-refund-rules-2015",
+   "section": "Para 2(iv)",
+   "heading": "Train cancelled: automatic refund on e-tickets",
+   "text": "(iv) Automatic refund of fare on e-tickets in case of cancellation of trains (Already implemented w.e.f. 01.07.2015). No TDR filing is required in this case.",
+   "topics": [
+    "cancel",
+    "cancelled",
+    "train",
+    "refund",
+    "full refund",
+    "tdr",
+    "automatic",
+    "e-ticket"
+   ],
+   "conditions": [
+    {
+     "fact": "ticket_channel",
+     "fits": [
+      "e_ticket"
+     ],
+     "ask": "Was the ticket booked online (e-ticket on IRCTC) or at a railway counter?"
+    },
+    {
+     "fact": "who_cancelled",
+     "fits": [
+      "railway"
+     ],
+     "ask": "Did the railway cancel the train, or did you cancel your ticket?"
+    }
+   ],
+   "status": "current",
+   "replaced_by": null
+  },
+  {
+   "passage_id": "ir-2015-clerkage",
+   "doc_id": "ir-refund-rules-2015",
+   "section": "Table row 1 (revised)",
+   "heading": "Clerkage on unreserved, RAC and waitlisted tickets",
+   "text": "Levy of clerkage per passenger for cancellation of unreserved, RAC and waitlisted tickets:- (i). Unreserved (second class): Rs. 30. (ii) Second class (reserved) and other classes: Rs. 60",
+   "topics": [
+    "clerkage",
+    "rac",
+    "waitlisted",
+    "waiting list",
+    "unreserved",
+    "cancel",
+    "charge"
+   ],
+   "conditions": [
+    {
+     "fact": "ticket_status",
+     "fits": [
+      "rac",
+      "waitlisted",
+      "unreserved"
+     ],
+     "ask": "Was the ticket confirmed, RAC, waitlisted or unreserved?"
+    }
+   ],
+   "status": "current",
+   "replaced_by": null
+  },
+  {
+   "passage_id": "ir-pre2015-clerkage",
+   "doc_id": "ir-refund-rules-2015",
+   "section": "Table row 1 (pre-revised)",
+   "heading": "Clerkage before 12.11.2015 (replaced)",
+   "text": "Levy of clerkage per passenger for cancellation of unreserved, RAC and waitlisted tickets:- (i). Unreserved (second class): Rs. 15. (ii) Second class (reserved) and other classes: Rs. 30",
+   "topics": [
+    "clerkage",
+    "rac",
+    "waitlisted",
+    "unreserved",
+    "cancel",
+    "charge"
+   ],
+   "conditions": [],
+   "status": "superseded",
+   "replaced_by": "ir-2015-clerkage"
+  },
+  {
+   "passage_id": "ir-2015-confirmed",
+   "doc_id": "ir-refund-rules-2015",
+   "section": "Table row 2 (revised)",
+   "heading": "Cancellation charges on confirmed tickets",
+   "text": "Cancellation charge per passenger on confirmed (reserved) tickets:- (i). 48 hours before the scheduled departure of the train minimum cancellation charge 1st AC/executive class: Rs. 240 2 AC/1st Class : Rs. 200 3AC/ACC/3A economy: Rs. 180 Second sleeper class : Rs. 120 Second class : Rs. 60 (ii). Between 48 hours and 12 hours before the scheduled departure of the train @ 25% subject to minimum charge as per (i) above. (iii) between 12 hours and 4 hours before the scheduled departure of the train @ 50% subject to minimum charge as per (i) above. (iv) No refund after the above prescribed time limit.",
+   "topics": [
+    "cancel",
+    "cancellation charge",
+    "confirmed",
+    "refund",
+    "48 hours",
+    "12 hours",
+    "4 hours",
+    "charge"
+   ],
+   "conditions": [
+    {
+     "fact": "ticket_status",
+     "fits": [
+      "confirmed"
+     ],
+     "ask": "Was the ticket confirmed, RAC, waitlisted or unreserved?"
+    },
+    {
+     "fact": "who_cancelled",
+     "fits": [
+      "passenger"
+     ],
+     "ask": "Did you cancel the ticket yourself, or did the railway cancel the train?"
+    }
+   ],
+   "status": "current",
+   "replaced_by": null
+  },
+  {
+   "passage_id": "ir-pre2015-confirmed",
+   "doc_id": "ir-refund-rules-2015",
+   "section": "Table row 2 (pre-revised)",
+   "heading": "Cancellation charges before 12.11.2015 (replaced)",
+   "text": "Cancellaton charge per passenger confirmed (reserved) tickets:- (i). 48 hours before the scheduled departure of the train minimum cancellation charge 1st AC/executive class: Rs.120 2AC/1st Class Rs. 100 3AC/ACC/3A economy: Rs. 90 Second sleeper class: Rs. 60 Second class Rs. 30 (ii). Between 48 hours and 6 hours before the scheduled departure of the train @ 25% subject to minimum charge as per (i) above. (iii) From 6 hours before the scheduled departure of the train and upto 2 hours after the actual departure of the train @ 50% subject to minimum charge as per (i) above. (iv) No refund after the above prescribed time limit.",
+   "topics": [
+    "cancel",
+    "cancellation charge",
+    "confirmed",
+    "refund",
+    "charge"
+   ],
+   "conditions": [],
+   "status": "superseded",
+   "replaced_by": "ir-2015-confirmed"
+  },
+  {
+   "passage_id": "ir-2015-partial",
+   "doc_id": "ir-refund-rules-2015",
+   "section": "Table row 3 (revised)",
+   "heading": "Partially confirmed tickets",
+   "text": "Partially confirmed: Upto half an hour before the scheduled departure of the train,",
+   "topics": [
+    "partially confirmed",
+    "partial",
+    "cancel",
+    "refund"
+   ],
+   "conditions": [
+    {
+     "fact": "ticket_status",
+     "fits": [
+      "partially_confirmed"
+     ],
+     "ask": "Were only some passengers on the ticket confirmed?"
+    }
+   ],
+   "status": "current",
+   "replaced_by": null
+  },
+  {
+   "passage_id": "ir-2015-racwl",
+   "doc_id": "ir-refund-rules-2015",
+   "section": "Table row 4 (revised)",
+   "heading": "Refund on unused RAC / waitlisted tickets",
+   "text": "Refund on unused RAC/WL tickets: Upto half an hour before the scheduled departure of the train subject to deduction of clerkage charge. No refund after the above prescribed time limit.",
+   "topics": [
+    "rac",
+    "waitlisted",
+    "waiting list",
+    "wl",
+    "unused",
+    "refund",
+    "cancel"
+   ],
+   "conditions": [
+    {
+     "fact": "ticket_status",
+     "fits": [
+      "rac",
+      "waitlisted"
+     ],
+     "ask": "Was the ticket confirmed, RAC or waitlisted when the chart was made?"
+    }
+   ],
+   "status": "current",
+   "replaced_by": null
+  },
+  {
+   "passage_id": "ir-pre2015-racwl",
+   "doc_id": "ir-refund-rules-2015",
+   "section": "Table row 4 (pre-revised)",
+   "heading": "RAC / waitlisted refund before 12.11.2015 (replaced)",
+   "text": "Refund on unused RAC/WL tickets: Upto 3 hours of the actual departure of the train subject to deduction in clerkage charge. No refund after the above prescribed time limit.",
+   "topics": [
+    "rac",
+    "waitlisted",
+    "refund"
+   ],
+   "conditions": [],
+   "status": "superseded",
+   "replaced_by": "ir-2015-racwl"
+  },
+  {
+   "passage_id": "ir-2015-train-cancelled",
+   "doc_id": "ir-refund-rules-2015",
+   "section": "Table row 5 (revised)",
+   "heading": "Train cancelled: e-tickets vs counter tickets",
+   "text": "In case of cancellation of trains for e tickets: W. e.f. 01.07.2015, automatic refund is granted. Filing of TDR is not required. No change for counter PRS ticket.",
+   "topics": [
+    "cancel",
+    "cancelled",
+    "train",
+    "refund",
+    "tdr",
+    "counter",
+    "prs",
+    "e-ticket",
+    "automatic"
+   ],
+   "conditions": [
+    {
+     "fact": "who_cancelled",
+     "fits": [
+      "railway"
+     ],
+     "ask": "Did the railway cancel the train, or did you cancel your ticket?"
+    },
+    {
+     "fact": "ticket_channel",
+     "fits": [
+      "e_ticket",
+      "counter"
+     ],
+     "ask": "Was the ticket booked online (e-ticket) or at a railway counter?"
+    }
+   ],
+   "status": "current",
+   "replaced_by": null
+  },
+  {
+   "passage_id": "ir-pre2015-train-cancelled",
+   "doc_id": "ir-refund-rules-2015",
+   "section": "Table row 5 (pre-revised)",
+   "heading": "Train cancelled before 01.07.2015 (replaced)",
+   "text": "In case of cancellation of trains for e-tickets: Before 01.07.2015, for refund, TDR had to be filed. No change for counter PRS ticket.",
+   "topics": [
+    "cancel",
+    "train",
+    "tdr",
+    "e-ticket"
+   ],
+   "conditions": [],
+   "status": "superseded",
+   "replaced_by": "ir-2015-train-cancelled"
+  },
+  {
+   "passage_id": "irctc-before-chart",
+   "doc_id": "irctc-eticket-cancel",
+   "section": "Before chart preparation",
+   "heading": "E-ticket cancellation charges before the chart",
+   "text": "If a confirmed ticket is cancelled more than 48 hrs before the scheduled departure of the train, flat cancellation charges shall be deducted @ Rs.240/- for AC First Class/Executive Class, Rs.200/- for AC 2 Tier/First Class, Rs. 180 for AC 3 Tier/AC Chair car/ AC 3 Economy, Rs.120/- for Sleeper Class and Rs.60/- for Second Class. Cancellation charges are per passenger. If a confirmed ticket is cancelled within 48 hrs and up to 12 hours before the scheduled departure of the train, cancellation charges shall be 25% of the fare subject to the minimum flat rate mentioned in the above clause. Less than 12 hours and upto four hours before the scheduled departure of the train up to chart preparation which is earlier, 50% of the fare paid subject to the minimum cancellation charges.",
+   "topics": [
+    "cancel",
+    "cancellation charge",
+    "confirmed",
+    "e-ticket",
+    "48 hours",
+    "12 hours",
+    "4 hours",
+    "refund"
+   ],
+   "conditions": [
+    {
+     "fact": "ticket_channel",
+     "fits": [
+      "e_ticket"
+     ],
+     "ask": "Was the ticket booked online (e-ticket) or at a railway counter?"
+    },
+    {
+     "fact": "ticket_status",
+     "fits": [
+      "confirmed"
+     ],
+     "ask": "Was the ticket confirmed?"
+    }
+   ],
+   "status": "current",
+   "replaced_by": null
+  },
+  {
+   "passage_id": "irctc-tdr-deadlines",
+   "doc_id": "irctc-eticket-cancel",
+   "section": "After chart preparation (TDR)",
+   "heading": "TDR deadlines after the chart",
+   "text": "For Normal User:- E-ticket cannot be cancelled after chart preparation. Users are requested to use the online TDR filing for such cases and track Status of the refund case through tracking service provided by IRCTC. TDR can be filed as per Railway rules: No refund of fare shall be admissible on the tickets having confirmed reservation in case the ticket is not cancelled or TDR not filed online upto four hours before the scheduled departure of the train. No refund of fare shall be admissible on RAC e-tickets is case the ticket is not cancelled or TDR not filed online upto thirty minutes before the scheduled departure of the train.",
+   "topics": [
+    "tdr",
+    "file tdr",
+    "deadline",
+    "chart",
+    "after chart",
+    "refund",
+    "rac",
+    "confirmed",
+    "when"
+   ],
+   "conditions": [
+    {
+     "fact": "ticket_channel",
+     "fits": [
+      "e_ticket"
+     ],
+     "ask": "Was the ticket booked online (e-ticket) or at a railway counter?"
+    }
+   ],
+   "status": "current",
+   "replaced_by": null
+  },
+  {
+   "passage_id": "irctc-tatkal",
+   "doc_id": "irctc-eticket-cancel",
+   "section": "Tatkal e-tickets",
+   "heading": "Tatkal: no refund on confirmed tickets",
+   "text": "No refund will be granted on cancellation of confirmed Tatkal tickets. For contingent cancellation and waitlisted Tatkal ticket cancellations, charges will be deducted as per existing Railway rules. Partial cancellation of Tatkal e-tickets is allowed .",
+   "topics": [
+    "tatkal",
+    "cancel",
+    "refund"
+   ],
+   "conditions": [
+    {
+     "fact": "ticket_status",
+     "fits": [
+      "tatkal"
+     ],
+     "ask": "Was it a Tatkal ticket?"
+    }
+   ],
+   "status": "current",
+   "replaced_by": null
+  },
+  {
+   "passage_id": "irctc-train-cancelled",
+   "doc_id": "irctc-eticket-cancel",
+   "section": "Trains cancelled",
+   "heading": "Train marked CANCELLED: full refund within three days",
+   "text": "If the train is marked as \"CANCELLED\" in PRS due to breaches, floods, accidents etc. full refund is permissible in case the ticket is cancelled within three days of the scheduled departure of the train. In case of e-tickets, such cancellations can be done by the customer through Internet.",
+   "topics": [
+    "cancel",
+    "cancelled",
+    "train",
+    "full refund",
+    "refund",
+    "three days",
+    "breaches",
+    "floods"
+   ],
+   "conditions": [
+    {
+     "fact": "who_cancelled",
+     "fits": [
+      "railway"
+     ],
+     "ask": "Did the railway cancel the train, or did you cancel your ticket?"
+    }
+   ],
+   "status": "current",
+   "replaced_by": null
+  }
+ ]
+}

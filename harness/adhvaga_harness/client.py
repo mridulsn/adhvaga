@@ -1,4 +1,4 @@
-"""MCP client for the Adhvaga test runner (Trip, Metro and Buses servers).
+"""MCP client for the Adhvaga test runner (Trip, Metro, Buses and Knowledge servers).
 
 Starts the Trip server over stdio in TEST MODE (in-memory database), so each call can choose its
 role (public / agent / user), its browser session and injected faults through the request _meta.
@@ -19,6 +19,7 @@ ROOT = Path(__file__).resolve().parents[2]
 TRIP_SERVER = ROOT / "servers" / "trip" / "src" / "server.ts"
 METRO_SERVER = ROOT / "servers" / "metro" / "src" / "server.ts"
 BUSES_SERVER = ROOT / "servers" / "buses" / "src" / "server.ts"
+KNOWLEDGE_SERVER = ROOT / "servers" / "knowledge" / "src" / "server.ts"
 ENVELOPE_KEYS = {"status", "source", "label", "retrieved_at", "data_as_of", "confidence", "data", "error"}
 
 
@@ -92,5 +93,6 @@ async def read_only_server(path: Path):
 
 @asynccontextmanager
 async def all_servers():
-    async with trip_server() as trip, read_only_server(METRO_SERVER) as metro, read_only_server(BUSES_SERVER) as buses:
-        yield MultiClient([trip, metro, buses])
+    async with trip_server() as trip, read_only_server(METRO_SERVER) as metro, read_only_server(BUSES_SERVER) as buses, \
+            read_only_server(KNOWLEDGE_SERVER) as knowledge:
+        yield MultiClient([trip, metro, buses, knowledge])

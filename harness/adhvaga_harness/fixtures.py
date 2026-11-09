@@ -59,7 +59,8 @@ class Trial:
         self.case = case
         self.session = f"test-{case['id']}-{uuid.uuid4().hex[:8]}"
         self.trip: str | None = None
-        self.obs: dict[str, Any] = {"envelopes": [], "calls": [], "labels": [], "confidences": [], "date": DAY}
+        self.obs: dict[str, Any] = {"envelopes": [], "calls": [], "labels": [], "confidences": [], "date": DAY,
+                                    "fixtures": (case.get("setup") or {}).get("fixtures", [])}
 
     # ---- calls ----
     async def call(self, tool: str, args: dict, role: str = "user", faults: dict | None = None, expect_ok: bool = False) -> dict:
@@ -144,6 +145,15 @@ class Trial:
         for o in d.get("demo_options", []):
             self.obs["labels"].append(o["trip_leg"]["label"])
             self.obs["confidences"].append(env["confidence"]["level"])
+        return env
+
+    # ---- knowledge server ----
+    async def rules(self, tool: str, args: dict) -> dict:
+        """Call a Knowledge tool; keep its answer for the library checks (quote_has_source, says_not_found)."""
+        env = await self.call(tool, args, role="public")
+        self.obs["rule"] = env
+        self.obs["lookup"] = env
+        self.obs["final"] = env
         return env
 
     # ---- observations ----
