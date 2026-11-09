@@ -3,9 +3,7 @@ project: Adhvaga
 type: prd
 version: 1.0 (for plan v2.1)
 created: 2026-11-07
-status: draft - waiting for his sign-off
-session: 7130999c-ce97-4243-8747-e1bccc5b145a
-resume: claude --resume 7130999c-ce97-4243-8747-e1bccc5b145a
+status: draft - waiting for owner sign-off
 ---
 
 # Adhvaga - Product Requirements (PRD)
@@ -158,7 +156,7 @@ RailRadar and AviationStack free plans each allow only **100 requests a month**.
 | Security | Write tools need the secret pass; read tools public and rate-limited; keys only in Vercel/Emergent secrets |
 | Reliability | Degraded mode: a down provider shows Unavailable, the rest works; saves are all-or-nothing |
 | Honesty | Never claims nationwide live coverage; unsupported city/route says "no verified data yet" |
-| Cost | Rs 0 target; no card or paid plan without his OK |
+| Cost | Rs 0 target; no card or paid plan without the owner's OK |
 | Audit | Every approval, version change and automatic fix logged with time and reason |
 
 ## 11. Success measures (release)
@@ -170,14 +168,14 @@ RailRadar and AviationStack free plans each allow only **100 requests a month**.
 5. Rejecting a proposal leaves the approved plan exactly as before.
 6. No key in the browser or GitHub; write tools refuse calls without the pass; "Delete this trip" works.
 
-## 12. Open items for him
+## 12. Open items for the owner
 
-| # | Item | Why only he can do it |
+| # | Item | Why only the owner can do it |
 |---|---|---|
-| 1 | Sign off this PRD (or change it) | His product |
-| 2 | RailRadar free key | Sign-in with his account |
-| 3 | AviationStack free key | Sign-up with his email |
-| 4 | Groq free key | Sign-up with his account |
-| 5 | Neon free project | Sign-up with his account |
+| 1 | Sign off this PRD (or change it) | Owner's product |
+| 2 | RailRadar free key | Sign-in with the owner's account |
+| 3 | AviationStack free key | Sign-up with the owner's email |
+| 4 | Groq free key | Sign-up with the owner's account |
+| 5 | Neon free project | Sign-up with the owner's account |
 | 6 | Delhi Metro data download (OTD portal) | Form asks for an email and acceptance of their terms |
-| 7 | Vercel + Emergent go | His accounts, his credits |
+| 7 | Vercel + Emergent go | Owner's accounts and credits |

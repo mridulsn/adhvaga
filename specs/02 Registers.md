@@ -2,8 +2,6 @@
 project: Adhvaga
 type: registers (source, policy, cost)
 created: 2026-11-07
-session: 7130999c-ce97-4243-8747-e1bccc5b145a
-resume: claude --resume 7130999c-ce97-4243-8747-e1bccc5b145a
 ---
 
 # Adhvaga - Registers
@@ -11,9 +9,9 @@ resume: claude --resume 7130999c-ce97-4243-8747-e1bccc5b145a
 **Summary.** Every provider Adhvaga will use, checked live on **7 Nov 2026**. Two surprises: the train API
 (RailRadar) and the flight API (AviationStack) each allow only **100 free requests a month**, so Adhvaga must
 cache answers and show "Unavailable (QUOTA)" when the allowance runs out. The Delhi Metro timetable is official
-open data but was last updated in Aug 2023 and its download form needs his email and terms acceptance.
+open data but was last updated in Aug 2023 and its download form needs the owner's email and terms acceptance.
 
-"Test call" column: a real call with his key is still pending for every provider (no keys yet). A source goes
+"Test call" column: a real call with the owner's key is still pending for every provider (no keys yet). A source goes
 live in Adhvaga only after its row is complete **and** its test call passes.
 
 **Old timetable rule (8 Nov 2026, applies to every city).** A published timetable is labelled **Timetable** only for dates inside the feed's own calendar. For a date outside it (Kochi ends 31 Dec 2025; Delhi's feed is from Aug 2023; Hyderabad runs to 2030, so its 2026 answers are Timetable), Adhvaga uses the same weekday pattern, labels it **Estimated**, says "old timetable valid to <date>, pattern carried forward", and confidence is low. Metro fares from a feed are always **Estimated** (method: operator fare chart, with its date).
@@ -25,11 +23,11 @@ live in Adhvaga only after its row is complete **and** its test call passes.
 
 | Provider | Used for | Endpoint (checked) | Live / timetable | Free limit (checked 7 Nov 2026) | Sign-in | Known gaps | If it fails, user sees | Test call |
 |---|---|---|---|---|---|---|---|---|
-| **RailRadar** | Trains: search, live status, cancellations | `https://api.railradar.in/v1` - `/trains/between/{from}/{to}?date=&live=`, `/trains/{no}/live`, `/trains/exceptions`, `/lookup/search/stations` | Timetable (live=false) and Live (live=true, NTES-based) | **100 requests / month**, 10 / min. No overage charge; 429 when used up. Headers `X-RateLimit-Remaining-Month` | Key from railradar.in (his sign-in). `Authorization: Bearer <key>` | Independent, not IRCTC. Fare / seat endpoints are third-party, "not authoritative" | Train status "Unavailable (QUOTA)" or "(timeout)"; cached timetable still shown with its age | Pending key |
+| **RailRadar** | Trains: search, live status, cancellations | `https://api.railradar.in/v1` - `/trains/between/{from}/{to}?date=&live=`, `/trains/{no}/live`, `/trains/exceptions`, `/lookup/search/stations` | Timetable (live=false) and Live (live=true, NTES-based) | **100 requests / month**, 10 / min. No overage charge; 429 when used up. Headers `X-RateLimit-Remaining-Month` | Key from railradar.in (the owner's sign-in). `Authorization: Bearer <key>` | Independent, not IRCTC. Fare / seat endpoints are third-party, "not authoritative" | Train status "Unavailable (QUOTA)" or "(timeout)"; cached timetable still shown with its age | Pending key |
 | IRCTC1 (RapidAPI) | Backup for trains | To verify in Phase 2 | - | To check | RapidAPI sign-up | Unofficial | as above | Not started |
 | **AviationStack** | Flight status | `https://api.aviationstack.com/v1/flights` (to confirm on key) | Live status | **100 requests / month** (official pricing page). Paid starts $49.99/mo for 10,000 | Sign-up with email | Free plan may be HTTP-only and lack some filters - verify on key | "Flight status unavailable (QUOTA)" | Pending key |
 | Flight fare table | Flight fares | Adhvaga's own table (route distance bands) | Estimated | n/a | none | Not real prices | Label Estimated with method | Write in Phase 3 |
-| **Delhi Metro (DMRC) GTFS** | Metro routes, timetable | `https://otd.delhi.gov.in/data/staticDMRC/` (POST form) | Timetable | Free | Form: usage type, purpose, **email**, accept OTD terms | 262 stations, 36 routes, **last updated 10 Aug 2023** - newer stations missing | "No verified data for this station yet" | Needs his download |
+| **Delhi Metro (DMRC) GTFS** | Metro routes, timetable | `https://otd.delhi.gov.in/data/staticDMRC/` (POST form) | Timetable | Free | Form: usage type, purpose, **email**, accept OTD terms | 262 stations, 36 routes, **last updated 10 Aug 2023** - newer stations missing | "No verified data for this station yet" | Needs the owner's download |
 | Delhi Metro (backup copy) | Same | Codeberg `eternaltyro/india-transit-data` (third-party) | Timetable | Free | none | Unofficial copy; licence to check | same | Not started |
 | **Kochi Metro (KMRL) GTFS** | Kochi metro | Official zip `kochimetro.org/opendata/KMRLOpenData.zip` (via tinyurl.com/kmrlopendata) did NOT answer on 7 or 8 Nov. Copy used: Mobility Database mirror `files.mobilitydatabase.org/tld-1031/latest.zip` (mirror Last-Modified 3 Apr 2025, sha256 `26347766...b158`; KMRL-authored files dated 9 Aug 2024) | Timetable inside its dates, Estimated outside | Free | none | 25 stations Aluva - Tripunithura, 1 line, 450 trips. **Calendar valid 12 Aug 2024 - 31 Dec 2025 only, so every 2026 date is Estimated (old pattern).** No live data. Terms (KMRL ToU PDF, 2024 copy via Wayback): free, commercial OK, redistribution OK; must show "Contains data provided by Kochi Metro Rail Limited"; must not suggest KMRL endorsement; must not alter data to mislead | "No verified data for this station yet"; old-pattern times say so | **Loaded 8 Nov** (Metro server) |
 | Bengaluru Metro (BMRCL) | Bengaluru metro | Unofficial GTFS on GitHub `Vonter/bmrcl-gtfs` (built from OSM + BMRCL timetable images) | Timetable (unofficial) | Free | none | No official feed found | labelled "unofficial timetable" | Phase 3 |
@@ -37,7 +35,7 @@ live in Adhvaga only after its row is complete **and** its test call passes.
 | **Hyderabad Metro (HMRL) GTFS** | Hyderabad metro | Official page now `hmrl.co.in/open-data/`; its download opens a **Google form** (old Drive link needs Google sign-in). Copy used: Mobility Database mirror `files.mobilitydatabase.org/mdb-2457/latest.zip` (stored 15 Apr 2025, sha256 `ed801427...27f1`; HMRL files dated 8 Apr 2025) | Timetable (confidence at most medium) | Free | none for the mirror; form for the official route | 57 stations, 3 lines (Red, Blue, Green), 2,828 trips. Calendar valid 5 Apr 2025 - 1 Jan 2030. **Two feed mistakes corrected in memory (files unchanged):** weekday service marked as running every day (taken as Mon-Fri, because separate Saturday and Sunday timetables exist); JBS Parade Ground and Parade Ground not linked (linked, 6 min walk). Fares in the feed are the old chart; Adhvaga uses the 23 May 2025 HMRL chart (Rs 11 - 69) by track distance, Estimated. Terms (HMRL open-data page): free, commercial OK, redistribution OK; must show "Contains data provided by Hyderabad Metro Rail Ltd."; no endorsement; no misleading changes | "No verified data for this station yet" | **Loaded 8 Nov** (Metro server) |
 | Other metros (Mumbai, Chennai, Kolkata, Pune, Ahmedabad, Lucknow, Jaipur, Nagpur, Kanpur, Agra, Bhopal, Indore, Navi Mumbai, Meerut) | Metro | Each checked one by one in Phase 3 | Timetable if open data, else station list + Estimated gaps | - | - | Never Live | "No verified data yet" until checked | Phase 3 |
 | Intercity buses | Buses | None (no free API in India) | **Simulated** + You entered | n/a | none | Not bookable, never ranked above verified | Shown only in "demo options" | n/a |
-| **Groq** | AI agent + wording judge | `https://api.groq.com/openai/v1` | n/a | About 1,000 requests/day and 100K tokens/day on Llama 3.3 70B; 14,400/day on Llama 3.1 8B (third-party copies of Groq's table, Aug-Sep 2026; confirm on his limits page) | Sign-up | Limits are per organisation, not per key | "AI busy, try in a minute"; rules still work | Pending key |
+| **Groq** | AI agent + wording judge | `https://api.groq.com/openai/v1` | n/a | About 1,000 requests/day and 100K tokens/day on Llama 3.3 70B; 14,400/day on Llama 3.1 8B (third-party copies of Groq's table, Aug-Sep 2026; confirm on the owner's limits page) | Sign-up | Limits are per organisation, not per key | "AI busy, try in a minute"; rules still work | Pending key |
 | **Neon Postgres** | The one database (+ pgvector) | Neon free project | n/a | 1 GB storage / project, 100 CU-hours / month, 5 GB transfer, scale-to-zero after 5 min, **no overage billing**, no card (official FAQ updated 1 Oct 2026) | Sign-up | Cold start after idle | Writes refused with clear message when full; reads continue | Pending sign-up |
 | **Vercel Hobby** | 6 MCP servers | - | n/a | Free, non-commercial use (portfolio is fine) - confirm limits at sign-up | Sign-up | Function timeouts | Servers pause; sources show Unavailable | Pending |
 | Embedding model | Meaning search (RAG) | Recommend a small open model run inside our own code (no key, no limit) - to choose in Phase 4 | n/a | Free | none | - | Falls back to word search | Phase 4 |
@@ -63,17 +61,17 @@ is removed.
 
 ## 3. Cost register
 
-Rs 0 is the target, not a promise. No card and no paid plan without his OK.
+Rs 0 is the target, not a promise. No card and no paid plan without the owner's OK.
 
 | Service | Free allowance | Expected use (demo + tests) | When the free limit runs out | Card / auto-charge |
 |---|---|---|---|---|
 | RailRadar | 100 req / month | ~40-60 (register test, golden journey, demos; tests use recorded answers) | 429; Adhvaga shows Unavailable (QUOTA), cached timetable stays | No overage charges (official) |
 | AviationStack | 100 req / month | ~20-40 | Same | Free plan, no card expected - confirm |
-| Groq | ~1,000 req / day (70B) | 100-case eval run ~ 300-600 calls; run evals on the 8B model for wording-judge to save quota | "AI busy" | No card unless he upgrades |
+| Groq | ~1,000 req / day (70B) | 100-case eval run ~ 300-600 calls; run evals on the 8B model for wording-judge to save quota | "AI busy" | No card unless the owner upgrades |
 | Neon | 1 GB, 100 CU-h / month | Small (trips, cache, documents) | Writes refused; no bill on Free | No card |
 | Vercel Hobby | Hobby limits | 6 small functions | Paused | Expected no card - confirm |
 | Embeddings | Local model | n/a | n/a | n/a |
-| Emergent | His free credits | 4 rounds | Wait for credits; never re-send blindly | His credits |
+| Emergent | The owner's free credits | 4 rounds | Wait for credits; never re-send blindly | The owner's credits |
 
 ## 4. Sources (checked 7 Nov 2026)
 
