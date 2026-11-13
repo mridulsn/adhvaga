@@ -27,6 +27,11 @@ const mockFetch = (async (url: string, init: RequestInit) => {
   if (r.throws) throw new TypeError("fetch failed");
   if (r.hang)
     await new Promise((_res, rej) => init.signal?.addEventListener("abort", () => rej(Object.assign(new Error("aborted"), { name: "AbortError" }))));
+  if (host === "api.anthropic.com")
+    return new Response(JSON.stringify({ content: [{ type: "text", text: r.content ?? "" }], usage: { input_tokens: 11, output_tokens: 22 } }), {
+      status: r.status ?? 200,
+      headers: { "Content-Type": "application/json" },
+    });
   return new Response(JSON.stringify({ choices: [{ message: { content: r.content ?? "", reasoning: "hidden" } }], usage: { prompt_tokens: 10, completion_tokens: 20, total_tokens: 30 } }), {
     status: r.status ?? 200,
     headers: { "Content-Type": "application/json" },
@@ -129,6 +134,70 @@ describe("/api/plan", () => {
     }
   });
 
+  describe("Claude first for inspiration-draft", () => {
+    const CLAUDE = "api.anthropic.com";
+    beforeEach(() => {
+      env.ANTHROPIC_API_KEY = "test-a";
+    });
+
+    test("valid prose-wrapped answer -> source claude, Messages API request shape", async () => {
+      script[CLAUDE] = [{ content: "Here is the plan:\n" + draft(5) + "\nEnjoy {your} trip." }];
+      const r = await post({ op: "inspiration-draft", city: MYSURU, days: 5 });
+      assert.equal(r.json.status, "success");
+      assert.equal(r.json.source, "claude");
+      assert.equal(r.json.data.days.length, 5);
+      assert.equal(calls.length, 1);
+      const b = calls[0].body;
+      assert.equal(b.model, "claude-sonnet-5-5");
+      assert.equal(b.max_tokens, 1500);
+      assert.equal(b.temperature, undefined, "the model rejects temperature");
+      assert.equal(typeof b.system, "string");
+      assert.deepEqual(r.json.meta.attempts[0].usage, { prompt_tokens: 11, completion_tokens: 22, total_tokens: 33 });
+    });
+
+    test("invalid JSON from Claude -> Groq answers", async () => {
+      script[CLAUDE] = [{ content: "Sorry, I cannot produce that." }];
+      script["groq.test"] = [{ content: draft(5) }];
+      const r = await post({ op: "inspiration-draft", city: MYSURU, days: 5 });
+      assert.equal(r.json.source, "groq");
+      assert.deepEqual(r.json.meta.attempts.map((a: any) => [a.source, a.outcome]), [["claude", "bad_json"], ["groq", "ok"]]); // eslint-disable-line @typescript-eslint/no-explicit-any
+    });
+
+    test("Claude answer breaking an invariant -> Groq", async () => {
+      script[CLAUDE] = [{ content: draft(5, "Sunset at 18:30") }];
+      script["groq.test"] = [{ content: draft(5) }];
+      const r = await post({ op: "inspiration-draft", city: MYSURU, days: 5 });
+      assert.equal(r.json.source, "groq");
+      assert.equal(r.json.meta.attempts[0].detail, "clock_time");
+    });
+
+    test("Claude daily cap spent -> skipped silently, Groq answers", async () => {
+      env.ADHVAGA_CLAUDE_DAILY_CAP = "1";
+      script[CLAUDE] = [{ content: draft(2) }];
+      assert.equal((await post({ op: "inspiration-draft", city: MYSURU, days: 2 })).json.source, "claude");
+      script["groq.test"] = [{ content: draft(2) }];
+      const r = await post({ op: "inspiration-draft", city: MYSURU, days: 2 });
+      assert.equal(r.json.source, "groq");
+      assert.equal(r.json.meta.attempts[0].outcome, "skipped_daily_cap");
+      assert.equal(calls.filter((c) => c.host === CLAUDE).length, 1);
+    });
+
+    test("no ANTHROPIC_API_KEY -> Claude not called, Groq answers", async () => {
+      delete env.ANTHROPIC_API_KEY;
+      script["groq.test"] = [{ content: draft(3) }];
+      const r = await post({ op: "inspiration-draft", city: MYSURU, days: 3 });
+      assert.equal(r.json.source, "groq");
+      assert.equal(calls.filter((c) => c.host === CLAUDE).length, 0);
+    });
+
+    test("city-profile never uses Claude", async () => {
+      script["groq.test"] = [{ content: profile(["heritage"]) }];
+      const r = await post({ op: "city-profile", city: MYSURU });
+      assert.equal(r.json.source, "groq");
+      assert.equal(calls.filter((c) => c.host === CLAUDE).length, 0);
+    });
+  });
+
   test("request validation: unknown op, extra field, long name, missing days, bad JSON", async () => {
     for (const b of [
       { op: "itinerary", city: MYSURU },
@@ -188,7 +257,8 @@ describe("/api/plan", () => {
     assert.equal((await fetch(base)).status, 405);
   });
 
-  test("extractJson rejects prose", () => {
+  test("extractJson rejects prose, takes the first balanced object", () => {
     assert.throws(() => extractJson("Sure! Here are some ideas."));
+    assert.deepEqual(extractJson('Plan: {"a":"x}y","b":{"c":1}} and {"d":2}'), { a: "x}y", b: { c: 1 } });
   });
 });

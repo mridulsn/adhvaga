@@ -40,6 +40,11 @@ Content-Type: application/json
 ## Model chain
 
 Groq (primary, structured JSON output) -> one NVIDIA attempt (fallback, thinking off, strict JSON parse) -> `unavailable`.
+
+`inspiration-draft` runs Claude -> Groq -> NVIDIA when `ANTHROPIC_API_KEY` is set and Claude's own daily cap
+(`ADHVAGA_CLAUDE_DAILY_CAP`, default 40, about $1/day) is not spent; otherwise Groq -> NVIDIA. `city-profile` never uses Claude.
+Claude: Messages API, `ADHVAGA_CLAUDE_MODEL` (default `claude-sonnet-5-5`), max_tokens 1500, JSON asked for in the
+system prompt, first `{...}` block taken from any prose. No temperature is sent: the API rejects it for this model.
 Temperature 0.4, max_tokens 2000, per-call timeout 25 s, 27 s total per request (the function limit is 30 s);
 when a fallback is configured the primary call stops early enough to leave it 10 s.
 
@@ -78,7 +83,13 @@ Required:
 - `ADHVAGA_FALLBACK_MODEL`
 - `ADHVAGA_FALLBACK_URL`
 
-Optional: `ADHVAGA_DAILY_CALL_CAP`, `ADHVAGA_AI_DISABLED`, `ADHVAGA_MODEL_BUDGET_MS`.
+For Claude on `inspiration-draft` (leave `ANTHROPIC_API_KEY` out to run without Claude):
+
+- `ANTHROPIC_API_KEY`
+- `ADHVAGA_CLAUDE_MODEL` (optional, default `claude-sonnet-5-5`)
+- `ADHVAGA_CLAUDE_DAILY_CAP` (optional, default 40 Claude calls a day per warm instance; when spent, Claude is skipped and Groq answers)
+
+Optional: `ADHVAGA_DAILY_CALL_CAP` (counts Claude calls too), `ADHVAGA_AI_DISABLED`, `ADHVAGA_MODEL_BUDGET_MS`.
 
 If a provider's URL, model or key is missing, that provider is skipped. With both missing, every call returns `unavailable`.
 
@@ -87,7 +98,8 @@ If a provider's URL, model or key is missing, that provider is skipped. With bot
 1. On this Mac, in `deploy/`: `export PATH="$HOME/.local/node/bin:$PATH"`, then `npm ci`, `npm run bundle`, `npm test`.
    `api/plan.js` must now sit next to `api/metro.js`, `api/buses.js`, `api/knowledge.js`.
 2. Open vercel.com -> project `adhvaga-mcp` -> Settings -> Environment Variables. Add the six required names above
-   for the Production environment, pasting values from `~/.config/adhvaga/keys.env`. Mark the two keys Sensitive.
+   (plus `ANTHROPIC_API_KEY` for Claude) for the Production environment, pasting values from `~/.config/adhvaga/keys.env`.
+   Mark the keys Sensitive.
 3. Deploy the new build the same way the current live build was deployed (the bundled `api/` and `public/` folders are
    prebuilt; Vercel runs no install or build step). Environment variables only apply to deployments made after they are
    saved, so if the code was already deployed before step 2, use Deployments -> latest -> Redeploy.

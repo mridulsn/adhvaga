@@ -41,9 +41,23 @@ function takeCall(env: Env): boolean {
   daily.n += 1;
   return true;
 }
+// Claude has its own, smaller daily counter (it costs real money). When it runs out, Claude is skipped silently.
+const claudeDaily = { day: "", n: 0 };
+function claudeCap(env: Env): number {
+  const n = Number(env.ADHVAGA_CLAUDE_DAILY_CAP);
+  return Number.isFinite(n) && n >= 0 ? Math.floor(n) : 40;
+}
+function takeClaudeCall(env: Env): boolean {
+  const d = istDay();
+  if (claudeDaily.day !== d) Object.assign(claudeDaily, { day: d, n: 0 });
+  if (claudeDaily.n >= claudeCap(env)) return false;
+  claudeDaily.n += 1;
+  return true;
+}
 /** Test hook. */
 export function resetPlanCounters() {
   Object.assign(daily, { day: "", n: 0 });
+  Object.assign(claudeDaily, { day: "", n: 0 });
 }
 
 function send(res: ServerResponse, code: number, payload: Record<string, unknown>, extra: Record<string, string> = {}) {
@@ -172,7 +186,7 @@ export function makePlanHandler(deps: PlanDeps = {}) {
       const out =
         r.op === "city-profile"
           ? await callModel({ system, user, schemaName: "city_profile", jsonSchema: CITY_PROFILE_JSON_SCHEMA, validate: validateCityProfile, env, fetch: deps.fetch, beforeCall: () => takeCall(env) })
-          : await callModel({ system, user, schemaName: "inspiration_draft", jsonSchema: INSPIRATION_JSON_SCHEMA, validate: (x) => validateInspiration(x, r.days!), env, fetch: deps.fetch, beforeCall: () => takeCall(env) });
+          : await callModel({ system, user, schemaName: "inspiration_draft", jsonSchema: INSPIRATION_JSON_SCHEMA, validate: (x) => validateInspiration(x, r.days!), env, fetch: deps.fetch, beforeCall: () => takeCall(env), useClaude: true, beforeClaude: () => takeClaudeCall(env) });
       attempts = out.attempts;
       if (out.result) return send(res, 200, envelope("success", out.result.source, out.result.json, null, { op: r.op, attempts }));
     } catch {
