@@ -7,19 +7,25 @@ import { StreamableHTTPServerTransport } from "@modelcontextprotocol/sdk/server/
 type Req = IncomingMessage & { body?: unknown };
 
 // Best-effort limit per warm instance (Vercel may run several instances, so this is a brake, not a wall).
-const WINDOW_MS = 60_000;
-const MAX_PER_WINDOW = 60;
-const hits = new Map<string, { start: number; n: number }>();
+// makeLimiter is shared with the /api/plan endpoint (its own map and a lower cap).
+export function makeLimiter(maxPerWindow: number, windowMs = 60_000) {
+  const hits = new Map<string, { start: number; n: number }>();
+  return function limited(ip: string): boolean {
+    const now = Date.now();
+    const h = hits.get(ip);
+    if (!h || now - h.start > windowMs) {
+      hits.set(ip, { start: now, n: 1 });
+      return false;
+    }
+    h.n += 1;
+    return h.n > maxPerWindow;
+  };
+}
 
-function limited(ip: string): boolean {
-  const now = Date.now();
-  const h = hits.get(ip);
-  if (!h || now - h.start > WINDOW_MS) {
-    hits.set(ip, { start: now, n: 1 });
-    return false;
-  }
-  h.n += 1;
-  return h.n > MAX_PER_WINDOW;
+const limited = makeLimiter(60);
+
+export function clientIp(req: IncomingMessage): string {
+  return String(req.headers["x-forwarded-for"] ?? req.socket.remoteAddress ?? "?").split(",")[0].trim();
 }
 
 function cors(res: ServerResponse) {
@@ -56,7 +62,7 @@ export function mcpHandler(name: string, build: () => McpServer, info: Record<st
       res.end();
       return;
     }
-    const ip = String(req.headers["x-forwarded-for"] ?? req.socket.remoteAddress ?? "?").split(",")[0].trim();
+    const ip = clientIp(req);
     if (limited(ip)) {
       res.statusCode = 429;
       res.setHeader("Content-Type", "application/json");

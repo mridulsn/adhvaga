@@ -1,5 +1,5 @@
 // Bundles the MCP servers into api/_lib/entries.js and copies their data into api/_data.
-// api/metro.js, api/buses.js, api/knowledge.js are one-line Vercel functions that re-export a handler.
+// api/metro.js, api/buses.js, api/knowledge.js, api/plan.js are one-line Vercel functions that re-export a handler.
 import { build } from "esbuild";
 import { cpSync, mkdirSync, rmSync, writeFileSync } from "node:fs";
 import { dirname, join } from "node:path";
@@ -34,7 +34,7 @@ await build({
   logLevel: "warning",
 });
 
-for (const [file, name] of [["metro", "metroHandler"], ["buses", "busesHandler"], ["knowledge", "knowledgeHandler"]]) {
+for (const [file, name] of [["metro", "metroHandler"], ["buses", "busesHandler"], ["knowledge", "knowledgeHandler"], ["plan", "planHandler"]]) {
   writeFileSync(join(API, `${file}.js`), `export { ${name} as default } from "./_lib/entries.js";\n`);
 }
 

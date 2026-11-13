@@ -7,7 +7,7 @@ import { fileURLToPath } from "node:url";
 const HERE = join(dirname(fileURLToPath(import.meta.url)), "..");
 process.chdir(HERE);
 const handlers = {};
-for (const n of ["metro", "buses", "knowledge"]) handlers[n] = (await import(pathToFileURL(join(HERE, "api", `${n}.js`)).href)).default;
+for (const n of ["metro", "buses", "knowledge", "plan"]) handlers[n] = (await import(pathToFileURL(join(HERE, "api", `${n}.js`)).href)).default;
 
 const port = Number(process.env.PORT ?? 8790);
 createServer((req, res) => {
@@ -19,4 +19,4 @@ createServer((req, res) => {
     return;
   }
   h(req, res);
-}).listen(port, "127.0.0.1", () => console.log(`listening on http://127.0.0.1:${port}/api/{metro,buses,knowledge}`));
+}).listen(port, "127.0.0.1", () => console.log(`listening on http://127.0.0.1:${port}/api/{metro,buses,knowledge,plan}`));

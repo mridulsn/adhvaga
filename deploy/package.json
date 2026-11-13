@@ -5,7 +5,8 @@
   "description": "Adhvaga MCP servers over Streamable HTTP for Vercel (bundled from ../servers)",
   "scripts": {
     "bundle": "node scripts/bundle.mjs",
-    "local": "node scripts/local.mjs"
+    "local": "node scripts/local.mjs",
+    "test": "node --test --test-reporter=spec \"test/*.test.ts\""
   },
   "devDependencies": {
     "esbuild": "^0.25.0"

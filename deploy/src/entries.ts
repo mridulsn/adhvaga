@@ -8,6 +8,7 @@ import { buildServer as buildKnowledge } from "../../servers/knowledge/src/serve
 import { KnowledgeService } from "../../servers/knowledge/src/service.ts";
 import { loadLibrary } from "../../servers/knowledge/src/library.ts";
 import { mcpHandler } from "./http.ts";
+export { planHandler } from "./plan/plan.ts";
 
 const DATA = () => join(process.cwd(), "api", "_data");
 
