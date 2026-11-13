@@ -1,0 +1,662 @@
+{
+ "generated": "2026-11-13T22:09:44.763Z",
+ "source": "GeoNames IN dump, CC BY 4.0",
+ "attribution": "Place data from GeoNames (https://www.geonames.org/), licensed under CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/).",
+ "rowFormat": [
+  "id",
+  "name",
+  "asciiname|0",
+  "altNames",
+  "stateIdx",
+  "district|0",
+  "lat",
+  "lng",
+  "population",
+  "featureCode"
+ ],
+ "excludedFeatureCodes": [
+  "PPLQ",
+  "PPLH",
+  "PPLW",
+  "PPLCH"
+ ],
+ "rowCounts": {
+  "sourceRows": 660065,
+  "populatedClassP": 558033,
+  "excludedByCode": 8974,
+  "kept": 549059,
+  "withPopulation": 7375,
+  "withDistrict": 546340,
+  "index": 2001,
+  "shardRows": 549059,
+  "states": 37
+ },
+ "sizes": {
+  "indexBytes": 199465,
+  "shardBytesTotal": 40306754,
+  "shardBytesMax": 491514,
+  "shardCount": 83
+ },
+ "states": [
+  "",
+  "Andaman and Nicobar",
+  "Andhra Pradesh",
+  "Arunachal Pradesh",
+  "Assam",
+  "Bihar",
+  "Chandigarh",
+  "Chhattisgarh",
+  "Dadra and Nagar Haveli and Daman and Diu",
+  "Delhi",
+  "Goa",
+  "Gujarat",
+  "Haryana",
+  "Himachal Pradesh",
+  "Jammu and Kashmir",
+  "Jharkhand",
+  "Karnataka",
+  "Kerala",
+  "Ladakh",
+  "Lakshadweep",
+  "Madhya Pradesh",
+  "Maharashtra",
+  "Manipur",
+  "Meghalaya",
+  "Mizoram",
+  "Nagaland",
+  "Odisha",
+  "Puducherry",
+  "Punjab",
+  "Rajasthan",
+  "Sikkim",
+  "Tamil Nadu",
+  "Telangana",
+  "Tripura",
+  "Uttar Pradesh",
+  "Uttarakhand",
+  "West Bengal"
+ ],
+ "shards": [
+  {
+   "file": "shard-000.json",
+   "from": "1 arm surjanwali",
+   "to": "alagapuri",
+   "rows": 6746,
+   "bytes": 491511
+  },
+  {
+   "file": "shard-001.json",
+   "from": "alagapuri",
+   "to": "anaka",
+   "rows": 6702,
+   "bytes": 491480
+  },
+  {
+   "file": "shard-002.json",
+   "from": "anakadi",
+   "to": "asifinagar",
+   "rows": 6681,
+   "bytes": 491477
+  },
+  {
+   "file": "shard-003.json",
+   "from": "asifpur",
+   "to": "bagaichatoli",
+   "rows": 6692,
+   "bytes": 491473
+  },
+  {
+   "file": "shard-004.json",
+   "from": "bagaichatoli",
+   "to": "baknawal",
+   "rows": 6774,
+   "bytes": 491471
+  },
+  {
+   "file": "shard-005.json",
+   "from": "baknir",
+   "to": "banegaon",
+   "rows": 6773,
+   "bytes": 491448
+  },
+  {
+   "file": "shard-006.json",
+   "from": "banegaon",
+   "to": "barethi",
+   "rows": 6841,
+   "bytes": 491496
+  },
+  {
+   "file": "shard-007.json",
+   "from": "barethi",
+   "to": "basua",
+   "rows": 6941,
+   "bytes": 491457
+  },
+  {
+   "file": "shard-008.json",
+   "from": "basua",
+   "to": "bhadari",
+   "rows": 6931,
+   "bytes": 491514
+  },
+  {
+   "file": "shard-009.json",
+   "from": "bhadari",
+   "to": "bhartoli",
+   "rows": 6694,
+   "bytes": 491507
+  },
+  {
+   "file": "shard-010.json",
+   "from": "bhartoli",
+   "to": "bhuidhara",
+   "rows": 6722,
+   "bytes": 491497
+  },
+  {
+   "file": "shard-011.json",
+   "from": "bhuigaon",
+   "to": "birmakki",
+   "rows": 6798,
+   "bytes": 491458
+  },
+  {
+   "file": "shard-012.json",
+   "from": "birmal",
+   "to": "budhawe",
+   "rows": 6788,
+   "bytes": 491472
+  },
+  {
+   "file": "shard-013.json",
+   "from": "budhaya",
+   "to": "chamaran purwa",
+   "rows": 6648,
+   "bytes": 491481
+  },
+  {
+   "file": "shard-014.json",
+   "from": "chamaran purwa",
+   "to": "chaunda devi",
+   "rows": 6722,
+   "bytes": 491452
+  },
+  {
+   "file": "shard-015.json",
+   "from": "chaunda khera",
+   "to": "chikkehalli",
+   "rows": 6598,
+   "bytes": 491498
+  },
+  {
+   "file": "shard-016.json",
+   "from": "chikkenahalli",
+   "to": "chupe pura",
+   "rows": 6488,
+   "bytes": 491513
+  },
+  {
+   "file": "shard-017.json",
+   "from": "chuphoa",
+   "to": "darji ka purwa",
+   "rows": 6820,
+   "bytes": 491470
+  },
+  {
+   "file": "shard-018.json",
+   "from": "darji torar",
+   "to": "dewal",
+   "rows": 6863,
+   "bytes": 491501
+  },
+  {
+   "file": "shard-019.json",
+   "from": "dewal",
+   "to": "dhesian sang",
+   "rows": 6806,
+   "bytes": 491481
+  },
+  {
+   "file": "shard-020.json",
+   "from": "dhetarwalon ka bas",
+   "to": "dongapani",
+   "rows": 6906,
+   "bytes": 491488
+  },
+  {
+   "file": "shard-021.json",
+   "from": "dongapani",
+   "to": "emmidagudem",
+   "rows": 6863,
+   "bytes": 491437
+  },
+  {
+   "file": "shard-022.json",
+   "from": "emmiganur",
+   "to": "gandhi garwa",
+   "rows": 6693,
+   "bytes": 491501
+  },
+  {
+   "file": "shard-023.json",
+   "from": "gandhi nagar",
+   "to": "gayval",
+   "rows": 6803,
+   "bytes": 491476
+  },
+  {
+   "file": "shard-024.json",
+   "from": "gaywadi",
+   "to": "gogwan",
+   "rows": 6867,
+   "bytes": 491482
+  },
+  {
+   "file": "shard-025.json",
+   "from": "gogwan jalalpur",
+   "to": "gugar",
+   "rows": 6763,
+   "bytes": 491492
+  },
+  {
+   "file": "shard-026.json",
+   "from": "gugar",
+   "to": "hamipura",
+   "rows": 6745,
+   "bytes": 491497
+  },
+  {
+   "file": "shard-027.json",
+   "from": "hamir",
+   "to": "havnur",
+   "rows": 6823,
+   "bytes": 491447
+  },
+  {
+   "file": "shard-028.json",
+   "from": "havsakere",
+   "to": "ilangudippatti",
+   "rows": 6866,
+   "bytes": 491473
+  },
+  {
+   "file": "shard-029.json",
+   "from": "ilangulam",
+   "to": "jaja kalan",
+   "rows": 6704,
+   "bytes": 491498
+  },
+  {
+   "file": "shard-030.json",
+   "from": "jaja khurd",
+   "to": "jatapahari",
+   "rows": 6756,
+   "bytes": 491512
+  },
+  {
+   "file": "shard-031.json",
+   "from": "jatapara",
+   "to": "joralputtu",
+   "rows": 6828,
+   "bytes": 491478
+  },
+  {
+   "file": "shard-032.json",
+   "from": "joram",
+   "to": "kaladongra",
+   "rows": 6748,
+   "bytes": 491471
+  },
+  {
+   "file": "shard-033.json",
+   "from": "kaladumar",
+   "to": "kanakoppa",
+   "rows": 6509,
+   "bytes": 491436
+  },
+  {
+   "file": "shard-034.json",
+   "from": "kanakor",
+   "to": "karanjva",
+   "rows": 6697,
+   "bytes": 491480
+  },
+  {
+   "file": "shard-035.json",
+   "from": "karanjwara",
+   "to": "katekalyan",
+   "rows": 6698,
+   "bytes": 491505
+  },
+  {
+   "file": "shard-036.json",
+   "from": "katekere",
+   "to": "khabsi",
+   "rows": 6797,
+   "bytes": 491494
+  },
+  {
+   "file": "shard-037.json",
+   "from": "khabta",
+   "to": "kharki",
+   "rows": 6784,
+   "bytes": 491495
+  },
+  {
+   "file": "shard-038.json",
+   "from": "kharki",
+   "to": "kil kudi",
+   "rows": 6884,
+   "bytes": 491466
+  },
+  {
+   "file": "shard-039.json",
+   "from": "kil kudi",
+   "to": "komaravalasa",
+   "rows": 6722,
+   "bytes": 491436
+  },
+  {
+   "file": "shard-040.json",
+   "from": "komaravalasa",
+   "to": "kottatora",
+   "rows": 6811,
+   "bytes": 491498
+  },
+  {
+   "file": "shard-041.json",
+   "from": "kottattai",
+   "to": "kundian",
+   "rows": 6619,
+   "bytes": 491480
+  },
+  {
+   "file": "shard-042.json",
+   "from": "kundianwala",
+   "to": "lachhmanpur",
+   "rows": 6800,
+   "bytes": 491481
+  },
+  {
+   "file": "shard-043.json",
+   "from": "lachhmanpur",
+   "to": "lawani",
+   "rows": 6684,
+   "bytes": 491502
+  },
+  {
+   "file": "shard-044.json",
+   "from": "lawani",
+   "to": "madhopur",
+   "rows": 6790,
+   "bytes": 491468
+  },
+  {
+   "file": "shard-045.json",
+   "from": "madhopur",
+   "to": "maisettisattiram",
+   "rows": 6650,
+   "bytes": 491481
+  },
+  {
+   "file": "shard-046.json",
+   "from": "maisian",
+   "to": "mampur",
+   "rows": 6662,
+   "bytes": 491510
+  },
+  {
+   "file": "shard-047.json",
+   "from": "mampur",
+   "to": "maori",
+   "rows": 6653,
+   "bytes": 491457
+  },
+  {
+   "file": "shard-048.json",
+   "from": "maosha",
+   "to": "mawaiya patti",
+   "rows": 6767,
+   "bytes": 491473
+  },
+  {
+   "file": "shard-049.json",
+   "from": "mawaiya raksel",
+   "to": "mitturu",
+   "rows": 6591,
+   "bytes": 491507
+  },
+  {
+   "file": "shard-050.json",
+   "from": "mitturu",
+   "to": "mukkimalai",
+   "rows": 6747,
+   "bytes": 491510
+  },
+  {
+   "file": "shard-051.json",
+   "from": "mukkipeta",
+   "to": "naduppatti",
+   "rows": 6595,
+   "bytes": 491494
+  },
+  {
+   "file": "shard-052.json",
+   "from": "naduppatti",
+   "to": "nagla tulsi",
+   "rows": 6456,
+   "bytes": 491473
+  },
+  {
+   "file": "shard-053.json",
+   "from": "nagla tulsi",
+   "to": "narayanpur",
+   "rows": 6602,
+   "bytes": 491465
+  },
+  {
+   "file": "shard-054.json",
+   "from": "narayanpur",
+   "to": "nayagaon",
+   "rows": 6635,
+   "bytes": 491512
+  },
+  {
+   "file": "shard-055.json",
+   "from": "nayagaon",
+   "to": "nurpur",
+   "rows": 6733,
+   "bytes": 491461
+  },
+  {
+   "file": "shard-056.json",
+   "from": "nurpur",
+   "to": "pakri",
+   "rows": 6743,
+   "bytes": 491471
+  },
+  {
+   "file": "shard-057.json",
+   "from": "pakri",
+   "to": "panti",
+   "rows": 6600,
+   "bytes": 491504
+  },
+  {
+   "file": "shard-058.json",
+   "from": "panti",
+   "to": "pathak tal",
+   "rows": 6661,
+   "bytes": 491503
+  },
+  {
+   "file": "shard-059.json",
+   "from": "pathak tal",
+   "to": "pharahdia",
+   "rows": 6571,
+   "bytes": 491479
+  },
+  {
+   "file": "shard-060.json",
+   "from": "pharaheda",
+   "to": "podolopalle",
+   "rows": 6767,
+   "bytes": 491500
+  },
+  {
+   "file": "shard-061.json",
+   "from": "podomsingi",
+   "to": "pura baldi pasi",
+   "rows": 6582,
+   "bytes": 491445
+  },
+  {
+   "file": "shard-062.json",
+   "from": "pura baldi pasi",
+   "to": "pura miratar",
+   "rows": 6236,
+   "bytes": 491491
+  },
+  {
+   "file": "shard-063.json",
+   "from": "pura mirkhan",
+   "to": "purwa banmanas",
+   "rows": 6246,
+   "bytes": 491457
+  },
+  {
+   "file": "shard-064.json",
+   "from": "purwa banmanus",
+   "to": "purwa sheo singh",
+   "rows": 6200,
+   "bytes": 491506
+  },
+  {
+   "file": "shard-065.json",
+   "from": "purwa sheobakhsh",
+   "to": "rajavolupadu",
+   "rows": 6396,
+   "bytes": 491494
+  },
+  {
+   "file": "shard-066.json",
+   "from": "rajavommangi",
+   "to": "rampur halwara",
+   "rows": 6382,
+   "bytes": 491498
+  },
+  {
+   "file": "shard-067.json",
+   "from": "rampur hamza",
+   "to": "rayapuram",
+   "rows": 6515,
+   "bytes": 491486
+  },
+  {
+   "file": "shard-068.json",
+   "from": "rayapuram",
+   "to": "sagra",
+   "rows": 6811,
+   "bytes": 491486
+  },
+  {
+   "file": "shard-069.json",
+   "from": "sagra",
+   "to": "sanad",
+   "rows": 6782,
+   "bytes": 491458
+  },
+  {
+   "file": "shard-070.json",
+   "from": "sanagadu",
+   "to": "sarnatoli",
+   "rows": 6593,
+   "bytes": 491506
+  },
+  {
+   "file": "shard-071.json",
+   "from": "sarnatoli",
+   "to": "sevappatti",
+   "rows": 6820,
+   "bytes": 491470
+  },
+  {
+   "file": "shard-072.json",
+   "from": "sevapuram",
+   "to": "shyampur",
+   "rows": 6645,
+   "bytes": 491494
+  },
+  {
+   "file": "shard-073.json",
+   "from": "shyampur",
+   "to": "sirsa mahoba",
+   "rows": 6853,
+   "bytes": 491452
+  },
+  {
+   "file": "shard-074.json",
+   "from": "sirsa mal",
+   "to": "subulia",
+   "rows": 6690,
+   "bytes": 491479
+  },
+  {
+   "file": "shard-075.json",
+   "from": "subulia",
+   "to": "tajpur adha",
+   "rows": 6709,
+   "bytes": 491453
+  },
+  {
+   "file": "shard-076.json",
+   "from": "tajpur bahta",
+   "to": "teka bigha",
+   "rows": 6690,
+   "bytes": 491502
+  },
+  {
+   "file": "shard-077.json",
+   "from": "teka bigha",
+   "to": "tilabangri",
+   "rows": 6828,
+   "bytes": 491476
+  },
+  {
+   "file": "shard-078.json",
+   "from": "tilabani",
+   "to": "tulsipatti",
+   "rows": 6653,
+   "bytes": 491475
+  },
+  {
+   "file": "shard-079.json",
+   "from": "tulsiposi",
+   "to": "urwara",
+   "rows": 6874,
+   "bytes": 491467
+  },
+  {
+   "file": "shard-080.json",
+   "from": "urwara bazar",
+   "to": "venkatapalli",
+   "rows": 6389,
+   "bytes": 491480
+  },
+  {
+   "file": "shard-081.json",
+   "from": "venkatapalli",
+   "to": "zorawardih",
+   "rows": 6479,
+   "bytes": 491468
+  },
+  {
+   "file": "shard-082.json",
+   "from": "zorawarganj",
+   "to": "zuvvigunta",
+   "rows": 65,
+   "bytes": 5261
+  }
+ ]
+}
